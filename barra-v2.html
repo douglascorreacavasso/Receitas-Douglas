@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Barra Termogênica V2 Ultra · Anti-cortisol</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-bg { position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(232,160,32,.07) 0%,rgba(14,168,117,.05) 60%,transparent 80%); }
+.hero { padding:28px 20px 20px; }
+.ver-tag { display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.3);color:var(--amber-l);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px; }
+.hero h1 { font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--text);margin-bottom:6px; }
+.hero h1 span{color:var(--amber-l);}
+.hero p { font-size:13px;color:var(--muted2);line-height:1.6; }
+
+/* layer diagram */
+.layers { display:flex;flex-direction:column;gap:0;margin:0 20px 20px;border-radius:16px;overflow:hidden;border:1px solid rgba(232,160,32,.2); }
+.layer { padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05); }
+.layer:last-child{border-bottom:none;}
+.layer-dust{background:#2a2216;}
+.layer-coat{background:#1e160a;}
+.layer-mid{background:#141e14;}
+.layer-base{background:#141420;}
+.layer-name{font-size:12px;font-weight:600;margin-bottom:2px;}
+.layer-dust .layer-name{color:#d4b06a;}
+.layer-coat .layer-name{color:var(--amber-l);}
+.layer-mid .layer-name{color:var(--green-l);}
+.layer-base .layer-name{color:var(--purple-l);}
+.layer-desc{font-size:11px;color:var(--muted2);}
+
+.tab-bar { display:flex;border-bottom:1px solid var(--border); }
+.tab { flex:1;padding:13px 4px;border:none;background:transparent;font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s; }
+.tab.on { color:var(--amber-l);border-bottom-color:var(--amber); }
+.panel { display:none;padding-bottom:8px; }
+.panel.on { display:block; }
+
+.sci-card{background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;}
+.sci-name{font-size:12px;font-weight:700;color:var(--amber-l);margin-bottom:5px;}
+.sci-txt{font-size:12px;color:var(--muted2);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="barras.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Versões
+  </a>
+  <span class="topnav-title">Barra V2 Ultra</span>
+</nav>
+
+<div class="hero fade-up">
+  <div class="ver-tag">🦋 Versão 2 · Anti-cortisol</div>
+  <h1>Barra <span>V2 Ultra</span><br>Anti-cortisol</h1>
+  <p>Adiciona coating crocante de cacau com iodo (kelp), ashwagandha KSM-66 e polvilhado aveludado. Estimula tireoide, reduz cortisol.</p>
+</div>
+
+<!-- LAYER VISUAL -->
+<div class="slabel" style="padding-top:0">Anatomia das 4 camadas</div>
+<div class="layers">
+  <div class="layer layer-dust"><div class="layer-name">✦ Polvilhado — pó de arroz + ashwagandha extra</div><div class="layer-desc">Textura aveludada + dose extra anti-cortisol</div></div>
+  <div class="layer layer-coat"><div class="layer-name">◆ Coating crocante — manteiga de cacau + kelp</div><div class="layer-desc">Iodo natural para tireoide · endurece na geladeira</div></div>
+  <div class="layer layer-mid"><div class="layer-name">● Camada V1 (termogênica)</div><div class="layer-desc">Glucomanana + psyllium + gengibre + capsaicina + EGCG + glutamina</div></div>
+  <div class="layer layer-base"><div class="layer-name">▬ Base anti-cortisol</div><div class="layer-desc">Cacau 100% + canela + ashwagandha KSM-66 + mel</div></div>
+</div>
+
+<!-- KCAL BANNER -->
+<div class="kcal-banner" style="background:rgba(232,160,32,.07);border-color:rgba(232,160,32,.3);">
+  <div class="kcal-title" style="color:var(--amber)">⚡ Seu gasto calórico personalizado</div>
+  <div class="kcal-grid">
+    <div class="kcal-box"><div class="kcal-val" id="k-dose" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra por dose</div></div>
+    <div class="kcal-box"><div class="kcal-val" style="color:var(--amber-l)">~5h</div><div class="kcal-lbl">Duração efeito</div></div>
+    <div class="kcal-box"><div class="kcal-val" id="k-sem" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra / semana</div></div>
+    <div class="kcal-box"><div class="kcal-val" id="k-mes" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra / mês</div></div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab on" onclick="showTab('ing',this)">Ingredientes</button>
+  <button class="tab" onclick="showTab('preparo',this)">Preparo</button>
+  <button class="tab" onclick="showTab('ciencia',this)">Ciência</button>
+</div>
+
+<!-- INGREDIENTES -->
+<div class="panel on" id="p-ing">
+  <div class="slabel">Base anti-cortisol</div>
+  <div class="ing-list">
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau em pó 100%</span><span class="ing-action">Reduz cortisol · melhora humor</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha KSM-66</span><span class="ing-action">Adaptógeno · regula cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">600mg</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-action">Sensibilidade insulínica</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-action">Liga os ingredientes</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+  </div>
+  <div class="slabel">Camada V1 (termogênica)</div>
+  <div class="ing-list">
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Glucomanana + psyllium + gengibre</span><span class="ing-action">Saciedade + termogênese</span></div><span class="ing-qty" style="color:var(--amber-l)">doses V1</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Capsaicina + EGCG + glutamina</span><span class="ing-action">Queima gordura · proteção</span></div><span class="ing-qty" style="color:var(--amber-l)">doses V1</span></div>
+  </div>
+  <div class="slabel">Coating crocante — tireoide</div>
+  <div class="ing-list">
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga de cacau derretida</span><span class="ing-action">Base do coating · endurece no frio</span></div><span class="ing-qty" style="color:var(--amber-l)">30g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Alga kelp em pó</span><span class="ing-action">Iodo natural · estimula tireoide</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela em pó</span><span class="ing-action">Sabor + metabolismo</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Stevia ou mel (opcional)</span><span class="ing-action">Adoçar levemente</span></div><span class="ing-qty" style="color:var(--amber-l)">a gosto</span></div>
+  </div>
+  <div class="slabel">Polvilhado final</div>
+  <div class="ing-list">
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Pó de arroz</span><span class="ing-action">Base neutra · textura aveludada</span></div><span class="ing-qty" style="color:var(--amber-l)">10g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha extra</span><span class="ing-action">Dose extra anti-cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela em pó</span><span class="ing-action">Cor + sabor + ativo</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-action">Visual + toque termogênico</span></div><span class="ing-qty" style="color:var(--amber-l)">pitada</span></div>
+  </div>
+  <div class="slabel" style="padding-top:14px">Armazenamento</div>
+  <div class="stor-row">
+    <div class="stor-box"><div class="stor-ico">🍫</div><div class="stor-val" style="color:var(--amber-l)">~10</div><div class="stor-lbl">barras/lote</div></div>
+    <div class="stor-box"><div class="stor-ico">❄️</div><div class="stor-val" style="color:var(--amber-l)">10 dias</div><div class="stor-lbl">Geladeira</div></div>
+    <div class="stor-box"><div class="stor-ico">🧊</div><div class="stor-val" style="color:var(--amber-l)">60 dias</div><div class="stor-lbl">Freezer</div></div>
+  </div>
+</div>
+
+<!-- PREPARO -->
+<div class="panel" id="p-preparo">
+  <div class="slabel">Modo de preparo — 7 passos</div>
+  <div class="steps">
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">1</div><div class="step-txt"><strong style="color:var(--amber-l)">Base anti-cortisol:</strong> misture cacau, ashwagandha, canela e mel. Adicione a mistura V1 + 150ml água morna. Mexa RÁPIDO. Forma + geladeira 2h.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">2</div><div class="step-txt"><strong style="color:var(--amber-l)">Corte as barras</strong> ainda frias em pedaços de 5cm. Coloque sobre grade ou papel manteiga espaçadas.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">3</div><div class="step-txt"><strong style="color:var(--amber-l)">Coating:</strong> derreta a manteiga de cacau em banho-maria (nunca microondas). Deixe esfriar a ~35°C. Adicione kelp + canela.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">4</div><div class="step-txt"><strong style="color:var(--amber-l)">Mergulhe cada barra</strong> no coating. Trabalhe em lotes de 2–3 barras — a manteiga endurece rápido.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">5</div><div class="step-txt"><strong style="color:var(--amber-l)">Freezer por 10 min</strong> para o coating firmar. Deve ficar opaco e firme ao toque.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">6</div><div class="step-txt"><strong style="color:var(--amber-l)">Polvilhado:</strong> misture pó de arroz + ashwagandha + canela + pitada de caiena. Polvilhe generosamente sobre as barras ainda frias.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">7</div><div class="step-txt"><strong style="color:var(--amber-l)">Armazene</strong> em pote fechado na geladeira, separadas por papel manteiga.</div></div>
+  </div>
+  <div class="slabel" style="padding-top:14px">Dose recomendada</div>
+  <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.06);margin-bottom:14px">
+    1 barra · 30–45 min antes da refeição principal · máximo 3/dia · beber 300ml água por barra
+  </div>
+</div>
+
+<!-- CIÊNCIA -->
+<div class="panel" id="p-ciencia">
+  <div class="slabel">Ativos exclusivos da V2</div>
+  <div style="padding:0 20px 16px;display:flex;flex-direction:column;gap:8px">
+    <div class="sci-card"><div class="sci-name">🌿 Ashwagandha KSM-66</div><div class="sci-txt">Reduz cortisol sérico em 20–30% em 8 semanas. Cortisol cronicamente elevado deposita gordura abdominal e bloqueia hormônios tireoidianos. Dose eficaz: 600–800mg/dia.</div></div>
+    <div class="sci-card"><div class="sci-name">🌊 Alga Kelp (iodo natural)</div><div class="sci-txt">A tireoide precisa de iodo para produzir T3 e T4 — hormônios que controlam o metabolismo. Kelp fornece iodo orgânico de absorção gradual, mais seguro que suplementos sintéticos.</div></div>
+    <div class="sci-card"><div class="sci-name">🍫 Cacau 100%</div><div class="sci-txt">Rico em teobromina e polifenóis que reduzem cortisol e melhoram sensibilidade à insulina. Estimula serotonina, que compete com o cortisol.</div></div>
+    <div class="sci-card"><div class="sci-name">🧈 Manteiga de cacau (coating)</div><div class="sci-txt">Gordura vegetal de alto ponto de fusão — endurece naturalmente no frio. Retarda a absorção dos ativos, prolongando o efeito termogênico pela coating.</div></div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.05);margin-top:6px">⚠️ Ashwagandha pode interagir com medicamentos para tireoide e imunossupressores. Kelp com moderação — excesso de iodo também prejudica a tireoide.</div>
+  </div>
+</div>
+
+<!-- ACTION BUTTONS -->
+<div class="action-row">
+  <button class="btn btn-amber" onclick="gerarPDF('v2')">⬇ Baixar PDF</button>
+  <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+  <a class="btn btn-ghost" href="barras.html">← Versões</a>
+</div>
+
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  el.classList.add('on');
+}
+const E=getExtras(), v2=Math.round(E.barra*.86);
+document.getElementById('k-dose').textContent='+'+v2+' kcal';
+document.getElementById('k-sem').textContent='+'+v2*7+' kcal';
+document.getElementById('k-mes').textContent='+'+v2*30+' kcal';
+</script>
+</body>
+</html>

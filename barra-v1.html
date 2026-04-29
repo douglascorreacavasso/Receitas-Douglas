@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Barra Termogênica V1 · Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-bg { position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(232,160,32,.08) 0%,transparent 55%); }
+.hero { padding:28px 20px 20px; }
+.ver-tag { display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.3);color:var(--amber-l);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px; }
+.hero h1 { font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--text);margin-bottom:6px; }
+.hero h1 span{color:var(--amber-l);}
+.hero p { font-size:13px;color:var(--muted2);line-height:1.6; }
+
+/* tabs */
+.tab-bar { display:flex;border-bottom:1px solid var(--border);margin:0; }
+.tab { flex:1;padding:13px 4px;border:none;background:transparent;font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.02em; }
+.tab.on { color:var(--amber-l);border-bottom-color:var(--amber); }
+.panel { display:none;padding-bottom:8px; }
+.panel.on { display:block; }
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<nav class="topnav">
+  <a class="back-btn" href="barras.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Versões
+  </a>
+  <span class="topnav-title">Barra V1 · Base</span>
+</nav>
+
+<div class="hero fade-up">
+  <div class="ver-tag">🌱 Versão 1 · Base</div>
+  <h1>Barra <span>Termogênica</span><br>V1 Base</h1>
+  <p>Fórmula essencial com 9 ativos. Ideal para começar, testar tolerância e sentir o efeito sem exagero. Sabor suave de cacau.</p>
+</div>
+
+<!-- KCAL BANNER -->
+<div class="kcal-banner" style="background:rgba(232,160,32,.07);border-color:rgba(232,160,32,.3);">
+  <div class="kcal-title" style="color:var(--amber)">⚡ Seu gasto calórico personalizado</div>
+  <div class="kcal-grid">
+    <div class="kcal-box"><div class="kcal-val" id="k-dose" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra por dose</div></div>
+    <div class="kcal-box"><div class="kcal-val" id="k-dur" style="color:var(--amber-l)">~4h</div><div class="kcal-lbl">Duração efeito</div></div>
+    <div class="kcal-box"><div class="kcal-val" id="k-sem" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra / semana</div></div>
+    <div class="kcal-box"><div class="kcal-val" id="k-mes" style="color:var(--amber-l)">+—</div><div class="kcal-lbl">Extra / mês</div></div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab on" onclick="showTab('ing',this)">Ingredientes</button>
+  <button class="tab" onclick="showTab('preparo',this)">Preparo</button>
+  <button class="tab" onclick="showTab('ciencia',this)">Ciência</button>
+</div>
+
+<!-- INGREDIENTES -->
+<div class="panel on" id="p-ing">
+  <div class="slabel">Ingredientes por barra</div>
+  <div class="ing-list">
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau em pó 100%</span><span class="ing-action">Base · reduz cortisol · melhora humor</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-action">Sensibilidade insulínica · sabor</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-action">Liga os ingredientes · adoçante</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Glucomanana em pó</span><span class="ing-action">Saciedade + gelifica a massa</span></div><span class="ing-qty" style="color:var(--amber-l)">4g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Psyllium husk</span><span class="ing-action">Fibra solúvel · textura</span></div><span class="ing-qty" style="color:var(--amber-l)">3g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-action">Termogênese +3% · digestão</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-action">Capsaicina · ativa TRPV1</span></div><span class="ing-qty" style="color:var(--amber-l)">0,5g</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato chá verde (EGCG)</span><span class="ing-action">Oxidação de gordura +4%</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+    <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Glutamina</span><span class="ing-action">Proteção muscular · intestino</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+  </div>
+  <div class="slabel" style="padding-top:14px">Armazenamento</div>
+  <div class="stor-row">
+    <div class="stor-box"><div class="stor-ico">🍫</div><div class="stor-val" style="color:var(--amber-l)">~10</div><div class="stor-lbl">barras/lote</div></div>
+    <div class="stor-box"><div class="stor-ico">❄️</div><div class="stor-val" style="color:var(--amber-l)">10 dias</div><div class="stor-lbl">Geladeira</div></div>
+    <div class="stor-box"><div class="stor-ico">🧊</div><div class="stor-val" style="color:var(--amber-l)">60 dias</div><div class="stor-lbl">Freezer</div></div>
+  </div>
+</div>
+
+<!-- PREPARO -->
+<div class="panel" id="p-preparo">
+  <div class="slabel">Modo de preparo</div>
+  <div class="steps">
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">1</div><div class="step-txt"><strong style="color:var(--amber-l)">Misture os pós secos</strong> num bowl grande: cacau, glucomanana, psyllium, gengibre, caiena, EGCG, glutamina e canela.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">2</div><div class="step-txt"><strong style="color:var(--amber-l)">Adicione mel + 120ml de água morna.</strong> Mexa RÁPIDO — a glucomanana gelifica em 2–3 minutos!</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">3</div><div class="step-txt"><strong style="color:var(--amber-l)">Despeje em forma retangular</strong> com plástico filme. Alise com espátula úmida. Camada de 1,5cm. Geladeira por 2h.</div></div>
+    <div class="step"><div class="step-num" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">4</div><div class="step-txt"><strong style="color:var(--amber-l)">Corte as barras frias</strong> em pedaços de 5cm × 3cm. Embalar individualmente em papel manteiga.</div></div>
+  </div>
+  <div class="slabel" style="padding-top:14px">Dose recomendada</div>
+  <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.06);margin-bottom:14px">
+    1 barra · 30–45 min antes das refeições · máximo 3 barras/dia · beber 300ml de água por barra
+  </div>
+</div>
+
+<!-- CIÊNCIA -->
+<div class="panel" id="p-ciencia">
+  <div class="slabel">Como funciona cada ativo</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:0 20px 16px">
+    <div style="background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px">
+      <div style="font-size:12px;font-weight:700;color:var(--amber-l);margin-bottom:5px">🌶️ Capsaicina (caiena)</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.6">Ativa receptores TRPV1 no intestino, elevando temperatura corporal e acelerando o metabolismo em ~6% por 4–5h após consumo.</div>
+    </div>
+    <div style="background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px">
+      <div style="font-size:12px;font-weight:700;color:var(--amber-l);margin-bottom:5px">🍵 EGCG (chá verde)</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.6">Inibe a enzima COMT, aumentando a ação da norepinefrina no tecido adiposo. Efeito de ~4% na oxidação de gordura, sinérgico com capsaicina.</div>
+    </div>
+    <div style="background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px">
+      <div style="font-size:12px;font-weight:700;color:var(--amber-l);margin-bottom:5px">🫚 Glucomanana</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.6">Fibra de alta viscosidade que forma gel no estômago, retardando absorção de glicose e aumentando saciedade por 4–6h.</div>
+    </div>
+    <div style="background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px">
+      <div style="font-size:12px;font-weight:700;color:var(--amber-l);margin-bottom:5px">🫚 Gengibre</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.6">Os gingeróis e shogaóis ativam receptores de calor (TRPV1 e TRPA1) e inibem a prostaglandina — efeito termogênico de ~3% e anti-inflamatório.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTION BUTTONS -->
+<div class="action-row">
+  <button class="btn btn-amber" onclick="gerarPDF('v1')">⬇ Baixar PDF</button>
+  <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+  <a class="btn btn-ghost" href="barras.html">← Versões</a>
+</div>
+
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  el.classList.add('on');
+}
+const E=getExtras(), v1=Math.round(E.barra*.70);
+document.getElementById('k-dose').textContent='+'+v1+' kcal';
+document.getElementById('k-sem').textContent='+'+v1*7+' kcal';
+document.getElementById('k-mes').textContent='+'+v1*30+' kcal';
+</script>
+</body>
+</html>

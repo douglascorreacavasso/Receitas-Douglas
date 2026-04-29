@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Termogênico App</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060b14;--bg2:#0c1424;--bg3:#111d33;
+  --amber:#e8a020;--amber-l:#fcd168;
+  --green:#0ea875;--green-l:#5de8b0;
+  --purple:#7c3aed;--purple-l:#c4b5fd;
+  --pink:#db2777;--pink-l:#f9a8d4;
+  --red:#e24b4a;--red-l:#f09595;
+  --text:#e8f0ff;--muted:#4a6080;--muted2:#6a85a8;
+  --border:rgba(255,255,255,.07);
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+html,body{background:var(--bg);font-family:var(--fb);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;position:relative;z-index:1}
+.page.active{display:block}
+
+/* ── TOPNAV ── */
+.topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;padding:12px 20px;background:rgba(6,11,20,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.topnav-title{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--text);flex:1}
+.back-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:11px;background:rgba(255,255,255,.04);color:var(--muted2);font-size:13px;font-family:var(--fb);cursor:pointer;transition:all .2s}
+.back-btn:hover{background:rgba(255,255,255,.09);color:var(--text)}
+
+/* ── HERO (calc page) ── */
+.hero-calc{padding:52px 20px 36px;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:99px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:var(--purple-l);font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:16px}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green-l);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.hero-h1{font-family:var(--fd);font-size:30px;font-weight:800;color:var(--text);line-height:1.15;margin-bottom:10px}
+.hero-h1 span{color:var(--amber-l)}
+.hero-p{font-size:14px;color:var(--muted2);line-height:1.6;max-width:300px;margin:0 auto}
+
+/* ── FORM ── */
+.form-card{margin:0 20px 24px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:22px 18px}
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.sex-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sex-btn{padding:12px;border:1.5px solid var(--border);border-radius:12px;background:rgba(255,255,255,.02);color:var(--muted);font-size:14px;cursor:pointer;font-family:var(--fb);transition:all .2s;text-align:center}
+.sex-btn.active{background:rgba(124,58,237,.2);border-color:var(--purple);color:var(--purple-l);font-weight:600}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select{width:100%;padding:12px 15px;font-size:15px;border:1.5px solid var(--border);border-radius:12px;background:rgba(6,11,20,.8);color:var(--text);outline:none;font-family:var(--fb);transition:border .2s,box-shadow .2s;-webkit-appearance:none}
+input::placeholder{color:rgba(255,255,255,.2)}
+input:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+select option{background:#0c1424}
+.calc-btn{width:100%;padding:16px;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;font-family:var(--fd);cursor:pointer;letter-spacing:.03em;margin-top:8px;transition:opacity .2s,transform .15s}
+.calc-btn:hover{opacity:.9}
+.calc-btn:active{transform:scale(.98)}
+
+/* ── METRICS ── */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 20px}
+.mc{border-radius:16px;padding:16px 14px;border:1px solid}
+.mc-label{font-size:11px;color:var(--muted2);margin-bottom:5px}
+.mc-val{font-size:21px;font-weight:600;line-height:1.1}
+.mc-sub{font-size:10px;margin-top:4px}
+.mc-green{background:rgba(14,168,117,.08);border-color:rgba(14,168,117,.3)}.mc-green .mc-val{color:var(--green-l)}.mc-green .mc-sub{color:#059669}
+.mc-blue{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3)}.mc-blue .mc-val{color:#93c5fd}.mc-blue .mc-sub{color:#3b82f6}
+.mc-amber{background:rgba(232,160,32,.08);border-color:rgba(232,160,32,.3)}.mc-amber .mc-val{color:var(--amber-l)}.mc-amber .mc-sub{color:var(--amber)}
+.mc-purple{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.3)}.mc-purple .mc-val{color:var(--purple-l)}.mc-purple .mc-sub{color:var(--purple)}
+
+/* ── BAR CHART ── */
+.chart-wrap{padding:0 20px;margin-bottom:20px}
+.chart-lbl{font-size:11px;color:var(--muted2);margin-bottom:10px}
+.bc-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bc-l{font-size:11px;color:var(--muted2);min-width:100px;text-align:right;flex-shrink:0}
+.bc-bg{flex:1;height:28px;background:rgba(255,255,255,.04);border-radius:7px;overflow:hidden}
+.bc-f{height:100%;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.bc-f span{font-size:11px;font-weight:600;color:#fff;white-space:nowrap}
+
+.recalc-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 40px);margin:0 20px 28px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;color:var(--muted2);font-size:13px;font-family:var(--fb);cursor:pointer;transition:all .2s}
+.recalc-btn:hover{background:rgba(255,255,255,.07);color:var(--text)}
+
+/* ── CAROUSEL ── */
+.car-sec{padding:0 0 48px}
+.car-title{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--text);padding:0 20px;margin-bottom:5px}
+.car-sub{font-size:13px;color:var(--muted2);padding:0 20px;margin-bottom:18px}
+.car-track{display:flex;gap:14px;padding:4px 20px 16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.car-track::-webkit-scrollbar{display:none}
+.rcard{flex-shrink:0;width:240px;scroll-snap-align:start;border-radius:20px;padding:22px 18px 20px;border:1.5px solid;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,filter .2s;display:block;text-decoration:none}
+.rcard::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;opacity:.08}
+.rcard:hover{transform:translateY(-3px);filter:brightness(1.08)}
+.rcard:active{transform:scale(.97)}
+.rc-barra{background:linear-gradient(145deg,#1e0c00,#2d1500);border-color:rgba(232,160,32,.4)}.rc-barra::before{background:var(--amber)}.rc-barra .rc-name{color:var(--amber-l)}.rc-barra .rc-badge{background:rgba(232,160,32,.15);color:var(--amber-l);border-color:rgba(232,160,32,.3)}.rc-barra .rc-cta{color:var(--amber-l)}
+.rc-goma{background:linear-gradient(145deg,#001810,#002a1c);border-color:rgba(14,168,117,.4)}.rc-goma::before{background:var(--green)}.rc-goma .rc-name{color:var(--green-l)}.rc-goma .rc-badge{background:rgba(14,168,117,.15);color:var(--green-l);border-color:rgba(14,168,117,.3)}.rc-goma .rc-cta{color:var(--green-l)}
+.rc-shot{background:linear-gradient(145deg,#0d0022,#1a0038);border-color:rgba(124,58,237,.4)}.rc-shot::before{background:var(--purple)}.rc-shot .rc-name{color:var(--purple-l)}.rc-shot .rc-badge{background:rgba(124,58,237,.15);color:var(--purple-l);border-color:rgba(124,58,237,.3)}.rc-shot .rc-cta{color:var(--purple-l)}
+.rc-ico{font-size:32px;margin-bottom:12px}
+.rc-name{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.rc-desc{font-size:12px;color:var(--muted2);line-height:1.55;margin-bottom:14px}
+.rc-badge{display:inline-block;font-size:10px;padding:3px 10px;border-radius:99px;border:1px solid;font-weight:600;letter-spacing:.04em;margin-bottom:14px}
+.rc-kcal{font-size:13px;color:var(--muted2)}
+.rc-kcal strong{font-size:20px;font-weight:700;display:block;line-height:1.1}
+.rc-cta{display:block;font-size:12px;font-weight:600;margin-top:14px}
+.car-dots{display:flex;justify-content:center;gap:7px;padding-top:4px}
+.cdot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:all .3s;cursor:pointer;border:none;padding:0}
+.cdot.active{width:22px;border-radius:4px;background:var(--purple-l)}
+
+/* ── BARRAS HUB ── */
+.pg-bg-amber{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(232,160,32,.09) 0%,transparent 55%)}
+.hero-rec{padding:28px 20px 20px}
+.ver-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.vt-amber{background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.3);color:var(--amber-l)}
+.vt-green{background:rgba(14,168,117,.12);border:1px solid rgba(14,168,117,.3);color:var(--green-l)}
+.vt-purple{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:var(--purple-l)}
+.rec-h1{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--text);margin-bottom:6px}
+.rec-h1 span{color:var(--amber-l)}
+.rec-h1 span.g{color:var(--green-l)}
+.rec-h1 span.p{color:var(--purple-l)}
+.rec-p{font-size:13px;color:var(--muted2);line-height:1.6}
+
+/* compare grid */
+.cmp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 20px;margin-bottom:24px}
+.cbox{border-radius:14px;padding:14px 10px;text-align:center;border:1.5px solid;cursor:pointer;transition:all .2s}
+.cbox:hover,.cbox.sel{transform:translateY(-2px)}
+.cbox-v1{background:linear-gradient(160deg,#1a0c00,#2a1500);border-color:rgba(232,160,32,.25)}.cbox-v1.sel,.cbox-v1:hover{border-color:var(--amber);box-shadow:0 0 18px rgba(232,160,32,.12)}
+.cbox-v2{background:linear-gradient(160deg,#141810,#1a2014);border-color:rgba(232,160,32,.2)}.cbox-v2.sel,.cbox-v2:hover{border-color:var(--amber);box-shadow:0 0 18px rgba(232,160,32,.12)}
+.cbox-v3{background:linear-gradient(160deg,#1a0800,#300a00);border-color:rgba(232,160,32,.35)}.cbox-v3.sel,.cbox-v3:hover{border-color:var(--amber-l);box-shadow:0 0 22px rgba(232,160,32,.18)}
+.cbox-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+.cbox-name{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;line-height:1.2}
+.cbox-kcal{font-size:18px;font-weight:700;color:var(--amber-l);line-height:1}
+.cbox-sub{font-size:10px;color:var(--muted2);margin-top:3px}
+.cbox-tag{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(232,160,32,.1);color:var(--amber-l);display:inline-block;margin-top:5px}
+
+/* barras carousel */
+.bcar-wrap{position:relative;overflow:hidden}
+.bcar-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--bg2);border-bottom:1px solid var(--border);margin-bottom:16px}
+.bcar-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.3);color:var(--amber-l);font-size:11px;font-weight:700;letter-spacing:.05em}
+.bcar-nav{display:flex;gap:6px}
+.bnav{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--muted2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:var(--fb)}
+.bnav:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.bnav:disabled{opacity:.3;pointer-events:none}
+.bcar-track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.bver-slide{flex-shrink:0;width:100%;padding:0 20px 24px}
+.slide-h{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+.slide-h span{color:var(--amber-l)}
+.slide-p{font-size:13px;color:var(--muted2);line-height:1.6;margin-bottom:14px}
+.feat-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.fp{font-size:11px;padding:5px 12px;border-radius:99px;background:rgba(232,160,32,.1);color:var(--amber-l);border:1px solid rgba(232,160,32,.25);font-weight:500}
+.fp.g{background:rgba(14,168,117,.1);color:var(--green-l);border-color:rgba(14,168,117,.25)}
+.fp.p{background:rgba(124,58,237,.1);color:var(--purple-l);border-color:rgba(124,58,237,.25)}
+.kcal-mini{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(232,160,32,.07);border:1px solid rgba(232,160,32,.25);border-radius:14px;margin-bottom:16px}
+.km-val{font-size:28px;font-weight:700;color:var(--amber-l);font-family:var(--fd)}
+.km-r{text-align:right}
+.km-lbl{font-size:11px;color:var(--muted2)}
+.km-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.prog-steps{display:flex;align-items:center;gap:8px;justify-content:center;padding:12px 0}
+.ps{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:color .2s}
+.ps.active{color:var(--amber-l)}
+.ps-c{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .25s}
+.ps.active .ps-c{background:var(--amber);border-color:var(--amber);color:#fff}
+.ps.done .ps-c{background:rgba(232,160,32,.2);border-color:rgba(232,160,32,.4);color:var(--amber)}
+.ps.done{color:var(--amber)}
+.ps-div{width:18px;height:1px;background:var(--border)}
+.slide-cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;background:linear-gradient(135deg,#e8a020,#b87010);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;font-family:var(--fd);cursor:pointer;margin-top:18px;transition:opacity .2s,transform .15s}
+.slide-cta:hover{opacity:.9}
+.slide-cta:active{transform:scale(.98)}
+
+/* ── RECIPE DETAIL PAGES ── */
+.slabel{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:16px 20px 8px}
+.ing-list{display:flex;flex-direction:column;gap:6px;padding:0 20px}
+.ing-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,255,255,.03);border:.5px solid var(--border);border-radius:11px}
+.ing-left{display:flex;flex-direction:column;gap:2px}
+.ing-name{font-size:13px;color:var(--text)}
+.ing-act{font-size:11px;color:var(--muted2)}
+.ing-qty{font-size:12px;font-weight:600;white-space:nowrap;margin-left:10px}
+.steps{display:flex;flex-direction:column;gap:12px;padding:0 20px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.snum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.stxt{font-size:13px;color:var(--text);line-height:1.7}
+.stxt strong{font-weight:600}
+.stor-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px}
+.sbox{border-radius:14px;padding:14px 8px;text-align:center;border:1px solid var(--border);background:var(--bg2)}
+.sbox-ico{font-size:18px;margin-bottom:6px}
+.sbox-val{font-size:14px;font-weight:600}
+.sbox-lbl{font-size:10px;color:var(--muted2);margin-top:3px}
+.warn-box{margin:0 20px;padding:12px 16px;border-left:3px solid;border-radius:0 10px 10px 0;font-size:12px;line-height:1.65;color:var(--muted2)}
+.kcal-banner{margin:14px 20px;border-radius:16px;padding:16px;border:1.5px solid}
+.kb-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kb-box{background:rgba(0,0,0,.25);border-radius:10px;padding:10px 12px;border:.5px solid rgba(255,255,255,.06)}
+.kb-val{font-size:20px;font-weight:600;line-height:1.1}
+.kb-lbl{font-size:11px;color:var(--muted2);margin-top:3px}
+.tab-bar{display:flex;border-bottom:1px solid var(--border)}
+.tab{flex:1;padding:13px 4px;border:none;background:transparent;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.panel{display:none;padding-bottom:8px}
+.panel.on{display:block}
+.sci-card{background:var(--bg2);border:.5px solid var(--border);border-radius:12px;padding:13px 14px;margin:0 20px 8px}
+.sci-name{font-size:12px;font-weight:700;margin-bottom:5px}
+.sci-txt{font-size:12px;color:var(--muted2);line-height:1.6}
+.action-row{display:flex;gap:10px;padding:0 20px 36px;flex-wrap:wrap}
+.btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px 14px;border-radius:14px;border:1.5px solid;font-size:13px;font-weight:600;font-family:var(--fb);cursor:pointer;transition:all .2s}
+.btn:active{transform:scale(.97)}
+.btn-amber{background:rgba(232,160,32,.1);border-color:var(--amber);color:var(--amber-l)}.btn-amber:hover{background:rgba(232,160,32,.22)}
+.btn-green{background:rgba(14,168,117,.1);border-color:var(--green);color:var(--green-l)}.btn-green:hover{background:rgba(14,168,117,.22)}
+.btn-purple{background:rgba(124,58,237,.1);border-color:var(--purple);color:var(--purple-l)}.btn-purple:hover{background:rgba(124,58,237,.22)}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:var(--border);color:var(--muted2)}.btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--text)}
+
+/* layer diagram V2 */
+.layers{display:flex;flex-direction:column;gap:0;margin:0 20px 16px;border-radius:16px;overflow:hidden;border:1px solid rgba(232,160,32,.2)}
+.layer{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.layer:last-child{border-bottom:none}
+.layer-a{background:#2a2216}.layer-a .ln{color:#d4b06a}
+.layer-b{background:#1e160a}.layer-b .ln{color:var(--amber-l)}
+.layer-c{background:#141e14}.layer-c .ln{color:var(--green-l)}
+.layer-d{background:#141420}.layer-d .ln{color:var(--purple-l)}
+.ln{font-size:12px;font-weight:600;margin-bottom:2px}
+.ld{font-size:11px;color:var(--muted2)}
+
+/* chain V3 */
+.chain{display:flex;align-items:center;gap:6px;padding:0 20px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.chain::-webkit-scrollbar{display:none}
+.chn{flex-shrink:0;padding:8px 12px;border-radius:10px;font-size:11px;font-weight:600;text-align:center}
+.chn1{background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.25);color:var(--amber)}
+.chn2{background:rgba(14,168,117,.1);border:1px solid rgba(14,168,117,.25);color:var(--green-l)}
+.chn3{background:linear-gradient(135deg,rgba(232,160,32,.2),rgba(226,75,74,.15));border:1.5px solid var(--amber-l);color:var(--amber-l)}
+.chn-arr{color:var(--muted);font-size:16px;flex-shrink:0}
+
+/* timing row for shot */
+.timing-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 20px;margin-bottom:16px}
+.tbox{background:var(--bg2);border:.5px solid rgba(124,58,237,.2);border-radius:12px;padding:12px 8px;text-align:center}
+.tbox-val{font-size:15px;font-weight:700;color:var(--purple-l)}
+.tbox-lbl{font-size:10px;color:var(--muted2);margin-top:3px}
+
+/* toast */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid rgba(124,58,237,.5);color:var(--text);padding:12px 22px;border-radius:14px;font-size:13px;z-index:9999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease both}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: CALCULATOR (index)
+═══════════════════════════════════════════ -->
+<div class="page active" id="pg-calc">
+  <div class="hero-calc fade-up">
+    <div class="hero-glow"></div>
+    <div class="hero-badge"><span class="pulse-dot"></span>Calculadora personalizada</div>
+    <div class="hero-h1">Queime mais<br><span>com receitas</span><br>termogênicas</div>
+    <div class="hero-p">Informe seu perfil e descubra quantas calorias extras você vai queimar</div>
+  </div>
+
+  <div id="form-sec">
+    <div class="form-card">
+      <div class="field">
+        <label>Sexo biológico</label>
+        <div class="sex-row">
+          <button class="sex-btn active" id="btnM" onclick="setSex('M')">♂ Masculino</button>
+          <button class="sex-btn" id="btnF" onclick="setSex('F')">♀ Feminino</button>
+        </div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Peso (kg)</label><input type="number" id="peso" placeholder="ex: 80" min="30" max="300"></div>
+        <div class="field"><label>Altura (cm)</label><input type="number" id="altura" placeholder="ex: 175" min="100" max="250"></div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Idade (anos)</label><input type="number" id="idade" placeholder="ex: 30" min="10" max="100"></div>
+        <div class="field"><label>Atividade física</label>
+          <select id="atividade">
+            <option value="1.2">Sedentário</option>
+            <option value="1.375" selected>Leve (1–3x/sem)</option>
+            <option value="1.55">Moderado (3–5x/sem)</option>
+            <option value="1.725">Intenso (6–7x/sem)</option>
+            <option value="1.9">Muito intenso</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcular()">⚡ Calcular meu gasto calórico</button>
+    </div>
+  </div>
+
+  <div id="res-sec" style="display:none">
+    <div class="metrics-grid fade-up">
+      <div class="mc mc-green"><div class="mc-label">Metabolismo basal (TMB)</div><div class="mc-val" id="r-tmb">—</div><div class="mc-sub">Mifflin-St Jeor</div></div>
+      <div class="mc mc-blue"><div class="mc-label">Gasto total estimado</div><div class="mc-val" id="r-tdee">—</div><div class="mc-sub" id="r-fat">—</div></div>
+      <div class="mc mc-amber"><div class="mc-label">IMC</div><div class="mc-val" id="r-imc">—</div><div class="mc-sub" id="r-imccat">—</div></div>
+      <div class="mc mc-purple"><div class="mc-label">Gordura corporal est.</div><div class="mc-val" id="r-gc">—</div><div class="mc-sub">Estimativa por IMC</div></div>
+    </div>
+    <div class="chart-wrap"><div class="chart-lbl">Gasto kcal por 4h de janela termogênica — comparativo</div><div id="barchart"></div></div>
+    <button class="recalc-btn" onclick="resetCalc()">↺ Recalcular com outros dados</button>
+
+    <div class="car-sec">
+      <div class="car-title">Escolha sua receita</div>
+      <div class="car-sub">Toque no card para ver a receita completa</div>
+      <div class="car-track" id="carTrack">
+        <div class="rcard rc-barra" onclick="goPage('pg-barras')">
+          <div class="rc-ico">🍫</div>
+          <div class="rc-name">Barra Termogênica</div>
+          <div class="rc-badge">3 versões disponíveis</div>
+          <div class="rc-desc">Da V1 básica até a V3 Ultimate com 20+ ativos. Escolha seu nível.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-barra">— kcal</strong></div>
+          <div class="rc-cta">Ver versões →</div>
+        </div>
+        <div class="rcard rc-goma" onclick="goPage('pg-goma')">
+          <div class="rc-ico">🍋</div>
+          <div class="rc-name">Goma de Limão</div>
+          <div class="rc-badge">~4h de efeito</div>
+          <div class="rc-desc">Mastigável, fresca e discreta. Capsaicina + EGCG + gengibre.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-goma">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+        </div>
+        <div class="rcard rc-shot" onclick="goPage('pg-shot')">
+          <div class="rc-ico">⚗️</div>
+          <div class="rc-name">Shot Gelificado</div>
+          <div class="rc-badge">Rápido · 40ml</div>
+          <div class="rc-desc">Dose concentrada. Ideal para pré-treino e academia.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-shot">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+        </div>
+      </div>
+      <div class="car-dots" id="carDots">
+        <button class="cdot active" onclick="scrollCard(0)"></button>
+        <button class="cdot" onclick="scrollCard(1)"></button>
+        <button class="cdot" onclick="scrollCard(2)"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: BARRAS HUB
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-barras">
+  <div class="pg-bg-amber"></div>
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-calc')">← Voltar</button>
+    <span class="topnav-title">Barras Termogênicas</span>
+  </nav>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-amber">🍫 3 versões · escolha seu nível</div>
+    <div class="rec-h1">Barra <span>Termogênica</span></div>
+    <div class="rec-p">Desde a fórmula base até a ultimate com 20+ ativos. Escolha sua versão.</div>
+  </div>
+
+  <div class="cmp-grid">
+    <div class="cbox cbox-v1 sel" id="tab-v1" onclick="goSlide(0)"><div class="cbox-lbl">V1</div><div class="cbox-name">Base</div><div class="cbox-kcal" id="cv1">+—</div><div class="cbox-sub">kcal/dose</div><div class="cbox-tag">Iniciante</div></div>
+    <div class="cbox cbox-v2" id="tab-v2" onclick="goSlide(1)"><div class="cbox-lbl">V2</div><div class="cbox-name">Anti-cortisol</div><div class="cbox-kcal" id="cv2">+—</div><div class="cbox-sub">kcal/dose</div><div class="cbox-tag">Intermediário</div></div>
+    <div class="cbox cbox-v3" id="tab-v3" onclick="goSlide(2)"><div class="cbox-lbl">V3</div><div class="cbox-name">Ultimate</div><div class="cbox-kcal" id="cv3">+—</div><div class="cbox-sub">kcal/dose</div><div class="cbox-tag">Avançado</div></div>
+  </div>
+
+  <div class="prog-steps">
+    <div class="ps active" id="ps0" onclick="goSlide(0)"><div class="ps-c">1</div><span>V1</span></div>
+    <div class="ps-div"></div>
+    <div class="ps" id="ps1" onclick="goSlide(1)"><div class="ps-c">2</div><span>V2</span></div>
+    <div class="ps-div"></div>
+    <div class="ps" id="ps2" onclick="goSlide(2)"><div class="ps-c">3</div><span>V3</span></div>
+  </div>
+
+  <div class="bcar-wrap">
+    <div class="bcar-header">
+      <span class="bcar-badge" id="bcar-badge">🌱 V1 · Base</span>
+      <div class="bcar-nav">
+        <button class="bnav" id="bnav-p" onclick="goSlide(bCur-1)" disabled>‹</button>
+        <button class="bnav" id="bnav-n" onclick="goSlide(bCur+1)">›</button>
+      </div>
+    </div>
+    <div class="bcar-track" id="bcarTrack">
+
+      <!-- V1 -->
+      <div class="bver-slide">
+        <div class="slide-h"><span>V1</span> · Base</div>
+        <div class="slide-p">Fórmula essencial com 9 ativos. Ideal para começar e testar tolerância.</div>
+        <div class="feat-pills"><span class="fp">🌱 Iniciante</span><span class="fp g">☕ Sem cafeína</span><span class="fp">⏱ ~4h</span></div>
+        <div class="kcal-mini"><div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div><div class="km-val" id="v1k">+—</div></div><div class="km-r"><div class="km-lbl">Duração ~4h</div><div class="km-sub">~70% do V3</div></div></div>
+        <div class="slabel" style="padding-top:0">Ingredientes por barra</div>
+        <div class="ing-list">
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau 100%</span><span class="ing-act">Base · reduz cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-act">Sensibilidade insulínica</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-act">Liga os ingredientes</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Glucomanana em pó</span><span class="ing-act">Saciedade + gelifica</span></div><span class="ing-qty" style="color:var(--amber-l)">4g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Psyllium husk</span><span class="ing-act">Fibra + textura</span></div><span class="ing-qty" style="color:var(--amber-l)">3g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-act">Termogênese +3%</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina · TRPV1</span></div><span class="ing-qty" style="color:var(--amber-l)">0,5g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG (chá verde)</span><span class="ing-act">Oxidação +4%</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Glutamina</span><span class="ing-act">Proteção muscular</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+        </div>
+        <button class="slide-cta" onclick="goPage('pg-v1')">Ver receita completa V1 →</button>
+      </div>
+
+      <!-- V2 -->
+      <div class="bver-slide">
+        <div class="slide-h"><span>V2 Ultra</span> · Anti-cortisol</div>
+        <div class="slide-p">Adiciona coating de cacau com iodo (kelp), ashwagandha KSM-66 e polvilhado aveludado.</div>
+        <div class="feat-pills"><span class="fp">🦋 Tireoide</span><span class="fp">🧘 Anti-cortisol</span><span class="fp g">☕ Sem cafeína</span><span class="fp">⏱ ~5h</span></div>
+        <div class="kcal-mini"><div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div><div class="km-val" id="v2k">+—</div></div><div class="km-r"><div class="km-lbl">Duração ~5h</div><div class="km-sub">~86% do V3</div></div></div>
+        <div class="slabel" style="padding-top:0">Novos ativos além da V1</div>
+        <div class="ing-list">
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha KSM-66</span><span class="ing-act">Reduz cortisol sérico</span></div><span class="ing-qty" style="color:var(--amber-l)">600mg</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga de cacau (coating)</span><span class="ing-act">Camada crocante</span></div><span class="ing-qty" style="color:var(--amber-l)">30g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Alga kelp em pó (coating)</span><span class="ing-act">Iodo natural · tireoide</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Pó de arroz (polvilhado)</span><span class="ing-act">Textura aveludada</span></div><span class="ing-qty" style="color:var(--amber-l)">10g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha extra (polvilhado)</span><span class="ing-act">Dose extra</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+        </div>
+        <button class="slide-cta" onclick="goPage('pg-v2')">Ver receita completa V2 →</button>
+      </div>
+
+      <!-- V3 -->
+      <div class="bver-slide">
+        <div class="slide-h"><span>V3 Ultimate</span></div>
+        <div class="slide-p">A fórmula máxima. Tudo da V2 mais carnitina, CLA, café verde, laranja amarga, cromo e combo de 3 pimentas.</div>
+        <div class="feat-pills"><span class="fp">🚀 Ultimate</span><span class="fp">🌶️ 3 pimentas</span><span class="fp p">💊 20+ ativos</span><span class="fp">⏱ ~5h+</span></div>
+        <div class="kcal-mini"><div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div><div class="km-val" id="v3k">+—</div></div><div class="km-r"><div class="km-lbl">Duração ~5h+</div><div class="km-sub">Efeito máximo</div></div></div>
+        <div class="slabel" style="padding-top:0">Novos ativos além da V2</div>
+        <div class="ing-list">
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Carnitina tartarato</span><span class="ing-act">Transporte de gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">1.000mg</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">CLA em pó</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato café verde</span><span class="ing-act">Ácido clorogênico</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Laranja amarga (sinefrina)</span><span class="ing-act">Queima gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">100mg</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Combo pimentas (3 tipos)</span><span class="ing-act">Múltiplos capsaicinoides</span></div><span class="ing-qty" style="color:var(--red-l)">2,5g</span></div>
+          <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-act">+20% biodisponibilidade</span></div><span class="ing-qty" style="color:var(--amber-l)">50mg</span></div>
+        </div>
+        <button class="slide-cta" onclick="goPage('pg-v3')">Ver receita completa V3 →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: BARRA V1
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-v1">
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-barras')">← Versões</button>
+    <span class="topnav-title">Barra V1 · Base</span>
+  </nav>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-amber">🌱 Versão 1 · Base</div>
+    <div class="rec-h1">Barra <span>V1 Base</span></div>
+    <div class="rec-p">9 ativos essenciais. Sabor suave de cacau. Ideal para começar.</div>
+  </div>
+  <div class="kcal-banner" style="background:rgba(232,160,32,.07);border-color:rgba(232,160,32,.3)">
+    <div class="kb-title" style="color:var(--amber)">⚡ Gasto calculado para seu perfil</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="v1-kd" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra por dose</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--amber-l)">~4h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="v1-ks" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / semana</div></div>
+      <div class="kb-box"><div class="kb-val" id="v1-km" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / mês</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--amber);color:var(--amber-l)" onclick="showTab(this,'v1-ing','v1')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'v1-prep','v1')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'v1-sci','v1')">Ciência</button>
+  </div>
+  <div class="panel on" id="v1-ing">
+    <div class="slabel">Por barra</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau 100%</span><span class="ing-act">Base · cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-act">Insulina</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-act">Liga · adoçante</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Glucomanana em pó</span><span class="ing-act">Saciedade · gelifica</span></div><span class="ing-qty" style="color:var(--amber-l)">4g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Psyllium husk</span><span class="ing-act">Fibra · textura</span></div><span class="ing-qty" style="color:var(--amber-l)">3g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-act">Termogênese +3%</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina · TRPV1</span></div><span class="ing-qty" style="color:var(--amber-l)">0,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG (chá verde)</span><span class="ing-act">Oxidação +4%</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Glutamina</span><span class="ing-act">Proteção muscular</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍫</div><div class="sbox-val" style="color:var(--amber-l)">~10</div><div class="sbox-lbl">barras/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--amber-l)">10 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--amber-l)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+  <div class="panel" id="v1-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">1</div><div class="stxt"><strong style="color:var(--amber-l)">Misture os pós secos:</strong> cacau, glucomanana, psyllium, gengibre, caiena, EGCG, glutamina, canela.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">2</div><div class="stxt"><strong style="color:var(--amber-l)">Adicione mel + 120ml água morna.</strong> Mexa RÁPIDO — glucomanana gelifica em 2–3 min!</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">3</div><div class="stxt"><strong style="color:var(--amber-l)">Forma retangular</strong> com plástico filme. Camada 1,5cm. Geladeira 2h.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">4</div><div class="stxt"><strong style="color:var(--amber-l)">Corte em barras</strong> de 5cm × 3cm. Embrulhar em papel manteiga individualmente.</div></div>
+    </div>
+    <div class="slabel">Dose</div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.06);margin-bottom:14px">1 barra · 30–45 min antes das refeições · máx 3/dia · beber 300ml água</div>
+  </div>
+  <div class="panel" id="v1-sci">
+    <div class="slabel">Como funciona</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🌶️ Capsaicina</div><div class="sci-txt">Ativa receptores TRPV1, elevando temperatura corporal e acelerando o metabolismo em ~6% por 4h.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🍵 EGCG</div><div class="sci-txt">Inibe a enzima COMT, prolongando a ação da norepinefrina no tecido adiposo. Efeito ~4%, sinérgico com capsaicina.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🫚 Glucomanana</div><div class="sci-txt">Fibra de alta viscosidade. Forma gel no estômago, retardando absorção de glicose e aumentando saciedade por 4–6h.</div></div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="gerarPDF('v1')">⬇ Baixar PDF</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+    <button class="btn btn-ghost" onclick="goPage('pg-barras')">← Versões</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: BARRA V2
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-v2">
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-barras')">← Versões</button>
+    <span class="topnav-title">Barra V2 Ultra</span>
+  </nav>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-amber">🦋 Versão 2 · Anti-cortisol</div>
+    <div class="rec-h1">Barra <span>V2 Ultra</span></div>
+    <div class="rec-p">Coating crocante de cacau + kelp, ashwagandha KSM-66 e polvilhado aveludado.</div>
+  </div>
+  <div class="slabel" style="padding-top:8px">Anatomia das 4 camadas</div>
+  <div class="layers">
+    <div class="layer layer-a"><div class="ln">✦ Polvilhado — pó de arroz + ashwagandha</div><div class="ld">Textura aveludada + dose extra anti-cortisol</div></div>
+    <div class="layer layer-b"><div class="ln">◆ Coating — manteiga de cacau + kelp</div><div class="ld">Iodo natural · endurece na geladeira</div></div>
+    <div class="layer layer-c"><div class="ln">● Camada V1 (termogênica)</div><div class="ld">Glucomanana + psyllium + gengibre + capsaicina + EGCG</div></div>
+    <div class="layer layer-d"><div class="ln">▬ Base anti-cortisol</div><div class="ld">Cacau 100% + canela + ashwagandha + mel</div></div>
+  </div>
+  <div class="kcal-banner" style="background:rgba(232,160,32,.07);border-color:rgba(232,160,32,.3)">
+    <div class="kb-title" style="color:var(--amber)">⚡ Gasto calculado para seu perfil</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="v2-kd" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra por dose</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--amber-l)">~5h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="v2-ks" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / semana</div></div>
+      <div class="kb-box"><div class="kb-val" id="v2-km" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / mês</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--amber);color:var(--amber-l)" onclick="showTab(this,'v2-ing','v2')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'v2-prep','v2')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'v2-sci','v2')">Ciência</button>
+  </div>
+  <div class="panel on" id="v2-ing">
+    <div class="slabel">Base anti-cortisol</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau 100%</span><span class="ing-act">Cortisol · humor</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha KSM-66</span><span class="ing-act">Adaptógeno · cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">600mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-act">Insulina</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-act">Liga</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+    </div>
+    <div class="slabel">Coating (tireoide)</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga de cacau</span><span class="ing-act">Coating · retarda absorção</span></div><span class="ing-qty" style="color:var(--amber-l)">30g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Alga kelp em pó</span><span class="ing-act">Iodo natural · tireoide</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela em pó</span><span class="ing-act">Sabor + metabolismo</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+    </div>
+    <div class="slabel">Polvilhado</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pó de arroz</span><span class="ing-act">Textura aveludada</span></div><span class="ing-qty" style="color:var(--amber-l)">10g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha extra</span><span class="ing-act">Dose extra anti-cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍫</div><div class="sbox-val" style="color:var(--amber-l)">~10</div><div class="sbox-lbl">barras/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--amber-l)">10 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--amber-l)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+  <div class="panel" id="v2-prep">
+    <div class="slabel">Modo de preparo — 7 passos</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">1</div><div class="stxt"><strong style="color:var(--amber-l)">Base:</strong> misture cacau, ashwagandha, canela, mel + ingredientes V1 + 150ml água morna. Mexa RÁPIDO. Geladeira 2h.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">2</div><div class="stxt"><strong style="color:var(--amber-l)">Corte as barras</strong> frias em 5cm. Coloque sobre grade com papel manteiga.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">3</div><div class="stxt"><strong style="color:var(--amber-l)">Coating:</strong> derreta manteiga de cacau em banho-maria a ~35°C. Adicione kelp + canela.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">4</div><div class="stxt"><strong style="color:var(--amber-l)">Mergulhe</strong> em lotes de 2–3 barras — endurece rápido.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">5</div><div class="stxt"><strong style="color:var(--amber-l)">Freezer 10 min.</strong> Polvilhe com pó de arroz + ashwagandha + pitada de caiena.</div></div>
+    </div>
+    <div class="slabel">Dose</div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.06);margin-bottom:14px">1 barra · 30–45 min antes das refeições · máx 3/dia</div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.04)">⚠️ Ashwagandha pode interagir com medicamentos para tireoide. Kelp com moderação.</div>
+  </div>
+  <div class="panel" id="v2-sci">
+    <div class="slabel">Ativos exclusivos da V2</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🌿 Ashwagandha KSM-66</div><div class="sci-txt">Reduz cortisol sérico em 20–30% em 8 semanas. Dose eficaz: 600–800mg/dia.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🌊 Alga Kelp</div><div class="sci-txt">Fornece iodo orgânico para produção de T3 e T4 — hormônios que controlam a velocidade do metabolismo.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--amber-l)">🧈 Manteiga de cacau</div><div class="sci-txt">Retarda a absorção dos ativos, prolongando o efeito termogênico. Endurece naturalmente no frio.</div></div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="gerarPDF('v2')">⬇ Baixar PDF</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+    <button class="btn btn-ghost" onclick="goPage('pg-barras')">← Versões</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: BARRA V3
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-v3">
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-barras')">← Versões</button>
+    <span class="topnav-title">Barra V3 · Ultimate</span>
+  </nav>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-amber">🚀 Versão 3 · Fórmula máxima</div>
+    <div class="rec-h1">Barra <span>V3 Ultimate</span></div>
+    <div class="rec-p">A fórmula mais completa. 20+ ativos, combo de 3 pimentas, carnitina e CLA.</div>
+  </div>
+  <div class="chain">
+    <div class="chn chn1">V1 Base<br><span style="font-size:10px;font-weight:400">9 ativos</span></div>
+    <div class="chn-arr">+</div>
+    <div class="chn chn2">V2 Ultra<br><span style="font-size:10px;font-weight:400">+kelp+ash</span></div>
+    <div class="chn-arr">+</div>
+    <div class="chn chn3">✦ V3 Ultimate<br><span style="font-size:10px;font-weight:400">20+ ativos</span></div>
+  </div>
+  <div class="kcal-banner" style="background:rgba(232,160,32,.08);border-color:rgba(232,160,32,.4)">
+    <div class="kb-title" style="color:var(--amber)">⚡ Gasto calculado para seu perfil</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="v3-kd" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra por dose</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--amber-l)">~5h+</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="v3-ks" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / semana</div></div>
+      <div class="kb-box"><div class="kb-val" id="v3-km" style="color:var(--amber-l)">+—</div><div class="kb-lbl">Extra / mês</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--amber);color:var(--amber-l)" onclick="showTab(this,'v3-ing','v3')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'v3-prep','v3')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'v3-pim','v3')">🌶️ Pimentas</button>
+  </div>
+  <div class="panel on" id="v3-ing">
+    <div class="slabel">Extras além da V2</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Carnitina tartarato</span><span class="ing-act">Transporta gordura para mitocôndria</span></div><span class="ing-qty" style="color:var(--amber-l)">1.000mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">CLA em pó</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato café verde</span><span class="ing-act">Ácido clorogênico</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Laranja amarga em pó</span><span class="ing-act">Sinefrina · queima</span></div><span class="ing-qty" style="color:var(--amber-l)">100mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Picolinato de cromo</span><span class="ing-act">Controle glicêmico</span></div><span class="ing-qty" style="color:var(--amber-l)">250µg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Taurina</span><span class="ing-act">Metabolismo lipídico</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-act">+20% biodisponibilidade</span></div><span class="ing-qty" style="color:var(--amber-l)">50mg</span></div>
+    </div>
+    <div class="slabel">Combo de 3 pimentas</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina principal</span></div><span class="ing-qty" style="color:var(--red-l)">1,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta-preta em pó</span><span class="ing-act">Piperina · biodisponibilidade</span></div><span class="ing-qty" style="color:var(--red-l)">0,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Dedo-de-moça em pó</span><span class="ing-act">Dihidrocapsaicina</span></div><span class="ing-qty" style="color:var(--red-l)">0,5g</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍫</div><div class="sbox-val" style="color:var(--amber-l)">~10</div><div class="sbox-lbl">barras/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--amber-l)">10 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--amber-l)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+  <div class="panel" id="v3-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">1</div><div class="stxt"><strong style="color:var(--amber-l)">Misture TODOS os pós secos</strong> — todos da V2 + carnitina, CLA, café verde, laranja amarga, cromo, taurina, piperina e combo de pimentas.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">2</div><div class="stxt"><strong style="color:var(--amber-l)">Adicione mel + ashwagandha + 150ml água morna.</strong> Mexa RÁPIDO!</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">3</div><div class="stxt"><strong style="color:var(--amber-l)">Forma retangular.</strong> Camada 1,5cm. Geladeira 2h. Corte em barras 5cm × 3cm.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(232,160,32,.2);border:1.5px solid rgba(232,160,32,.5);color:var(--amber-l)">4</div><div class="stxt"><strong style="color:var(--amber-l)">Coating:</strong> manteiga de cacau 35°C + kelp. Mergulhar em lotes. Freezer 10 min. Polvilhar.</div></div>
+    </div>
+    <div class="warn-box" style="border-color:var(--red);background:rgba(226,75,74,.05);color:var(--red-l);margin-top:12px">⚠️ Comece com caiena 0,5g. Aumente gradualmente a cada 2 semanas.</div>
+  </div>
+  <div class="panel" id="v3-pim">
+    <div class="slabel">Protocolo de 3 pimentas</div>
+    <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
+      <div class="sci-card" style="border-color:rgba(226,75,74,.2)"><div class="sci-name" style="color:var(--red-l)">🌶️ Caiena 1,5g — termogênese principal</div><div class="sci-txt">Ativa receptores TRPV1 elevando temperatura corporal. Cada 0,5g extra adiciona ~2–3% de termogênese.</div></div>
+      <div class="sci-card" style="border-color:rgba(226,75,74,.2)"><div class="sci-name" style="color:var(--red-l)">⚫ Pimenta-preta 0,5g — multiplicador</div><div class="sci-txt">Piperina inibe CYP3A4, aumentando absorção de todos os outros ativos em até 20%.</div></div>
+      <div class="sci-card" style="border-color:rgba(226,75,74,.2)"><div class="sci-name" style="color:var(--red-l)">🫑 Dedo-de-moça 0,5g — multi-receptor</div><div class="sci-txt">Combina capsaicina + dihidrocapsaicina, ativando mais receptores TRPV1 do que a caiena sozinha.</div></div>
+    </div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(232,160,32,.06);margin-top:12px">Adaptação: S1–2 caiena 0,5g → S3–4 caiena 1g → S5–6 + pimenta-preta → S7+ combinação completa.</div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="gerarPDF('v3')">⬇ Baixar PDF</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+    <button class="btn btn-ghost" onclick="goPage('pg-barras')">← Versões</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: GOMA
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-goma">
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-calc')">← Início</button>
+    <span class="topnav-title">Goma de Limão</span>
+  </nav>
+  <div style="position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(14,168,117,.09) 0%,transparent 55%)"></div>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-green">🍋 Mastigável · ~4h de efeito</div>
+    <div class="rec-h1">Goma <span class="g">Mastigável</span><br>de Limão</div>
+    <div class="rec-p">Discreta e prática. Capsaicina + EGCG + gengibre. Mastigar devagar libera os ativos gradualmente.</div>
+  </div>
+  <div class="kcal-banner" style="background:rgba(14,168,117,.07);border-color:rgba(14,168,117,.35)">
+    <div class="kb-title" style="color:var(--green)">⚡ Gasto calculado para seu perfil</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="goma-kd" style="color:var(--green-l)">+—</div><div class="kb-lbl">Extra por dose (3 gomas)</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--green-l)">~4h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="goma-ks" style="color:var(--green-l)">+—</div><div class="kb-lbl">Extra / semana</div></div>
+      <div class="kb-box"><div class="kb-val" id="goma-km" style="color:var(--green-l)">+—</div><div class="kb-lbl">Extra / mês</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--green);color:var(--green-l)" onclick="showTab(this,'goma-ing','goma')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'goma-prep','goma')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'goma-sci','goma')">Ciência</button>
+  </div>
+  <div class="panel on" id="goma-ing">
+    <div class="slabel">Por goma unitária</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span><span class="ing-act">Estrutura elástica</span></div><span class="ing-qty" style="color:var(--green-l)">0,56g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar em pó</span><span class="ing-act">Textura firme · vegano</span></div><span class="ing-qty" style="color:var(--green-l)">0,12g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Suco de limão fresco</span><span class="ing-act">Sabor + vitamina C</span></div><span class="ing-qty" style="color:var(--green-l)">2,4ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina · termogênese</span></div><span class="ing-qty" style="color:var(--green-l)">80mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato chá verde (EGCG)</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--green-l)">100mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-act">Termogênese + digestão</span></div><span class="ing-qty" style="color:var(--green-l)">150mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel ou stevia</span><span class="ing-act">Adoçar a gosto</span></div><span class="ing-qty" style="color:var(--green-l)">a gosto</span></div>
+    </div>
+    <div class="slabel">Lote de 25 gomas</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span></div><span class="ing-qty" style="color:var(--green-l)">14g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar em pó</span></div><span class="ing-qty" style="color:var(--green-l)">3g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Suco de limão</span></div><span class="ing-qty" style="color:var(--green-l)">60ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena total</span></div><span class="ing-qty" style="color:var(--green-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG total</span></div><span class="ing-qty" style="color:var(--green-l)">2,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre total</span></div><span class="ing-qty" style="color:var(--green-l)">3,75g</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍋</div><div class="sbox-val" style="color:var(--green-l)">~25</div><div class="sbox-lbl">gomas/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--green-l)">15 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--green-l)">90 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+  <div class="panel" id="goma-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(14,168,117,.2);border:1.5px solid rgba(14,168,117,.5);color:var(--green-l)">1</div><div class="stxt"><strong style="color:var(--green-l)">Ferva 80ml de água.</strong> Adicione 3g agar-agar, mexa 2 min. Esfriar até ~50°C.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(14,168,117,.2);border:1.5px solid rgba(14,168,117,.5);color:var(--green-l)">2</div><div class="stxt"><strong style="color:var(--green-l)">Em bowl separado:</strong> 14g gelatina + 60ml suco de limão. Aguardar 5 min.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(14,168,117,.2);border:1.5px solid rgba(14,168,117,.5);color:var(--green-l)">3</div><div class="stxt"><strong style="color:var(--green-l)">Misture</strong> agar (50°C) + gelatina. Adicione mel.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(14,168,117,.2);border:1.5px solid rgba(14,168,117,.5);color:var(--green-l)">4</div><div class="stxt">⚠️ <strong style="color:var(--green-l)">ABAIXO DE 45°C:</strong> adicione caiena + EGCG + gengibre. Mexa bem.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(14,168,117,.2);border:1.5px solid rgba(14,168,117,.5);color:var(--green-l)">5</div><div class="stxt"><strong style="color:var(--green-l)">Forminhas de silicone.</strong> Geladeira 2h. Rende ~25 gomas.</div></div>
+    </div>
+    <div class="slabel">Dose</div>
+    <div class="warn-box" style="border-color:var(--green);background:rgba(14,168,117,.06);margin-bottom:14px">3 gomas · mastigar devagar · 30 min antes das refeições · máx 3 doses/dia</div>
+  </div>
+  <div class="panel" id="goma-sci">
+    <div class="slabel">Ciência</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--green-l)">🦷 Absorção bucal + digestiva</div><div class="sci-txt">Ao mastigar devagar, parte dos ativos é absorvida pela mucosa bucal (início ~15 min) e o resto no trato digestivo (efeito 4h). Dupla janela de absorção.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--green-l)">🍋 Por que limão?</div><div class="sci-txt">O ácido cítrico e vitamina C melhoram a absorção de EGCG em ~2x. O sabor ácido estimula salivação, acelerando a liberação dos ativos.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--green-l)">⚠️ Temperatura crítica</div><div class="sci-txt">O EGCG se degrada acima de 45°C. Sempre adicione os ativos com a mistura morna. Use termômetro de culinária.</div></div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-green" onclick="gerarPDF('goma')">⬇ Baixar PDF</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+    <button class="btn btn-ghost" onclick="goPage('pg-calc')">← Início</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: SHOT
+═══════════════════════════════════════════ -->
+<div class="page" id="pg-shot">
+  <nav class="topnav">
+    <button class="back-btn" onclick="goPage('pg-calc')">← Início</button>
+    <span class="topnav-title">Shot Gelificado</span>
+  </nav>
+  <div style="position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(124,58,237,.09) 0%,transparent 55%)"></div>
+  <div class="hero-rec fade-up">
+    <div class="ver-tag vt-purple">⚗️ Shot · 40ml · Rápido</div>
+    <div class="rec-h1">Shot <span class="p">Gelificado</span><br>Neutro</div>
+    <div class="rec-p">Dose concentrada. Absorção rápida. Ideal para pré-treino. Beber com 200ml de água.</div>
+  </div>
+  <div class="timing-row">
+    <div class="tbox"><div class="tbox-val">~15 min</div><div class="tbox-lbl">Início de ação</div></div>
+    <div class="tbox"><div class="tbox-val">~3h</div><div class="tbox-lbl">Duração</div></div>
+    <div class="tbox"><div class="tbox-val">40ml</div><div class="tbox-lbl">Volume/dose</div></div>
+  </div>
+  <div class="kcal-banner" style="background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.35)">
+    <div class="kb-title" style="color:var(--purple)">⚡ Gasto calculado para seu perfil</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="shot-kd" style="color:var(--purple-l)">+—</div><div class="kb-lbl">Extra por shot</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--purple-l)">~3h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="shot-ks" style="color:var(--purple-l)">+—</div><div class="kb-lbl">Extra / semana</div></div>
+      <div class="kb-box"><div class="kb-val" id="shot-km" style="color:var(--purple-l)">+—</div><div class="kb-lbl">Extra / mês</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--purple);color:var(--purple-l)" onclick="showTab(this,'shot-ing','shot')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'shot-prep','shot')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'shot-sci','shot')">Ciência</button>
+  </div>
+  <div class="panel on" id="shot-ing">
+    <div class="slabel">Por shot (40ml)</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span><span class="ing-act">Estrutura do gel</span></div><span class="ing-qty" style="color:var(--purple-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar em pó</span><span class="ing-act">Firmeza</span></div><span class="ing-qty" style="color:var(--purple-l)">0,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Água filtrada</span><span class="ing-act">Base</span></div><span class="ing-qty" style="color:var(--purple-l)">35ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina</span></div><span class="ing-qty" style="color:var(--purple-l)">120mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG (chá verde)</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--purple-l)">200mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-act">Termogênese</span></div><span class="ing-qty" style="color:var(--purple-l)">200mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-act">+20% biodisponibilidade</span></div><span class="ing-qty" style="color:var(--purple-l)">30mg</span></div>
+    </div>
+    <div class="slabel">Lote de 10 shots</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina</span></div><span class="ing-qty" style="color:var(--purple-l)">20g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar</span></div><span class="ing-qty" style="color:var(--purple-l)">5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Água</span></div><span class="ing-qty" style="color:var(--purple-l)">350ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Caiena total</span></div><span class="ing-qty" style="color:var(--purple-l)">1,2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG total</span></div><span class="ing-qty" style="color:var(--purple-l)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina total</span></div><span class="ing-qty" style="color:var(--purple-l)">300mg</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">⚗️</div><div class="sbox-val" style="color:var(--purple-l)">~10</div><div class="sbox-lbl">shots/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--purple-l)">10 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--purple-l)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+  <div class="panel" id="shot-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(124,58,237,.2);border:1.5px solid rgba(124,58,237,.5);color:var(--purple-l)">1</div><div class="stxt"><strong style="color:var(--purple-l)">Ferva 250ml de água.</strong> Adicione 5g agar-agar, mexa 2 min. Esfriar até ~50°C.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(124,58,237,.2);border:1.5px solid rgba(124,58,237,.5);color:var(--purple-l)">2</div><div class="stxt"><strong style="color:var(--purple-l)">Em bowl separado:</strong> 20g gelatina + 100ml água fria. Aguardar 5 min.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(124,58,237,.2);border:1.5px solid rgba(124,58,237,.5);color:var(--purple-l)">3</div><div class="stxt">⚠️ <strong style="color:var(--purple-l)">ABAIXO DE 45°C:</strong> misture agar + gelatina + TODOS os ativos em pó. Mexa bem.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(124,58,237,.2);border:1.5px solid rgba(124,58,237,.5);color:var(--purple-l)">4</div><div class="stxt"><strong style="color:var(--purple-l)">Despeje em potinhos de 50ml.</strong> Geladeira 2h. Rende ~10 shots.</div></div>
+    </div>
+    <div class="slabel">Dose</div>
+    <div class="warn-box" style="border-color:var(--purple);background:rgba(124,58,237,.06);margin-bottom:14px">1 shot · 30 min antes do treino ou refeição · beber 200ml água junto · máx 3/dia</div>
+  </div>
+  <div class="panel" id="shot-sci">
+    <div class="slabel">Ciência</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--purple-l)">🏃 Ideal pré-treino</div><div class="sci-txt">O pico da capsaicina coincide com o início do exercício. O efeito sinérgico amplia o gasto em ~25–35% vs. shot sem treino.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--purple-l)">💊 Piperina no shot</div><div class="sci-txt">Aumenta a biodisponibilidade do EGCG em ~30%. A dose de 200mg com piperina equivale a ~260mg sem ela.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--purple-l)">💧 Por que beber água junto?</div><div class="sci-txt">Dilui a capsaicina no esôfago, reduz desconforto e acelera a chegada ao intestino delgado para absorção.</div></div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-purple" onclick="gerarPDF('shot')">⬇ Baixar PDF</button>
+    <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir</button>
+    <button class="btn btn-ghost" onclick="goPage('pg-calc')">← Início</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+/* ── STATE ── */
+let SEX = 'M';
+const TMB_KEY = 'thermo_tmb', TDEE_KEY = 'thermo_tdee', SEX_KEY = 'thermo_sex';
+const getTMB  = ()=> parseFloat(localStorage.getItem(TMB_KEY)||2089);
+const getTDEE = ()=> parseFloat(localStorage.getItem(TDEE_KEY)||2900);
+const savePrf = (t,d,s)=>{ localStorage.setItem(TMB_KEY,t); localStorage.setItem(TDEE_KEY,d); localStorage.setItem(SEX_KEY,s); };
+
+function getExtras(){
+  const h = getTMB()/24;
+  return { barra:Math.round(h*.08*5), goma:Math.round(h*.06*4), shot:Math.round(h*.05*3) };
+}
+function imcCat(v){ if(v<18.5)return'Abaixo do peso'; if(v<25)return'Peso normal'; if(v<30)return'Sobrepeso'; if(v<35)return'Obesidade grau I'; if(v<40)return'Obesidade grau II'; return'Obesidade grau III'; }
+function toast(msg,dur=3000){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),dur); }
+
+/* ── PAGE ROUTING ── */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById(id);
+  if(pg){ pg.classList.add('active'); window.scrollTo(0,0); }
+  // Update kcal values whenever entering a page
+  refreshKcal();
+}
+
+function refreshKcal(){
+  const E = getExtras();
+  const v1=Math.round(E.barra*.70), v2=Math.round(E.barra*.86), v3=E.barra;
+  // Carousel
+  const cb=document.getElementById('c-barra'); if(cb) cb.textContent='+'+v3+' kcal';
+  const cg=document.getElementById('c-goma');  if(cg) cg.textContent='+'+E.goma+' kcal';
+  const cs=document.getElementById('c-shot');  if(cs) cs.textContent='+'+E.shot+' kcal';
+  // Barras hub
+  const cv1=document.getElementById('cv1'); if(cv1) cv1.textContent='+'+v1;
+  const cv2=document.getElementById('cv2'); if(cv2) cv2.textContent='+'+v2;
+  const cv3=document.getElementById('cv3'); if(cv3) cv3.textContent='+'+v3;
+  // Hub slides
+  const v1k=document.getElementById('v1k'); if(v1k) v1k.textContent='+'+v1+' kcal';
+  const v2k=document.getElementById('v2k'); if(v2k) v2k.textContent='+'+v2+' kcal';
+  const v3k=document.getElementById('v3k'); if(v3k) v3k.textContent='+'+v3+' kcal';
+  // Detail pages
+  ['v1-kd','v1-ks','v1-km'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent='+'+(i===0?v1:i===1?v1*7:v1*30)+' kcal'; });
+  ['v2-kd','v2-ks','v2-km'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent='+'+(i===0?v2:i===1?v2*7:v2*30)+' kcal'; });
+  ['v3-kd','v3-ks','v3-km'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent='+'+(i===0?v3:i===1?v3*7:v3*30)+' kcal'; });
+  ['goma-kd','goma-ks','goma-km'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent='+'+(i===0?E.goma:i===1?E.goma*7:E.goma*30)+' kcal'; });
+  ['shot-kd','shot-ks','shot-km'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent='+'+(i===0?E.shot:i===1?E.shot*7:E.shot*30)+' kcal'; });
+}
+
+/* ── CALCULATOR ── */
+function setSex(s){ SEX=s; document.getElementById('btnM').classList.toggle('active',s==='M'); document.getElementById('btnF').classList.toggle('active',s==='F'); }
+
+function calcular(){
+  const idade=parseFloat(document.getElementById('idade').value)||0;
+  const peso=parseFloat(document.getElementById('peso').value)||0;
+  const alt=parseFloat(document.getElementById('altura').value)||0;
+  const fat=parseFloat(document.getElementById('atividade').value)||1.375;
+  if(!idade||!peso||!alt||idade<10||peso<20||alt<80){ toast('Preencha todos os campos!'); return; }
+  const tmb = SEX==='M'?(10*peso)+(6.25*alt)-(5*idade)+5:(10*peso)+(6.25*alt)-(5*idade)-161;
+  const tdee = tmb*fat;
+  const altM=alt/100, imc=peso/(altM*altM);
+  let gc = SEX==='M'?(1.20*imc)+(0.23*idade)-16.2:(1.20*imc)+(0.23*idade)-5.4;
+  gc=Math.max(gc,5);
+  savePrf(tmb,tdee,SEX);
+  document.getElementById('r-tmb').textContent=Math.round(tmb)+' kcal/dia';
+  document.getElementById('r-tdee').textContent=Math.round(tdee)+' kcal/dia';
+  document.getElementById('r-fat').textContent='TMB × '+fat;
+  document.getElementById('r-imc').textContent=imc.toFixed(1)+' kg/m²';
+  document.getElementById('r-imccat').textContent=imcCat(imc);
+  document.getElementById('r-gc').textContent='~'+Math.round(gc)+'%';
+  buildBars(tmb,tdee);
+  refreshKcal();
+  document.getElementById('form-sec').style.display='none';
+  document.getElementById('res-sec').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function buildBars(tmb,tdee){
+  const h=tmb/24, base=Math.round(tdee/24*4);
+  const bE=Math.round(h*.08*5), gE=Math.round(h*.06*4), sE=Math.round(h*.05*3);
+  const bars=[
+    {l:'Sem termogênico',v:base,c:'rgba(255,255,255,.12)'},
+    {l:'Barra V3',v:base+bE,c:'rgba(232,160,32,.75)'},
+    {l:'Goma limão',v:base+gE,c:'rgba(14,168,117,.75)'},
+    {l:'Shot neutro',v:base+sE,c:'rgba(124,58,237,.75)'},
+  ];
+  const mx=Math.max(...bars.map(b=>b.v));
+  const bc=document.getElementById('barchart'); bc.innerHTML='';
+  bars.forEach(b=>{
+    const pct=Math.round((b.v/mx)*100);
+    const row=document.createElement('div'); row.className='bc-row';
+    row.innerHTML=`<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>${b.v} kcal</span></div></div>`;
+    bc.appendChild(row);
+    setTimeout(()=>{ row.querySelector('.bc-f').style.width=pct+'%'; },120);
+  });
+}
+
+function resetCalc(){
+  document.getElementById('form-sec').style.display='block';
+  document.getElementById('res-sec').style.display='none';
+  window.scrollTo(0,0);
+}
+
+/* ── MAIN CAROUSEL (scroll-snap) ── */
+const carTrack = document.getElementById('carTrack');
+const carDots  = document.querySelectorAll('#carDots .cdot');
+function scrollCard(i){
+  const cards=carTrack.querySelectorAll('.rcard');
+  if(cards[i]) carTrack.scrollTo({left:cards[i].offsetLeft-20,behavior:'smooth'});
+}
+carTrack.addEventListener('scroll',()=>{
+  const cards=carTrack.querySelectorAll('.rcard');
+  let closest=0,minD=Infinity;
+  cards.forEach((c,i)=>{ const d=Math.abs(c.getBoundingClientRect().left-carTrack.getBoundingClientRect().left); if(d<minD){minD=d;closest=i;} });
+  carDots.forEach((d,i)=>d.classList.toggle('active',i===closest));
+},{passive:true});
+
+/* ── BARRAS CAROUSEL ── */
+let bCur=0;
+const btrack=document.getElementById('bcarTrack');
+const bBadges=['🌱 V1 · Base','🦋 V2 Ultra · Anti-cortisol','🚀 V3 · Ultimate'];
+function goSlide(i){
+  i=Math.max(0,Math.min(2,i)); bCur=i;
+  btrack.style.transform=`translateX(-${i*100}%)`;
+  document.getElementById('bcar-badge').textContent=bBadges[i];
+  document.getElementById('bnav-p').disabled=i===0;
+  document.getElementById('bnav-n').disabled=i===2;
+  ['tab-v1','tab-v2','tab-v3'].forEach((t,j)=>document.getElementById(t).classList.toggle('sel',j===i));
+  ['ps0','ps1','ps2'].forEach((s,j)=>{ const el=document.getElementById(s); el.classList.remove('active','done'); if(j===i)el.classList.add('active'); else if(j<i)el.classList.add('done'); });
+}
+// Touch swipe for barras
+let btx=0;
+btrack.addEventListener('touchstart',e=>btx=e.touches[0].clientX,{passive:true});
+btrack.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-btx; if(Math.abs(dx)>40){if(dx<0&&bCur<2)goSlide(bCur+1);if(dx>0&&bCur>0)goSlide(bCur-1);} });
+
+/* ── TABS ── */
+function showTab(btn,panelId,group){
+  document.querySelectorAll('#pg-'+group+' .panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('#pg-'+group+' .tab').forEach(t=>{ t.style.borderBottomColor='transparent'; t.style.color=''; });
+  document.getElementById(panelId).classList.add('on');
+  // color by page
+  const colors={v1:['var(--amber)','var(--amber-l)'],v2:['var(--amber)','var(--amber-l)'],v3:['var(--amber)','var(--amber-l)'],goma:['var(--green)','var(--green-l)'],shot:['var(--purple)','var(--purple-l)']};
+  const c=colors[group]||['var(--purple)','var(--purple-l)'];
+  btn.style.borderBottomColor=c[0]; btn.style.color=c[1];
+}
+
+/* ── PDF GENERATOR ── */
+function gerarPDF(tipo){
+  const E=getExtras();
+  const tmb2=Math.round(getTMB()), tdee2=Math.round(getTDEE());
+  const cfg={
+    v1:{nome:'Barra V1 Base',cor:'#D97706',kcal:Math.round(E.barra*.70),dur:'~4h',dose:'1 barra · 30–45 min antes das refeições · máx 3/dia',
+      ings:[['Cacau 100%','15g'],['Canela de Ceilão','2g'],['Mel cru','15ml'],['Glucomanana','4g'],['Psyllium husk','3g'],['Gengibre em pó','2g'],['Pimenta caiena','0,5g'],['EGCG (chá verde)','200mg'],['L-Glutamina','500mg']],
+      passos:['Misture todos os pós secos num bowl.','Adicione mel + 120ml água morna. Mexa RÁPIDO!','Forma retangular + plástico filme. Camada 1,5cm. Geladeira 2h.','Corte em barras 5cm × 3cm. Embrulhar individualmente.']},
+    v2:{nome:'Barra V2 Ultra Anti-cortisol',cor:'#D97706',kcal:Math.round(E.barra*.86),dur:'~5h',dose:'1 barra · 30–45 min antes das refeições · máx 3/dia',
+      ings:[['Cacau 100%','15g'],['Ashwagandha KSM-66','600mg'],['Canela de Ceilão','2g'],['Mel cru','15ml'],['+ Ingredientes V1','—'],['Manteiga de cacau (coating)','30g'],['Alga kelp (coating)','1g'],['Pó de arroz (polvilhado)','10g'],['Ashwagandha extra','200mg']],
+      passos:['Misture base: cacau + ashwagandha + canela + mel + ingredientes V1 + 150ml água. Geladeira 2h.','Corte barras. Coloque sobre grade.','Coating: manteiga de cacau 35°C + kelp + canela. Mergulhar em lotes.','Freezer 10 min. Polvilhar com pó de arroz + ashwagandha.']},
+    v3:{nome:'Barra V3 Ultimate',cor:'#D97706',kcal:E.barra,dur:'~5h+',dose:'1 barra · 30–45 min antes das refeições · máx 3/dia',
+      ings:[['Tudo da V2','—'],['L-Carnitina tartarato','1.000mg'],['CLA em pó','1g'],['Extrato café verde','500mg'],['Laranja amarga','100mg'],['Picolinato de cromo','250µg'],['Taurina','500mg'],['Piperina','50mg'],['Combo pimentas (caiena+preta+dedo-de-moça)','2,5g']],
+      passos:['Misture TODOS os pós secos + ingredientes V2.','Adicione mel + 150ml água morna. Mexa RÁPIDO!','Forma retangular. Camada 1,5cm. Geladeira 2h. Cortar em barras.','Coating, freezer e polvilhado igual à V2.']},
+    goma:{nome:'Goma Mastigável de Limão',cor:'#059669',kcal:E.goma,dur:'~4h',dose:'3 gomas · mastigar devagar · 30 min antes das refeições',
+      ings:[['Gelatina sem sabor','14g (lote 25)'],['Agar-agar','3g (lote 25)'],['Suco de limão','60ml (lote 25)'],['Pimenta caiena','80mg / goma'],['EGCG','100mg / goma'],['Gengibre em pó','150mg / goma'],['Mel ou stevia','a gosto']],
+      passos:['Ferva 80ml água. Adicione agar-agar, mexa 2 min. Esfriar 50°C.','Bowl separado: gelatina + suco de limão. Aguardar 5 min.','Misture agar + gelatina + mel.','ABAIXO DE 45°C: adicione caiena + EGCG + gengibre.','Forminhas silicone. Geladeira 2h.']},
+    shot:{nome:'Shot Gelificado Neutro',cor:'#7C3AED',kcal:E.shot,dur:'~3h',dose:'1 shot 40ml · 30 min antes do treino · beber 200ml água',
+      ings:[['Gelatina sem sabor','20g (lote 10)'],['Agar-agar','5g (lote 10)'],['Água filtrada','350ml (lote 10)'],['Pimenta caiena','120mg / shot'],['EGCG','200mg / shot'],['Gengibre em pó','200mg / shot'],['Piperina','30mg / shot']],
+      passos:['Ferva 250ml água. Adicione agar-agar, mexa 2 min. Esfriar 50°C.','Bowl: gelatina + 100ml água fria. Aguardar 5 min.','ABAIXO DE 45°C: misture tudo + ativos em pó.','Potinhos 50ml. Geladeira 2h.']}
+  };
+  const r=cfg[tipo]; if(!r){toast('Tipo inválido');return;}
+  const eK=r.kcal||0, eS=eK*7, eM=eK*30, gM=r.kcal?(eM/7700).toFixed(2):'—';
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Receita: ${r.nome}</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Arial,sans-serif;padding:28px;background:#fff;color:#1a1a1a;font-size:13px;max-width:820px;margin:0 auto}h1{color:${r.cor};font-size:22px;margin-bottom:4px;font-weight:700}.meta{color:#999;font-size:11px;margin-bottom:20px;border-bottom:1px solid #eee;padding-bottom:12px}h2{color:${r.cor};font-size:12px;font-weight:700;margin:22px 0 8px;border-bottom:2px solid ${r.cor};padding-bottom:5px;text-transform:uppercase;letter-spacing:.06em}.kbox{background:#fffbf0;border:1.5px solid ${r.cor};border-radius:10px;padding:16px 20px;margin-bottom:20px}.kbox strong{color:${r.cor};font-size:14px;display:block;margin-bottom:10px}.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.ki{text-align:center}.kv{font-size:20px;font-weight:700;color:${r.cor}}.kl{font-size:11px;color:#777;margin-top:2px}table{width:100%;border-collapse:collapse;margin-bottom:14px}th{background:${r.cor};color:#fff;padding:9px 12px;text-align:left;font-size:12px;font-weight:600}td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px}tr:nth-child(even) td{background:#fafafa}.qty{font-weight:700;color:${r.cor};text-align:right}.step{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}.sn{min-width:26px;height:26px;border-radius:50%;background:${r.cor};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}.st{font-size:13px;line-height:1.65;color:#333}.dose-box{margin-top:18px;padding:12px 16px;border-left:4px solid ${r.cor};background:#fffbf0;border-radius:0 8px 8px 0;font-size:12px;color:#7a3f00}footer{margin-top:28px;font-size:11px;color:#bbb;border-top:1px solid #eee;padding-top:12px;text-align:center}@media print{body{padding:14px}}</style></head><body>
+<h1>${r.nome}</h1><div class="meta">App Termogênico · TMB: ${tmb2} kcal/dia · Gasto: ${tdee2} kcal/dia</div>
+<div class="kbox"><strong>⚡ Gasto calórico calculado para seu perfil</strong><div class="kg"><div class="ki"><div class="kv">${r.kcal?'+'+r.kcal+' kcal':'—'}</div><div class="kl">Extra/dose</div></div><div class="ki"><div class="kv">~${eS} kcal</div><div class="kl">Extra/semana</div></div><div class="ki"><div class="kv">~${eM} kcal</div><div class="kl">Extra/mês</div></div><div class="ki"><div class="kv">~${gM} kg</div><div class="kl">Gordura/mês</div></div></div></div>
+<h2>Ingredientes</h2><table><tr><th>Ingrediente</th><th style="text-align:right;width:180px">Quantidade</th></tr>${r.ings.map(([n,q])=>`<tr><td>${n}</td><td class="qty">${q}</td></tr>`).join('')}</table>
+<h2>Modo de preparo</h2>${r.passos.map((s,i)=>`<div class="step"><div class="sn">${i+1}</div><div class="st">${s}</div></div>`).join('')}
+<div class="dose-box"><strong>📋 Dose:</strong> ${r.dose}<br><strong>⏱ Duração:</strong> ${r.dur}</div>
+<footer>App Termogênico · Estimativas baseadas em estudos com capsaicina, EGCG e gengibre · Variação real ±30%</footer></body></html>`;
+  const w=window.open('','_blank','width=860,height=720');
+  if(w){w.document.write(html);w.document.close();setTimeout(()=>{w.focus();w.print();},700);toast('PDF pronto! Use Ctrl+P para salvar.');}
+  else{const b=new Blob([html],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='receita_'+tipo+'.html';a.click();toast('Arquivo salvo!');}
+}
+
+/* ── INIT ── */
+refreshKcal();
+if(localStorage.getItem(TMB_KEY)){
+  buildBars(getTMB(),getTDEE());
+  document.getElementById('r-tmb').textContent=Math.round(getTMB())+' kcal/dia';
+  document.getElementById('r-tdee').textContent=Math.round(getTDEE())+' kcal/dia';
+  document.getElementById('r-fat').textContent='perfil salvo';
+  document.getElementById('r-imc').textContent='—';
+  document.getElementById('r-imccat').textContent='Recalcule para atualizar';
+  document.getElementById('r-gc').textContent='—';
+  document.getElementById('form-sec').style.display='none';
+  document.getElementById('res-sec').style.display='block';
+}
+</script>
+</body>
+</html>

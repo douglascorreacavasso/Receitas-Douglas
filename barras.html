@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Barras Termogênicas — Escolha sua versão</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-bg {
+  position: fixed; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(232,160,32,.1) 0%, transparent 60%);
+}
+
+/* HERO */
+.hero { padding: 32px 20px 28px; }
+.hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+.hero h1 { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--text); line-height: 1.15; margin-bottom: 8px; }
+.hero h1 span { color: var(--amber-l); }
+.hero p { font-size: 13px; color: var(--muted2); line-height: 1.6; }
+
+/* COMPARISON GRID */
+.compare-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 20px; margin-bottom: 28px; }
+.cbox { border-radius: 14px; padding: 14px 10px; text-align: center; border: 1.5px solid; cursor: pointer; transition: all .2s; }
+.cbox:hover, .cbox.sel { transform: translateY(-2px); }
+.cbox-v1 { background: linear-gradient(160deg,#1a0c00,#2a1500); border-color: rgba(232,160,32,.3); }
+.cbox-v1.sel, .cbox-v1:hover { border-color: var(--amber); box-shadow: 0 0 20px rgba(232,160,32,.15); }
+.cbox-v2 { background: linear-gradient(160deg,#1a0c00,#001a18); border-color: rgba(232,160,32,.2); }
+.cbox-v2.sel, .cbox-v2:hover { border-color: var(--amber); box-shadow: 0 0 20px rgba(232,160,32,.15); }
+.cbox-v3 { background: linear-gradient(160deg,#1a0800,#300a00); border-color: rgba(232,160,32,.4); }
+.cbox-v3.sel, .cbox-v3:hover { border-color: var(--amber-l); box-shadow: 0 0 24px rgba(232,160,32,.2); }
+.cbox-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); margin-bottom: 6px; }
+.cbox-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+.cbox-kcal { font-size: 18px; font-weight: 700; color: var(--amber-l); line-height: 1; }
+.cbox-sub { font-size: 10px; color: var(--muted2); margin-top: 3px; }
+.cbox-tags { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+.ctag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(232,160,32,.1); color: var(--amber-l); text-align: center; }
+
+/* CAROUSEL */
+.carousel-wrap { position: relative; overflow: hidden; }
+.carousel-track {
+  display: flex;
+  transition: transform .45s cubic-bezier(.4,0,.2,1);
+}
+.ver-slide { flex-shrink: 0; width: 100%; padding: 0 20px 24px; }
+
+/* Slide header */
+.slide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.slide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: rgba(232,160,32,.12);
+  border: 1px solid rgba(232,160,32,.3);
+  color: var(--amber-l);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.slide-nav { display: flex; gap: 6px; }
+.snav-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  color: var(--muted2);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.snav-btn:hover { background: rgba(255,255,255,.1); color: var(--text); }
+.snav-btn:disabled { opacity: .3; pointer-events: none; }
+
+/* Section inside slide */
+.slide-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.slide-title span { color: var(--amber-l); }
+.slide-desc { font-size: 13px; color: var(--muted2); line-height: 1.6; margin-bottom: 16px; }
+
+/* Feature pills */
+.feat-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.feat-pill {
+  font-size: 11px; padding: 5px 12px; border-radius: 99px;
+  background: rgba(232,160,32,.1); color: var(--amber-l);
+  border: 1px solid rgba(232,160,32,.25); font-weight: 500;
+}
+.feat-pill.green { background: rgba(14,168,117,.1); color: var(--green-l); border-color: rgba(14,168,117,.25); }
+.feat-pill.purple { background: rgba(124,58,237,.1); color: var(--purple-l); border-color: rgba(124,58,237,.25); }
+
+/* Kcal card */
+.kcal-mini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(232,160,32,.07);
+  border: 1px solid rgba(232,160,32,.25);
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+.kcal-mini-val { font-size: 28px; font-weight: 700; color: var(--amber-l); font-family: var(--font-display); }
+.kcal-mini-info { text-align: right; }
+.kcal-mini-lbl { font-size: 11px; color: var(--muted2); }
+.kcal-mini-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* Ingredient rows */
+.ing-sec-label { font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--amber); margin: 14px 0 8px; }
+
+/* CTA Button */
+.slide-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #e8a020, #b87010);
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  margin-top: 20px;
+  transition: opacity .2s, transform .15s;
+  letter-spacing: .02em;
+}
+.slide-cta:hover { opacity: .9; }
+.slide-cta:active { transform: scale(.98); }
+
+/* Progress dots */
+.progress-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 14px 0 8px;
+}
+.prog-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .2s;
+}
+.prog-step.active { color: var(--amber-l); }
+.prog-circle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  transition: all .25s;
+}
+.prog-step.active .prog-circle {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #fff;
+}
+.prog-step.done .prog-circle {
+  background: rgba(232,160,32,.2);
+  border-color: rgba(232,160,32,.4);
+  color: var(--amber);
+}
+.prog-div { width: 20px; height: 1px; background: var(--border); align-self: center; }
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Voltar
+  </a>
+  <span class="topnav-title">Barras Termogênicas</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-up">
+  <div class="hero-eyebrow">🍫 3 versões · escolha seu nível</div>
+  <h1>Barra<br><span>Termogênica</span></h1>
+  <p>Desde a fórmula base até a ultimate com 20+ ativos. Escolha sua versão e veja a receita completa.</p>
+</div>
+
+<!-- COMPARISON GRID -->
+<div class="compare-grid">
+  <div class="cbox cbox-v1 sel" id="tab-v1" onclick="goSlide(0)">
+    <div class="cbox-label">V1</div>
+    <div class="cbox-name">Base</div>
+    <div class="cbox-kcal" id="comp-v1">+—</div>
+    <div class="cbox-sub">kcal/dose</div>
+    <div class="cbox-tags"><span class="ctag">Iniciante</span><span class="ctag">9 ativos</span></div>
+  </div>
+  <div class="cbox cbox-v2" id="tab-v2" onclick="goSlide(1)">
+    <div class="cbox-label">V2</div>
+    <div class="cbox-name">Anti-cortisol</div>
+    <div class="cbox-kcal" id="comp-v2">+—</div>
+    <div class="cbox-sub">kcal/dose</div>
+    <div class="cbox-tags"><span class="ctag">Intermediário</span><span class="ctag">+Kelp+Ash</span></div>
+  </div>
+  <div class="cbox cbox-v3" id="tab-v3" onclick="goSlide(2)">
+    <div class="cbox-label">V3</div>
+    <div class="cbox-name">Ultimate</div>
+    <div class="cbox-kcal" id="comp-v3">+—</div>
+    <div class="cbox-sub">kcal/dose</div>
+    <div class="cbox-tags"><span class="ctag">Avançado</span><span class="ctag">20+ ativos</span></div>
+  </div>
+</div>
+
+<!-- PROGRESS STEPS -->
+<div class="progress-bar" id="progBar">
+  <div class="prog-step active" id="ps0" onclick="goSlide(0)">
+    <div class="prog-circle">1</div><span>V1</span>
+  </div>
+  <div class="prog-div"></div>
+  <div class="prog-step" id="ps1" onclick="goSlide(1)">
+    <div class="prog-circle">2</div><span>V2</span>
+  </div>
+  <div class="prog-div"></div>
+  <div class="prog-step" id="ps2" onclick="goSlide(2)">
+    <div class="prog-circle">3</div><span>V3</span>
+  </div>
+</div>
+
+<!-- CAROUSEL -->
+<div class="carousel-wrap">
+  <div class="slide-header">
+    <span class="slide-badge" id="cur-badge">🌱 V1 · Base</span>
+    <div class="slide-nav">
+      <button class="snav-btn" id="btn-prev" onclick="goSlide(cur-1)" disabled>‹</button>
+      <button class="snav-btn" id="btn-next" onclick="goSlide(cur+1)">›</button>
+    </div>
+  </div>
+
+  <div class="carousel-track" id="slideTrack">
+
+    <!-- ─── V1 ─── -->
+    <div class="ver-slide">
+      <div class="slide-title"><span>V1</span> · Base</div>
+      <div class="slide-desc">A fundação da barra. Os ingredientes essenciais para termogênese. Ideal para começar e testar tolerância. Sabor mais suave.</div>
+      <div class="feat-pills">
+        <span class="feat-pill">🌱 Iniciante</span>
+        <span class="feat-pill green">☕ Sem cafeína</span>
+        <span class="feat-pill">⏱ Efeito ~4h</span>
+        <span class="feat-pill">🍫 9 ativos</span>
+      </div>
+      <div class="kcal-mini">
+        <div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div>
+          <div class="kcal-mini-val" id="v1-kcal">+—</div></div>
+        <div class="kcal-mini-info">
+          <div class="kcal-mini-lbl">Duração ~4h</div>
+          <div class="kcal-mini-sub">~70% do efeito V3</div>
+        </div>
+      </div>
+      <div class="ing-sec-label">Ingredientes por barra</div>
+      <div class="ing-list">
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Cacau em pó 100%</span><span class="ing-action">Base + reduz cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">15g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Canela de Ceilão</span><span class="ing-action">Sensibilidade insulínica</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel cru</span><span class="ing-action">Liga os ingredientes</span></div><span class="ing-qty" style="color:var(--amber-l)">15ml</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Glucomanana em pó</span><span class="ing-action">Saciedade + termogênese</span></div><span class="ing-qty" style="color:var(--amber-l)">4g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Psyllium husk</span><span class="ing-action">Fibra + textura</span></div><span class="ing-qty" style="color:var(--amber-l)">3g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-action">Termogênese + digestão</span></div><span class="ing-qty" style="color:var(--amber-l)">2g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-action">Capsaicina principal</span></div><span class="ing-qty" style="color:var(--amber-l)">0,5g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato chá verde (EGCG)</span><span class="ing-action">Queima gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Glutamina</span><span class="ing-action">Proteção muscular</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+      </div>
+      <button class="slide-cta" onclick="location.href='barra-v1.html'">Ver receita completa V1 →</button>
+    </div>
+
+    <!-- ─── V2 ─── -->
+    <div class="ver-slide">
+      <div class="slide-title"><span>V2 Ultra</span> · Anti-cortisol</div>
+      <div class="slide-desc">Adiciona coating de cacau com iodo (kelp), ashwagandha e polvilhado aveludado. Estimula tireoide e reduz cortisol.</div>
+      <div class="feat-pills">
+        <span class="feat-pill">🦋 Tireoide</span>
+        <span class="feat-pill">🧘 Anti-cortisol</span>
+        <span class="feat-pill green">☕ Sem cafeína</span>
+        <span class="feat-pill">⏱ Efeito ~5h</span>
+      </div>
+      <div class="kcal-mini">
+        <div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div>
+          <div class="kcal-mini-val" id="v2-kcal">+—</div></div>
+        <div class="kcal-mini-info">
+          <div class="kcal-mini-lbl">Duração ~5h</div>
+          <div class="kcal-mini-sub">~86% do efeito V3</div>
+        </div>
+      </div>
+      <div class="ing-sec-label">Novos ativos além da V1</div>
+      <div class="ing-list">
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha KSM-66</span><span class="ing-action">Reduz cortisol sérico</span></div><span class="ing-qty" style="color:var(--amber-l)">600mg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga de cacau (coating)</span><span class="ing-action">Camada crocante · retarda absorção</span></div><span class="ing-qty" style="color:var(--amber-l)">30g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Alga kelp em pó (coating)</span><span class="ing-action">Iodo natural · tireoide</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Pó de arroz (polvilhado)</span><span class="ing-action">Textura aveludada</span></div><span class="ing-qty" style="color:var(--amber-l)">10g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Ashwagandha extra (polvilhado)</span><span class="ing-action">Dose extra anti-cortisol</span></div><span class="ing-qty" style="color:var(--amber-l)">200mg</span></div>
+      </div>
+      <button class="slide-cta" onclick="location.href='barra-v2.html'">Ver receita completa V2 →</button>
+    </div>
+
+    <!-- ─── V3 ─── -->
+    <div class="ver-slide">
+      <div class="slide-title"><span>V3 Ultimate</span></div>
+      <div class="slide-desc">A fórmula máxima. Combina tudo da V2 com carnitina, CLA, café verde, laranja amarga, cromo, taurina, tirosina e combo de 3 pimentas.</div>
+      <div class="feat-pills">
+        <span class="feat-pill">🚀 Ultimate</span>
+        <span class="feat-pill">🌶️ 3 pimentas</span>
+        <span class="feat-pill purple">💊 20+ ativos</span>
+        <span class="feat-pill">⏱ Efeito ~5h+</span>
+      </div>
+      <div class="kcal-mini">
+        <div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">Extra queimado por dose</div>
+          <div class="kcal-mini-val" id="v3-kcal">+—</div></div>
+        <div class="kcal-mini-info">
+          <div class="kcal-mini-lbl">Duração ~5h+</div>
+          <div class="kcal-mini-sub">Efeito máximo</div>
+        </div>
+      </div>
+      <div class="ing-sec-label">Novos ativos além da V2</div>
+      <div class="ing-list">
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Carnitina tartarato</span><span class="ing-action">Transporte de gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">1.000mg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">CLA em pó</span><span class="ing-action">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--amber-l)">1g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato café verde</span><span class="ing-action">Ácido clorogênico</span></div><span class="ing-qty" style="color:var(--amber-l)">500mg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Laranja amarga em pó</span><span class="ing-action">Sinefrina · queima</span></div><span class="ing-qty" style="color:var(--amber-l)">100mg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Picolinato de cromo</span><span class="ing-action">Controle glicêmico</span></div><span class="ing-qty" style="color:var(--amber-l)">250µg</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Combo pimentas (caiena + preta + dedo-de-moça)</span><span class="ing-action">Múltiplos capsaicinoides</span></div><span class="ing-qty" style="color:var(--amber-l)">2,5g</span></div>
+        <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-action">+20% biodisponibilidade</span></div><span class="ing-qty" style="color:var(--amber-l)">50mg</span></div>
+      </div>
+      <button class="slide-cta" onclick="location.href='barra-v3.html'">Ver receita completa V3 →</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+let cur = 0;
+const track = document.getElementById('slideTrack');
+const slides = track.querySelectorAll('.ver-slide');
+const N = slides.length;
+
+const badges = ['🌱 V1 · Base', '🦋 V2 Ultra · Anti-cortisol', '🚀 V3 · Ultimate'];
+const tabIds = ['tab-v1','tab-v2','tab-v3'];
+const stepIds = ['ps0','ps1','ps2'];
+
+function goSlide(i){
+  i = Math.max(0, Math.min(N-1, i));
+  cur = i;
+  track.style.transform = `translateX(-${i*100}%)`;
+  document.getElementById('cur-badge').textContent = badges[i];
+  document.getElementById('btn-prev').disabled = i===0;
+  document.getElementById('btn-next').disabled = i===N-1;
+  tabIds.forEach((t,j)=>{ document.getElementById(t).classList.toggle('sel', j===i); });
+  stepIds.forEach((s,j)=>{
+    const el = document.getElementById(s);
+    el.classList.remove('active','done');
+    if(j===i) el.classList.add('active');
+    else if(j<i) el.classList.add('done');
+  });
+}
+
+// touch swipe
+let tx=0;
+track.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+track.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(dx<-40&&cur<N-1)goSlide(cur+1);
+  if(dx>40&&cur>0)goSlide(cur-1);
+});
+
+// Update kcal from stored profile
+const E = getExtras();
+const v1k=Math.round(E.barra*.70), v2k=Math.round(E.barra*.86), v3k=E.barra;
+document.getElementById('v1-kcal').textContent = '+'+v1k+' kcal';
+document.getElementById('v2-kcal').textContent = '+'+v2k+' kcal';
+document.getElementById('v3-kcal').textContent = '+'+v3k+' kcal';
+document.getElementById('comp-v1').textContent = '+'+v1k;
+document.getElementById('comp-v2').textContent = '+'+v2k;
+document.getElementById('comp-v3').textContent = '+'+v3k;
+</script>
+</body>
+</html>

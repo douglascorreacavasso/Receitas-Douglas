@@ -1,0 +1,300 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem;max-width:480px;margin:0 auto}
+.title-block{text-align:center;padding:1.25rem 0 1.5rem}
+.title-block h1{font-size:20px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.title-block p{font-size:13px;color:var(--color-text-secondary);margin-top:6px}
+.form-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px}
+.field input,.field select{width:100%;padding:10px 12px;font-size:15px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);outline:none}
+.field input:focus,.field select:focus{border-color:var(--color-border-primary);box-shadow:0 0 0 2px rgba(55,138,221,.15)}
+.sex-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sex-btn{padding:10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:14px;cursor:pointer;text-align:center;transition:all .15s;font-family:var(--font-sans)}
+.sex-btn.active{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info);font-weight:500}
+.fields2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calc-btn{width:100%;margin-top:1.25rem;padding:13px;background:var(--color-background-info);border:none;border-radius:var(--border-radius-md);color:var(--color-text-info);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:opacity .15s}
+.calc-btn:hover{opacity:.85}
+.results{margin-top:1.25rem;display:none}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.mcard{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;border:0.5px solid var(--color-border-tertiary)}
+.mlbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;line-height:1.4}
+.mval{font-size:20px;font-weight:500;color:var(--color-text-primary);line-height:1.1}
+.msub{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.mval.teal{color:#1D9E75}
+.mval.amber{color:#BA7517}
+.mval.blue{color:#185FA5}
+.mval.purple{color:#534AB7}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px}
+.recipe-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:10px}
+.recipe-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:8px}
+.recipe-name{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.rbadge{font-size:11px;padding:3px 9px;border-radius:99px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.rb-teal{background:#E1F5EE;color:#0F6E56;border:0.5px solid #5DCAA5}
+.rb-amber{background:#FAEEDA;color:#854F0B;border:0.5px solid #EF9F27}
+.rb-purple{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD}
+.stats2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.sbox{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 8px;text-align:center;border:0.5px solid var(--color-border-tertiary)}
+.sval{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.slbl{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.sval.teal{color:#1D9E75}
+.sval.amber{color:#BA7517}
+.sval.purple{color:#534AB7}
+.detail-btn{width:100%;padding:9px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-secondary);font-size:13px;cursor:pointer;font-family:var(--font-sans);transition:all .15s}
+.detail-btn:hover{background:var(--color-background-secondary)}
+.detail-panel{display:none;margin-top:10px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.detail-panel.open{display:block}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.detail-row:last-child{border-bottom:none}
+.detail-row span:first-child{color:var(--color-text-secondary)}
+.detail-row span:last-child{font-weight:500;color:var(--color-text-primary)}
+.accum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.acard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:1rem;text-align:center}
+.aval{font-size:18px;font-weight:500;color:#1D9E75}
+.albl{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
+.acard.wide{grid-column:1/-1}
+.note-box{padding:12px 14px;border-left:2px solid #1D9E75;background:#E1F5EE;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;font-size:12px;color:#0F6E56;line-height:1.6;margin-top:4px}
+.bar-wrap{margin-bottom:1.25rem}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-lbl{font-size:11px;color:var(--color-text-secondary);min-width:80px;text-align:right;flex-shrink:0}
+.bar-bg{flex:1;height:26px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.bar-fill span{font-size:11px;font-weight:500;color:var(--color-text-primary);white-space:nowrap}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+</style>
+
+<div class="wrap">
+  <div class="title-block">
+    <h1>Cálculo de gasto calórico com receitas termogênicas</h1>
+    <p>Insira seus dados para um resultado personalizado</p>
+  </div>
+
+  <div class="form-card">
+    <div class="field">
+      <label>Sexo biológico</label>
+      <div class="sex-row">
+        <button class="sex-btn active" id="btnM" onclick="setSex('M')">Masculino</button>
+        <button class="sex-btn" id="btnF" onclick="setSex('F')">Feminino</button>
+      </div>
+    </div>
+    <div class="fields2">
+      <div class="field">
+        <label>Idade (anos)</label>
+        <input type="number" id="idade" min="15" max="90" placeholder="ex: 30" value="">
+      </div>
+      <div class="field">
+        <label>Peso (kg)</label>
+        <input type="number" id="peso" min="30" max="300" placeholder="ex: 70" value="" step="0.1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Altura (cm)</label>
+      <input type="number" id="altura" min="100" max="250" placeholder="ex: 170" value="">
+    </div>
+    <div class="field">
+      <label>Nível de atividade física</label>
+      <select id="atividade">
+        <option value="1.2">Sedentário (pouco ou nenhum exercício)</option>
+        <option value="1.375" selected>Levemente ativo (1–3x/semana)</option>
+        <option value="1.55">Moderadamente ativo (3–5x/semana)</option>
+        <option value="1.725">Muito ativo (6–7x/semana)</option>
+        <option value="1.9">Extremamente ativo (atleta / trabalho físico)</option>
+      </select>
+    </div>
+    <button class="calc-btn" onclick="calcular()">Calcular meu gasto calórico →</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="divider"></div>
+    <div class="sec-label">Seu perfil metabólico</div>
+    <div class="metrics">
+      <div class="mcard">
+        <div class="mlbl">Metabolismo basal (TMB)</div>
+        <div class="mval teal" id="r-tmb">—</div>
+        <div class="msub">Mifflin-St Jeor</div>
+      </div>
+      <div class="mcard">
+        <div class="mlbl">Gasto total estimado</div>
+        <div class="mval blue" id="r-tdee">—</div>
+        <div class="msub" id="r-fator">—</div>
+      </div>
+      <div class="mcard">
+        <div class="mlbl">IMC</div>
+        <div class="mval amber" id="r-imc">—</div>
+        <div class="msub" id="r-imc-cat">—</div>
+      </div>
+      <div class="mcard">
+        <div class="mlbl">Gordura corporal est.</div>
+        <div class="mval purple" id="r-gc">—</div>
+        <div class="msub">Estimativa pelo IMC</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Comparativo de queima por produto</div>
+    <div class="bar-wrap" id="barWrap"></div>
+
+    <div class="sec-label">Calorias extras queimadas por porção</div>
+
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <span class="recipe-name">Goma mastigável de limão</span>
+        <span class="rbadge rb-teal">~35g · 3 gomas</span>
+      </div>
+      <div class="stats2">
+        <div class="sbox"><div class="sval teal" id="g-extra">—</div><div class="slbl">Kcal extra queimadas</div></div>
+        <div class="sbox"><div class="sval" id="g-dur">~4h</div><div class="slbl">Duração do efeito</div></div>
+      </div>
+      <button class="detail-btn" onclick="toggleDetail('det-goma',this)">Ver detalhes ↓</button>
+      <div class="detail-panel" id="det-goma">
+        <div class="detail-row"><span>Calorias da porção</span><span>~18 kcal</span></div>
+        <div class="detail-row"><span>Princípio ativo</span><span>Capsaicina + EGCG</span></div>
+        <div class="detail-row"><span>Efeito termogênico</span><span>+6% TMB/h ativa</span></div>
+        <div class="detail-row"><span>Saldo líquido</span><span id="g-saldo">—</span></div>
+      </div>
+    </div>
+
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <span class="recipe-name">Barra gel de gengibre</span>
+        <span class="rbadge rb-amber">~50g · 1 barra</span>
+      </div>
+      <div class="stats2">
+        <div class="sbox"><div class="sval amber" id="b-extra">—</div><div class="slbl">Kcal extra queimadas</div></div>
+        <div class="sbox"><div class="sval" id="b-dur">~5h</div><div class="slbl">Duração do efeito</div></div>
+      </div>
+      <button class="detail-btn" onclick="toggleDetail('det-barra',this)">Ver detalhes ↓</button>
+      <div class="detail-panel" id="det-barra">
+        <div class="detail-row"><span>Calorias da porção</span><span>~38 kcal</span></div>
+        <div class="detail-row"><span>Princípio ativo</span><span>Gengibre + glucomanana</span></div>
+        <div class="detail-row"><span>Efeito termogênico</span><span>+8% TMB/h ativa</span></div>
+        <div class="detail-row"><span>Saldo líquido</span><span id="b-saldo">—</span></div>
+      </div>
+    </div>
+
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <span class="recipe-name">Shot gelificado neutro</span>
+        <span class="rbadge rb-purple">~40ml · 1 shot</span>
+      </div>
+      <div class="stats2">
+        <div class="sbox"><div class="sval purple" id="s-extra">—</div><div class="slbl">Kcal extra queimadas</div></div>
+        <div class="sbox"><div class="sval" id="s-dur">~3h</div><div class="slbl">Duração do efeito</div></div>
+      </div>
+      <button class="detail-btn" onclick="toggleDetail('det-shot',this)">Ver detalhes ↓</button>
+      <div class="detail-panel" id="det-shot">
+        <div class="detail-row"><span>Calorias da porção</span><span>~8 kcal</span></div>
+        <div class="detail-row"><span>Princípio ativo</span><span>Capsaicina + EGCG</span></div>
+        <div class="detail-row"><span>Efeito termogênico</span><span>+5% TMB/h ativa</span></div>
+        <div class="detail-row"><span>Saldo líquido</span><span id="s-saldo">—</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="sec-label">Projeção com uso diário consistente</div>
+    <div class="accum-grid">
+      <div class="acard">
+        <div class="aval" id="acc-sem">—</div>
+        <div class="albl">Kcal extras / semana</div>
+      </div>
+      <div class="acard">
+        <div class="aval" id="acc-mes">—</div>
+        <div class="albl">Kcal extras / mês</div>
+      </div>
+      <div class="acard wide" style="border-color:var(--color-border-info);background:var(--color-background-info)">
+        <div class="aval" style="color:var(--color-text-info);font-size:22px" id="acc-gord">—</div>
+        <div class="albl" style="color:var(--color-text-info)">Gordura extra mobilizada / mês</div>
+      </div>
+    </div>
+
+    <div class="note-box">Estimativas baseadas em estudos clínicos com capsaicina e EGCG. O efeito real varia ±30% por genética, horário e alimentação. Para melhor resultado: use antes das refeições + déficit calórico + atividade física.</div>
+  </div>
+</div>
+
+<script>
+let sexo='M';
+function setSex(s){
+  sexo=s;
+  document.getElementById('btnM').classList.toggle('active',s==='M');
+  document.getElementById('btnF').classList.toggle('active',s==='F');
+}
+function toggleDetail(id,btn){
+  const p=document.getElementById(id);
+  const open=p.classList.toggle('open');
+  btn.textContent=open?'Fechar ↑':'Ver detalhes ↓';
+}
+function fmtKcal(v){return '+'+Math.round(v)+' kcal'}
+function imcCat(imc){
+  if(imc<18.5)return'Abaixo do peso';
+  if(imc<25)return'Peso normal';
+  if(imc<30)return'Sobrepeso';
+  if(imc<35)return'Obesidade grau I';
+  if(imc<40)return'Obesidade grau II';
+  return'Obesidade grau III';
+}
+function calcular(){
+  const idade=parseFloat(document.getElementById('idade').value)||0;
+  const peso=parseFloat(document.getElementById('peso').value)||0;
+  const altura=parseFloat(document.getElementById('altura').value)||0;
+  const fator=parseFloat(document.getElementById('atividade').value)||1.375;
+  if(!idade||!peso||!altura||idade<10||peso<20||altura<80){
+    alert('Por favor, preencha todos os campos corretamente.');return;
+  }
+  let tmb;
+  if(sexo==='M') tmb=(10*peso)+(6.25*altura)-(5*idade)+5;
+  else tmb=(10*peso)+(6.25*altura)-(5*idade)-161;
+  const tdee=tmb*fator;
+  const altM=altura/100;
+  const imc=peso/(altM*altM);
+  let gc;
+  if(sexo==='M') gc=(1.20*imc)+(0.23*idade)-16.2;
+  else gc=(1.20*imc)+(0.23*idade)-5.4;
+  gc=Math.max(gc,5);
+  document.getElementById('r-tmb').textContent=Math.round(tmb)+' kcal/dia';
+  document.getElementById('r-tdee').textContent=Math.round(tdee)+' kcal/dia';
+  const fatorLabels={1.2:'Sedentário',1.375:'Leve atividade',1.55:'Moderadamente ativo',1.725:'Muito ativo',1.9:'Extremamente ativo'};
+  document.getElementById('r-fator').textContent='TMB × '+fator+' · '+fatorLabels[fator];
+  document.getElementById('r-imc').textContent=imc.toFixed(1)+' kg/m²';
+  document.getElementById('r-imc-cat').textContent=imcCat(imc);
+  document.getElementById('r-gc').textContent='~'+Math.round(gc)+'%';
+  const tmb1h=tmb/24;
+  const gomaExtra=Math.round(tmb1h*0.06*4);
+  const barraExtra=Math.round(tmb1h*0.08*5);
+  const shotExtra=Math.round(tmb1h*0.05*3);
+  document.getElementById('g-extra').textContent=fmtKcal(gomaExtra);
+  document.getElementById('b-extra').textContent=fmtKcal(barraExtra);
+  document.getElementById('s-extra').textContent=fmtKcal(shotExtra);
+  document.getElementById('g-saldo').textContent='+'+Math.round(gomaExtra-18)+' kcal líquido';
+  document.getElementById('b-saldo').textContent='+'+Math.round(barraExtra-38)+' kcal líquido';
+  document.getElementById('s-saldo').textContent='+'+Math.round(shotExtra-8)+' kcal líquido';
+  const semBase=barraExtra;
+  const sem=Math.round(semBase*7);
+  const mes=Math.round(semBase*30);
+  const gordMes=(mes/7700).toFixed(2);
+  document.getElementById('acc-sem').textContent='~'+sem+' kcal';
+  document.getElementById('acc-mes').textContent='~'+mes+' kcal';
+  document.getElementById('acc-gord').textContent='~'+gordMes+' kg';
+  const semTDEE=Math.round(tdee/24*0.13*4);
+  const bars=[
+    {label:'Sem termogênico',val:Math.round(tdee/24*4),color:'var(--color-background-secondary)',border:'var(--color-border-secondary)'},
+    {label:'Goma de limão',val:Math.round(tdee/24*4)+gomaExtra,color:'#9FE1CB',border:'#1D9E75'},
+    {label:'Barra de gengibre',val:Math.round(tdee/24*4)+barraExtra,color:'#FAC775',border:'#BA7517'},
+    {label:'Shot neutro',val:Math.round(tdee/24*4)+shotExtra,color:'#AFA9EC',border:'#534AB7'},
+  ];
+  const maxVal=Math.max(...bars.map(b=>b.val));
+  const bw=document.getElementById('barWrap');
+  bw.innerHTML='';
+  bars.forEach(b=>{
+    const pct=Math.round((b.val/maxVal)*100);
+    const row=document.createElement('div');
+    row.className='bar-row';
+    row.innerHTML=`<div class="bar-lbl">${b.label}</div><div class="bar-bg"><div class="bar-fill" style="width:0;background:${b.color};border:0.5px solid ${b.border}"><span style="color:var(--color-text-primary)">${b.val} kcal</span></div></div>`;
+    bw.appendChild(row);
+    setTimeout(()=>{row.querySelector('.bar-fill').style.width=pct+'%'},50);
+  });
+  const res=document.getElementById('results');
+  res.style.display='block';
+  setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
