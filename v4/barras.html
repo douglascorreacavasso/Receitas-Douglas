@@ -202,8 +202,8 @@ function goSlide(n) {
 function refreshKcal() {
   const V = getVersionKcal();
   const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  s('cv1', '−' + V.v1); s('cv2', '−' + V.v2); s('cv3', '−' + V.v3);
-  s('v1k', '−' + V.v1 + ' kcal'); s('v2k', '−' + V.v2 + ' kcal'); s('v3k', '−' + V.v3 + ' kcal');
+  s('cv1', '+' + V.v1); s('cv2', '+' + V.v2); s('cv3', '+' + V.v3);
+  s('v1k', '+' + V.v1 + ' kcal'); s('v2k', '+' + V.v2 + ' kcal'); s('v3k', '+' + V.v3 + ' kcal');
 }
 buildDeco(document.getElementById('decoLayer'));
 refreshKcal();

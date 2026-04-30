@@ -81,10 +81,9 @@
   </div>
 
   <div class="action-row">
-    <button class="btn btn-amber" onclick="imprimirReceita('v1')">🖨️ Imprimir + Kcal</button>
+    <button class="btn btn-amber" onclick="imprimirReceita('v1')">🖨️ Imprimir / PDF</button>
     <a class="btn btn-ghost" href="v2.html">Próxima: V2 →</a>
   </div>
-  <button class="btn-print-only" onclick="imprimirSoReceita('v1')">📄 Imprimir só a receita</button>
 
 </div>
 <div id="toast"></div>
@@ -100,9 +99,9 @@ function showTab(btn, panelId, prefix) {
 function refreshKcal() {
   const V = getVersionKcal();
   const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  s('v1-kd',  '−' + V.v1 + ' kcal');
-  s('v1-k1d', '−' + V.v1 * 30 + ' kcal');
-  s('v1-k3d', '−' + V.v1 * 3 * 30 + ' kcal');
+  s('v1-kd',  '+' + V.v1 + ' kcal');
+  s('v1-k1d', '+' + V.v1 * 30 + ' kcal');
+  s('v1-k3d', '+' + V.v1 * 3 * 30 + ' kcal');
 }
 buildDeco(document.getElementById('decoLayer'));
 refreshKcal();

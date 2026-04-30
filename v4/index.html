@@ -191,7 +191,7 @@ function buildBars(tmb, tdee) {
     const pct = Math.round((b.v / max) * 100);
     const row = document.createElement('div');
     row.className = 'bc-row';
-    row.innerHTML = `<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>−${b.v} kcal</span></div></div>`;
+    row.innerHTML = `<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>+${b.v} kcal</span></div></div>`;
     bc.appendChild(row);
     // Anima após render, igual ao original
     setTimeout(() => { row.querySelector('.bc-f').style.width = pct + '%'; }, 120);
@@ -202,9 +202,9 @@ function refreshKcal() {
   const E = getExtras();
   const v3 = E.barra;
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  set('c-barra', '−' + v3 + ' kcal');
-  set('c-goma',  '−' + E.goma + ' kcal');
-  set('c-shot',  '−' + E.shot + ' kcal');
+  set('c-barra', '+' + v3 + ' kcal');
+  set('c-goma',  '+' + E.goma + ' kcal');
+  set('c-shot',  '+' + E.shot + ' kcal');
   buildSimTables();
 }
 
@@ -222,12 +222,12 @@ function buildSimTables() {
   const tS = document.getElementById('tbl-semana');
   tS.innerHTML = `<tr><th>Receita</th><th>1x/dia·7d</th><th>2x/dia·7d</th><th>3x/dia·7d</th><th>Gordura est.</th></tr>`;
   rows.forEach(r => {
-    tS.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">−${r.kc*7} kcal</td><td class="${r.cor}">−${r.kc*2*7} kcal</td><td class="${r.cor}">−${r.kc*3*7} kcal</td><td class="sim-td-pink">~${fmtKg(r.kc*3*7)}</td></tr>`;
+    tS.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*7} kcal</td><td class="${r.cor}">+${r.kc*2*7} kcal</td><td class="${r.cor}">+${r.kc*3*7} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*7)}</td></tr>`;
   });
   const tM = document.getElementById('tbl-mes');
   tM.innerHTML = `<tr><th>Receita</th><th>1x/dia·30d</th><th>2x/dia·30d</th><th>3x/dia·30d</th><th>Gordura est.</th></tr>`;
   rows.forEach(r => {
-    tM.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">−${r.kc*30} kcal</td><td class="${r.cor}">−${r.kc*2*30} kcal</td><td class="${r.cor}">−${r.kc*3*30} kcal</td><td class="sim-td-pink">~${fmtKg(r.kc*3*30)}</td></tr>`;
+    tM.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*30} kcal</td><td class="${r.cor}">+${r.kc*2*30} kcal</td><td class="${r.cor}">+${r.kc*3*30} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*30)}</td></tr>`;
   });
 }
 
