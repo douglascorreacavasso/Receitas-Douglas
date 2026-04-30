@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Goma de Limão 🍋 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(17,194,122,.09) 0%,transparent 55%);z-index:0"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="topnav">
+    <a class="back-btn" href="index.html">← Início</a>
+    <span class="topnav-title">🍋 Goma de Limão</span>
+  </nav>
+
+  <div class="pg-hero fade-up" style="position:relative">
+    <div class="deco-hero">🍋</div>
+    <div class="ver-tag vt-g">🍋 Mastigável · ~4h de efeito</div>
+    <div class="rec-h1">Goma <span class="cg">Mastigável</span><br>de Limão</div>
+    <div class="rec-p">Discreta e prática. Mastigar devagar libera os ativos gradualmente pela mucosa bucal e trato digestivo.</div>
+  </div>
+
+  <div class="kcal-banner" style="background:rgba(17,194,122,.07);border-color:rgba(17,194,122,.35);margin-bottom:0">
+    <div class="kb-title" style="color:var(--green)">⚡ Seu gasto calórico extra estimado</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="goma-kd" style="color:var(--gl)">+—</div><div class="kb-lbl">Por dose (3 gomas)</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--gl)">~4h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="goma-k1d" style="color:var(--gl)">+—</div><div class="kb-lbl">1 dose/dia · mês</div></div>
+      <div class="kb-box"><div class="kb-val" id="goma-k3d" style="color:var(--gl)">+—</div><div class="kb-lbl">3 doses/dia · mês</div></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--green);color:var(--gl)" onclick="showTab(this,'goma-ing','goma')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'goma-prep','goma')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'goma-sci','goma')">Ciência</button>
+  </div>
+
+  <div class="panel on" id="goma-ing">
+    <div class="slabel">Por goma unitária</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span><span class="ing-act">Estrutura elástica</span></div><span class="ing-qty" style="color:var(--gl)">0,56g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar em pó</span><span class="ing-act">Textura firme · vegano</span></div><span class="ing-qty" style="color:var(--gl)">0,12g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Suco de limão fresco</span><span class="ing-act">Sabor + vitamina C</span></div><span class="ing-qty" style="color:var(--gl)">2,4ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina · termogênese</span></div><span class="ing-qty" style="color:var(--gl)">80mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato chá verde (EGCG)</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--gl)">100mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre em pó</span><span class="ing-act">Termogênese + digestão</span></div><span class="ing-qty" style="color:var(--gl)">150mg</span></div>
+    </div>
+    <div class="slabel">Lote 25 gomas</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span></div><span class="ing-qty" style="color:var(--gl)">14g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar</span></div><span class="ing-qty" style="color:var(--gl)">3g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Suco de limão</span></div><span class="ing-qty" style="color:var(--gl)">60ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Caiena total</span></div><span class="ing-qty" style="color:var(--gl)">2g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">EGCG total</span></div><span class="ing-qty" style="color:var(--gl)">2,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gengibre total</span></div><span class="ing-qty" style="color:var(--gl)">3,75g</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍋</div><div class="sbox-val" style="color:var(--gl)">~25</div><div class="sbox-lbl">gomas/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--gl)">15 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--gl)">90 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="goma-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(17,194,122,.2);border:2px solid rgba(17,194,122,.5);color:var(--gl)">1</div><div class="stxt"><strong style="color:var(--gl)">Ferva 80ml água.</strong> Adicione 3g agar-agar, mexa por 2 min. Deixar esfriar até ~50°C.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(17,194,122,.2);border:2px solid rgba(17,194,122,.5);color:var(--gl)">2</div><div class="stxt"><strong style="color:var(--gl)">Bowl separado:</strong> gelatina + suco de limão. Aguardar 5 min para hidratar.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(17,194,122,.2);border:2px solid rgba(17,194,122,.5);color:var(--gl)">3</div><div class="stxt"><strong style="color:var(--gl)">Misture</strong> agar + gelatina + mel. Mexa até incorporar completamente.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(17,194,122,.2);border:2px solid rgba(17,194,122,.5);color:var(--gl)">4</div><div class="stxt">⚠️ <strong style="color:var(--gl)">ABAIXO DE 45°C:</strong> adicione caiena + EGCG + gengibre. Mexa bem. EGCG degrada acima de 45°C!</div></div>
+      <div class="step"><div class="snum" style="background:rgba(17,194,122,.2);border:2px solid rgba(17,194,122,.5);color:var(--gl)">5</div><div class="stxt"><strong style="color:var(--gl)">Forminhas silicone.</strong> Geladeira 2h. Rende ~25 gomas.</div></div>
+    </div>
+    <div class="slabel">Dose recomendada</div>
+    <div class="warn-box" style="border-color:var(--green);background:rgba(17,194,122,.06);margin:0 18px 8px"><strong style="color:var(--gl)">📋 Como usar</strong>3 gomas · mastigar devagar (2–3 min cada) · 30 min antes das refeições · máx 3 doses/dia</div>
+    <div class="warn-box" style="border-color:#3b9eff;background:rgba(59,158,255,.05);margin:0 18px 14px;color:#93c5fd"><strong style="color:#93c5fd">⚠️ Importante</strong>Não substitui refeições. Consuma junto com alimentação equilibrada e balanceada.</div>
+  </div>
+
+  <div class="panel" id="goma-sci">
+    <div class="slabel">Ciência</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--gl)">🦷 Absorção dupla</div><div class="sci-txt">Mucosa bucal (início ~15 min) + trato digestivo (efeito 4h). Dupla janela de absorção = mais eficiência vs cápsulas.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--gl)">🍋 Por que limão?</div><div class="sci-txt">Ácido cítrico + vitamina C melhoram absorção de EGCG em ~2x segundo estudos de biodisponibilidade.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--gl)">⚠️ Temperatura crítica</div><div class="sci-txt">EGCG (epigalocatequina galato) se degrada irreversivelmente acima de 45°C. Sempre adicione abaixo desta temperatura.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--gl)">🌿 Sinergia caiena + EGCG</div><div class="sci-txt">Capsaicina ativa TRPV1 (+5–8% termogênese) enquanto EGCG inibe COMT (+4% oxidação). Juntos são mais efetivos que separados.</div></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-green" onclick="imprimirReceita('goma')">🖨️ Imprimir / PDF</button>
+    <a class="btn btn-ghost" href="index.html">← Início</a>
+  </div>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId, prefix) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='var(--muted)'; });
+  btn.style.borderBottomColor = 'var(--green)'; btn.style.color = 'var(--gl)';
+}
+function refreshKcal() {
+  const V = getVersionKcal();
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('goma-kd',  '+' + V.goma + ' kcal');
+  s('goma-k1d', '+' + V.goma * 30 + ' kcal');
+  s('goma-k3d', '+' + V.goma * 3 * 30 + ' kcal');
+}
+buildDeco(document.getElementById('decoLayer'));
+refreshKcal();
+</script>
+</body>
+</html>

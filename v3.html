@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Barra V3 Ultimate 🚀 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="topnav">
+    <a class="back-btn" href="barras.html">← Versões</a>
+    <span class="topnav-title">🚀 Barra V3 Ultimate</span>
+  </nav>
+
+  <div class="pg-hero fade-up" style="position:relative">
+    <div class="deco-hero">🚀</div>
+    <div class="ver-tag vt-a">🚀 Versão 3 · Fórmula máxima</div>
+    <div class="rec-h1">Barra <span class="ca">V3 Ultimate</span></div>
+    <div class="rec-p">20+ ativos, combo de 3 pimentas, carnitina, CLA e muito mais. A versão mais poderosa.</div>
+  </div>
+
+  <div class="chain">
+    <div class="chn chn1">V1 Base<br><span style="font-size:10px;font-weight:400">9 ativos</span></div>
+    <div class="chn-arr">→</div>
+    <div class="chn chn2">V2 Ultra<br><span style="font-size:10px;font-weight:400">+kelp+ash</span></div>
+    <div class="chn-arr">→</div>
+    <div class="chn chn3">✦ V3<br><span style="font-size:10px;font-weight:400">20+ ativos</span></div>
+  </div>
+
+  <div class="kcal-banner" style="background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.4);margin-bottom:0">
+    <div class="kb-title" style="color:var(--amber)">⚡ Seu gasto calórico extra estimado</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="v3-kd" style="color:var(--al)">+—</div><div class="kb-lbl">Por dose</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--al)">~5h+</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="v3-k1d" style="color:var(--al)">+—</div><div class="kb-lbl">1 dose/dia · mês</div></div>
+      <div class="kb-box"><div class="kb-val" id="v3-k3d" style="color:var(--al)">+—</div><div class="kb-lbl">3 doses/dia · mês</div></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--amber);color:var(--al)" onclick="showTab(this,'v3-ing','v3')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'v3-prep','v3')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'v3-pim','v3')">🌶️ Pimentas</button>
+  </div>
+
+  <div class="panel on" id="v3-ing">
+    <div class="slabel">Extras além da V2</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Carnitina tartarato</span><span class="ing-act">Transporte gordura → mitocôndria</span></div><span class="ing-qty" style="color:var(--al)">1.000mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">CLA em pó</span><span class="ing-act">Oxidação de gordura</span></div><span class="ing-qty" style="color:var(--al)">1g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Extrato café verde</span><span class="ing-act">Ácido clorogênico</span></div><span class="ing-qty" style="color:var(--al)">500mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Laranja amarga</span><span class="ing-act">Sinefrina · queima</span></div><span class="ing-qty" style="color:var(--al)">100mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Picolinato de cromo</span><span class="ing-act">Controle glicêmico</span></div><span class="ing-qty" style="color:var(--al)">250µg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Taurina</span><span class="ing-act">Metabolismo lipídico</span></div><span class="ing-qty" style="color:var(--al)">500mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-act">+20% biodisponibilidade</span></div><span class="ing-qty" style="color:var(--al)">50mg</span></div>
+    </div>
+    <div class="slabel">Combo 3 pimentas</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta caiena</span><span class="ing-act">Capsaicina principal</span></div><span class="ing-qty" style="color:#f09595">1,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Pimenta-preta em pó</span><span class="ing-act">Piperina · absorção</span></div><span class="ing-qty" style="color:#f09595">0,5g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Dedo-de-moça em pó</span><span class="ing-act">Dihidrocapsaicina</span></div><span class="ing-qty" style="color:#f09595">0,5g</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🍫</div><div class="sbox-val" style="color:var(--al)">~10</div><div class="sbox-lbl">barras/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--al)">10 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--al)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="v3-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(245,166,35,.2);border:2px solid rgba(245,166,35,.5);color:var(--al)">1</div><div class="stxt"><strong style="color:var(--al)">Misture TODOS os pós secos</strong> — todos da V2 + carnitina, CLA, café verde, laranja amarga, cromo, taurina, piperina e as 3 pimentas.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(245,166,35,.2);border:2px solid rgba(245,166,35,.5);color:var(--al)">2</div><div class="stxt"><strong style="color:var(--al)">Mel + ashwagandha + 150ml água morna.</strong> Mexa RÁPIDO — a glucomanana gelifica rapidamente!</div></div>
+      <div class="step"><div class="snum" style="background:rgba(245,166,35,.2);border:2px solid rgba(245,166,35,.5);color:var(--al)">3</div><div class="stxt"><strong style="color:var(--al)">Forma.</strong> Camada 1,5cm. Geladeira 2h. Cortar em barras.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(245,166,35,.2);border:2px solid rgba(245,166,35,.5);color:var(--al)">4</div><div class="stxt"><strong style="color:var(--al)">Coating</strong> igual V2: cacau 70% + manteiga de cacau. Mergulhar barras. Freezer 10 min. Polvilhar cacau em pó.</div></div>
+    </div>
+    <div class="slabel">Dose recomendada</div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(245,166,35,.06);margin:0 18px 8px"><strong style="color:var(--al)">📋 Como usar</strong>1 barra · 30–45 min antes das refeições · máx 3/dia</div>
+    <div class="warn-box" style="border-color:#3b9eff;background:rgba(59,158,255,.05);margin:0 18px 8px;color:#93c5fd"><strong style="color:#93c5fd">⚠️ Importante</strong>Não substitui refeições. Consuma junto com alimentação equilibrada.</div>
+    <div class="warn-box" style="border-color:#f09595;background:rgba(226,75,74,.05);margin:0 18px 14px;color:#f09595"><strong>🌶️ Pimentas</strong>Comece na dose mínima e aumente gradualmente a cada 2 semanas.</div>
+  </div>
+
+  <div class="panel" id="v3-pim">
+    <div class="slabel">Protocolo 3 pimentas</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:9px">
+      <div class="sci-card" style="border-color:rgba(244,63,142,.2)"><div class="sci-name" style="color:#f09595">🌶️ Caiena 1,5g — principal</div><div class="sci-txt">Ativa TRPV1. Cada 0,5g extra = ~2–3% mais termogênese. Dose inicial recomendada: 0,5g.</div></div>
+      <div class="sci-card" style="border-color:rgba(244,63,142,.2)"><div class="sci-name" style="color:#f09595">⚫ Pimenta-preta — multiplicador</div><div class="sci-txt">Piperina inibe CYP3A4 → +20% absorção de todos os outros ativos da fórmula.</div></div>
+      <div class="sci-card" style="border-color:rgba(244,63,142,.2)"><div class="sci-name" style="color:#f09595">🫑 Dedo-de-moça — multi-receptor</div><div class="sci-txt">Capsaicina + dihidrocapsaicina = mais receptores TRPV1 ativados simultaneamente.</div></div>
+    </div>
+    <div class="warn-box" style="border-color:var(--amber);background:rgba(245,166,35,.06);margin:12px 18px 14px">
+      <strong style="color:var(--al)">📈 Protocolo de progressão</strong>
+      S1–2: caiena 0,5g → S3–4: caiena 1g → S5–6: +preta → S7+: combinação completa.
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="imprimirReceita('v3')">🖨️ Imprimir / PDF</button>
+    <a class="btn btn-ghost" href="barras.html">← Versões</a>
+  </div>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId, prefix) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='var(--muted)'; });
+  btn.style.borderBottomColor = 'var(--amber)'; btn.style.color = 'var(--al)';
+}
+function refreshKcal() {
+  const V = getVersionKcal();
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('v3-kd',  '+' + V.v3 + ' kcal');
+  s('v3-k1d', '+' + V.v3 * 30 + ' kcal');
+  s('v3-k3d', '+' + V.v3 * 3 * 30 + ' kcal');
+}
+buildDeco(document.getElementById('decoLayer'));
+refreshKcal();
+</script>
+</body>
+</html>

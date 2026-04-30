@@ -3,557 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Termogênico — Calculadora</title>
+<title>Receitas do Doug 🔥</title>
 <link rel="stylesheet" href="shared.css">
-<style>
-/* ── HERO ── */
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding: 56px 20px 40px;
-  text-align: center;
-}
-.hero-glow {
-  position: absolute;
-  top: -80px; left: 50%;
-  transform: translateX(-50%);
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(124,58,237,.22) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 14px;
-  border-radius: 99px;
-  background: rgba(124,58,237,.12);
-  border: 1px solid rgba(124,58,237,.3);
-  color: var(--purple-l);
-  font-size: 11px;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.15;
-  margin-bottom: 10px;
-}
-.hero h1 span { color: var(--amber-l); }
-.hero p { font-size: 14px; color: var(--muted2); line-height: 1.6; max-width: 320px; margin: 0 auto; }
-
-/* ── FORM CARD ── */
-.form-card {
-  margin: 0 20px 24px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 22px 18px;
-}
-.field { margin-bottom: 16px; }
-.field:last-child { margin-bottom: 0; }
-.field label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted2);
-  margin-bottom: 8px;
-}
-.sex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.sex-btn {
-  padding: 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  background: rgba(255,255,255,.02);
-  color: var(--muted);
-  font-size: 14px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: all .2s;
-  text-align: center;
-}
-.sex-btn.active {
-  background: rgba(124,58,237,.2);
-  border-color: var(--purple);
-  color: var(--purple-l);
-  font-weight: 600;
-}
-.f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-input, select {
-  width: 100%;
-  padding: 12px 15px;
-  font-size: 15px;
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  background: rgba(6,11,20,.8);
-  color: var(--text);
-  outline: none;
-  font-family: var(--font-body);
-  transition: border .2s, box-shadow .2s;
-  -webkit-appearance: none;
-}
-input::placeholder { color: rgba(255,255,255,.2); }
-input:focus, select:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px rgba(124,58,237,.15);
-}
-select option { background: #0c1424; }
-
-.calc-btn {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #7c3aed, #5b21b6);
-  border: none;
-  border-radius: 14px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  font-family: var(--font-display);
-  cursor: pointer;
-  letter-spacing: .03em;
-  margin-top: 8px;
-  transition: opacity .2s, transform .15s;
-  position: relative;
-  overflow: hidden;
-}
-.calc-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,.1), transparent);
-  pointer-events: none;
-}
-.calc-btn:hover { opacity: .9; }
-.calc-btn:active { transform: scale(.98); }
-
-/* ── RESULTS ── */
-#res-sec { display: none; }
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px 20px; }
-.mc {
-  border-radius: 16px;
-  padding: 16px 14px;
-  border: 1px solid;
-}
-.mc-label { font-size: 11px; color: var(--muted2); margin-bottom: 5px; }
-.mc-val { font-size: 22px; font-weight: 600; line-height: 1.1; }
-.mc-sub { font-size: 10px; margin-top: 4px; }
-.mc-green { background: rgba(14,168,117,.08); border-color: rgba(14,168,117,.3); }
-.mc-green .mc-val { color: var(--green-l); }
-.mc-green .mc-sub { color: var(--green-d); color: #059669; }
-.mc-blue { background: rgba(59,130,246,.08); border-color: rgba(59,130,246,.3); }
-.mc-blue .mc-val { color: #93c5fd; }
-.mc-blue .mc-sub { color: #3b82f6; }
-.mc-amber { background: rgba(232,160,32,.08); border-color: rgba(232,160,32,.3); }
-.mc-amber .mc-val { color: var(--amber-l); }
-.mc-amber .mc-sub { color: var(--amber); }
-.mc-purple { background: rgba(124,58,237,.08); border-color: rgba(124,58,237,.3); }
-.mc-purple .mc-val { color: var(--purple-l); }
-.mc-purple .mc-sub { color: var(--purple); }
-
-/* ── BAR CHART ── */
-.chart-wrap { padding: 0 20px; margin-bottom: 20px; }
-.chart-label { font-size: 11px; color: var(--muted2); margin-bottom: 10px; }
-.bc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.bc-l { font-size: 11px; color: var(--muted2); min-width: 100px; text-align: right; flex-shrink: 0; }
-.bc-bg { flex: 1; height: 28px; background: rgba(255,255,255,.04); border-radius: 7px; overflow: hidden; }
-.bc-f { height: 100%; border-radius: 7px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; transition: width 1s cubic-bezier(.4,0,.2,1); }
-.bc-f span { font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; }
-
-.recalc-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: calc(100% - 40px);
-  margin: 0 20px 24px;
-  padding: 13px;
-  background: rgba(255,255,255,.03);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--muted2);
-  font-size: 13px;
-  font-family: var(--font-body);
-  cursor: pointer;
-  transition: all .2s;
-}
-.recalc-btn:hover { background: rgba(255,255,255,.07); color: var(--text); }
-
-/* ── CAROUSEL ── */
-.carousel-section { padding: 0 0 40px; overflow: hidden; }
-.carousel-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text); padding: 0 20px; margin-bottom: 6px; }
-.carousel-sub { font-size: 13px; color: var(--muted2); padding: 0 20px; margin-bottom: 20px; }
-
-.carousel-track-wrap { overflow: hidden; position: relative; }
-.carousel-track {
-  display: flex;
-  gap: 14px;
-  padding: 4px 20px 16px;
-  transition: transform .45s cubic-bezier(.4,0,.2,1);
-}
-.recipe-card {
-  flex-shrink: 0;
-  width: 240px;
-  border-radius: 20px;
-  padding: 22px 18px 20px;
-  border: 1.5px solid;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform .2s, filter .2s;
-}
-.recipe-card::before {
-  content: '';
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  opacity: .08;
-}
-.recipe-card:active { transform: scale(.96); }
-.recipe-card:hover { transform: translateY(-3px); filter: brightness(1.08); }
-
-/* Card themes */
-.card-barra { background: linear-gradient(145deg,#1e0c00,#2d1500); border-color: rgba(232,160,32,.4); }
-.card-barra::before { background: var(--amber); }
-.card-barra .card-name { color: var(--amber-l); }
-.card-barra .card-badge { background: rgba(232,160,32,.15); color: var(--amber-l); border-color: rgba(232,160,32,.3); }
-.card-barra .card-arrow { color: var(--amber); }
-
-.card-goma { background: linear-gradient(145deg,#001810,#002a1c); border-color: rgba(14,168,117,.4); }
-.card-goma::before { background: var(--green); }
-.card-goma .card-name { color: var(--green-l); }
-.card-goma .card-badge { background: rgba(14,168,117,.15); color: var(--green-l); border-color: rgba(14,168,117,.3); }
-.card-goma .card-arrow { color: var(--green); }
-
-.card-shot { background: linear-gradient(145deg,#0d0022,#1a0038); border-color: rgba(124,58,237,.4); }
-.card-shot::before { background: var(--purple); }
-.card-shot .card-name { color: var(--purple-l); }
-.card-shot .card-badge { background: rgba(124,58,237,.15); color: var(--purple-l); border-color: rgba(124,58,237,.3); }
-.card-shot .card-arrow { color: var(--purple); }
-
-.card-sono { background: linear-gradient(145deg,#1a0014,#2a0022); border-color: rgba(219,39,119,.4); }
-.card-sono::before { background: var(--pink); }
-.card-sono .card-name { color: var(--pink-l); }
-.card-sono .card-badge { background: rgba(219,39,119,.15); color: var(--pink-l); border-color: rgba(219,39,119,.3); }
-.card-sono .card-arrow { color: var(--pink); }
-
-.card-ico { font-size: 32px; margin-bottom: 12px; }
-.card-name { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; line-height: 1.2; }
-.card-desc { font-size: 12px; color: var(--muted2); line-height: 1.55; margin-bottom: 14px; }
-.card-badge {
-  display: inline-block;
-  font-size: 10px;
-  padding: 3px 10px;
-  border-radius: 99px;
-  border: 1px solid;
-  font-weight: 600;
-  letter-spacing: .04em;
-  margin-bottom: 14px;
-}
-.card-kcal { font-size: 13px; color: var(--muted2); }
-.card-kcal strong { font-size: 20px; font-weight: 700; display: block; line-height: 1.1; }
-.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
-.card-cta {
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.card-arrow { font-size: 18px; }
-
-/* Carousel dots */
-.carousel-dots { display: flex; justify-content: center; gap: 6px; padding-top: 8px; }
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--muted);
-  cursor: pointer;
-  transition: all .25s;
-}
-.dot.active { width: 20px; border-radius: 3px; background: var(--purple-l); }
-</style>
 </head>
 <body>
+<div class="deco-layer" id="decoLayer"></div>
 
-<!-- GRID BG -->
-<div style="position:fixed;inset:0;background-image:linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
 
-<!-- HERO -->
-<div class="hero fade-up">
-  <div class="hero-glow"></div>
-  <div class="hero-badge"><span class="pulse-dot"></span>Calculadora personalizada</div>
-  <h1>Queime mais<br><span>com receitas</span><br>termogênicas</h1>
-  <p>Informe seu perfil e descubra exatamente quantas calorias extras você vai queimar</p>
-</div>
-
-<!-- FORM SECTION -->
-<div id="form-sec">
-  <div class="form-card">
-    <div class="field">
-      <label>Sexo biológico</label>
-      <div class="sex-row">
-        <button class="sex-btn active" id="btnM" onclick="setSex('M')">♂ Masculino</button>
-        <button class="sex-btn" id="btnF" onclick="setSex('F')">♀ Feminino</button>
-      </div>
-    </div>
-    <div class="f2">
-      <div class="field">
-        <label>Peso (kg)</label>
-        <input type="number" id="peso" placeholder="ex: 80" min="30" max="300">
-      </div>
-      <div class="field">
-        <label>Altura (cm)</label>
-        <input type="number" id="altura" placeholder="ex: 175" min="100" max="250">
-      </div>
-    </div>
-    <div class="f2">
-      <div class="field">
-        <label>Idade (anos)</label>
-        <input type="number" id="idade" placeholder="ex: 30" min="10" max="100">
-      </div>
-      <div class="field">
-        <label>Nível de atividade</label>
-        <select id="atividade">
-          <option value="1.2">Sedentário</option>
-          <option value="1.375" selected>Leve (1–3x/sem)</option>
-          <option value="1.55">Moderado (3–5x/sem)</option>
-          <option value="1.725">Intenso (6–7x/sem)</option>
-          <option value="1.9">Muito intenso</option>
-        </select>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calcular()">⚡ Calcular meu gasto calórico</button>
+  <div class="hero-calc fade-up">
+    <div class="site-logo">🔥 Receitas do Doug</div>
+    <div class="site-tagline">Queime mais · Coma melhor · Durma bem</div>
+    <div class="hero-badge"><span class="pulse-dot"></span>Calculadora personalizada</div>
+    <div class="hero-h1">Descubra quanto você<br>vai <span class="c1">queimar</span> a mais! 🚀</div>
+    <div class="hero-p">Informe seu perfil e veja o gasto calórico extra de cada receita</div>
   </div>
-</div>
 
-<!-- RESULTS SECTION -->
-<div id="res-sec">
-  <!-- METRICS -->
-  <div class="metrics-grid fade-up">
-    <div class="mc mc-green">
-      <div class="mc-label">Metabolismo basal (TMB)</div>
-      <div class="mc-val" id="r-tmb">—</div>
-      <div class="mc-sub">Mifflin-St Jeor</div>
-    </div>
-    <div class="mc mc-blue">
-      <div class="mc-label">Gasto total estimado</div>
-      <div class="mc-val" id="r-tdee">—</div>
-      <div class="mc-sub" id="r-fat">—</div>
-    </div>
-    <div class="mc mc-amber">
-      <div class="mc-label">IMC</div>
-      <div class="mc-val" id="r-imc">—</div>
-      <div class="mc-sub" id="r-imccat">—</div>
-    </div>
-    <div class="mc mc-purple">
-      <div class="mc-label">Gordura corporal est.</div>
-      <div class="mc-val" id="r-gc">—</div>
-      <div class="mc-sub">Estimativa por IMC</div>
+  <!-- FORM -->
+  <div id="form-sec">
+    <div class="form-card">
+      <div class="field">
+        <label>Sexo biológico</label>
+        <div class="sex-row">
+          <button class="sex-btn active" id="btnM" onclick="setSex('M')">♂ Masculino</button>
+          <button class="sex-btn" id="btnF" onclick="setSex('F')">♀ Feminino</button>
+        </div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Peso (kg)</label><input type="number" id="peso" placeholder="ex: 80" min="30" max="300"></div>
+        <div class="field"><label>Altura (cm)</label><input type="number" id="altura" placeholder="ex: 175" min="100" max="250"></div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Idade</label><input type="number" id="idade" placeholder="ex: 30" min="10" max="100"></div>
+        <div class="field"><label>Atividade</label>
+          <select id="atividade">
+            <option value="1.2">Sedentário</option>
+            <option value="1.375" selected>Leve (1–3x/sem)</option>
+            <option value="1.55">Moderado (3–5x/sem)</option>
+            <option value="1.725">Intenso (6–7x/sem)</option>
+            <option value="1.9">Muito intenso</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcular()">Calcular meu gasto calórico</button>
     </div>
   </div>
 
-  <!-- BAR CHART -->
-  <div class="chart-wrap">
-    <div class="chart-label">Gasto kcal por 4h de janela termogênica — comparativo</div>
-    <div id="barchart"></div>
-  </div>
+  <!-- RESULTS -->
+  <div id="res-sec" style="display:none">
+    <div class="metrics-grid fade-up">
+      <div class="mc mc-green"><div class="mc-label">Metabolismo basal (TMB)</div><div class="mc-val" id="r-tmb">—</div><div class="mc-sub">Mifflin-St Jeor</div></div>
+      <div class="mc mc-blue"><div class="mc-label">Gasto total/dia</div><div class="mc-val" id="r-tdee">—</div><div class="mc-sub" id="r-fat">—</div></div>
+      <div class="mc mc-amber"><div class="mc-label">IMC</div><div class="mc-val" id="r-imc">—</div><div class="mc-sub" id="r-imccat">—</div></div>
+      <div class="mc mc-purple"><div class="mc-label">Gordura est.</div><div class="mc-val" id="r-gc">—</div><div class="mc-sub">Por IMC</div></div>
+    </div>
 
-  <!-- RECALC -->
-  <button class="recalc-btn" onclick="resetCalc()">
-    ↺ Recalcular com outros dados
-  </button>
+    <div class="chart-wrap">
+      <div class="chart-lbl">⚡ Gasto por 4h de janela termogênica</div>
+      <div id="barchart"></div>
+    </div>
 
-  <!-- CAROUSEL -->
-  <div class="carousel-section">
-    <div class="carousel-title">Escolha sua receita</div>
-    <div class="carousel-sub">Toque no card para ver a receita completa e o cálculo do seu perfil</div>
-    <div class="carousel-track-wrap">
-      <div class="carousel-track" id="carTrack">
+    <div class="sim-section">
+      <div class="sim-title">📊 Simulação de consumo</div>
+      <div class="sim-sub">Veja quanto você queimaria com 1, 2 ou 3 doses por dia</div>
+      <div class="sim-tabs">
+        <button class="sim-tab on" onclick="showSim('semana',this)">📅 Por semana</button>
+        <button class="sim-tab" onclick="showSim('mes',this)">🗓️ Por mês</button>
+      </div>
+      <div id="sim-semana"><table class="sim-table" id="tbl-semana"></table></div>
+      <div id="sim-mes" style="display:none"><table class="sim-table" id="tbl-mes"></table></div>
+    </div>
 
-        <!-- BARRA -->
-        <div class="recipe-card card-barra" onclick="location.href='barras.html'">
-          <div class="card-ico">🍫</div>
-          <div class="card-name">Barra Termogênica</div>
-          <div class="card-badge">3 versões disponíveis</div>
-          <div class="card-desc">Da V1 básica até a V3 Ultimate com 20+ ativos. Escolha seu nível de intensidade.</div>
-          <div class="card-kcal">Extra queimado por dose:<strong id="c-barra">+— kcal</strong></div>
-          <div class="card-footer">
-            <span class="card-cta card-arrow" style="color:var(--amber)">Ver versões →</span>
-          </div>
-        </div>
+    <button class="recalc-btn" onclick="resetCalc()">↺ Recalcular com outros dados</button>
 
-        <!-- GOMA -->
-        <div class="recipe-card card-goma" onclick="location.href='goma.html'">
-          <div class="card-ico">🍋</div>
-          <div class="card-name">Goma de Limão</div>
-          <div class="card-badge">~4h de efeito</div>
-          <div class="card-desc">Mastigável, fresca e discreta. Capsaicina + EGCG + gengibre em formato goma.</div>
-          <div class="card-kcal">Extra queimado por dose:<strong id="c-goma">+— kcal</strong></div>
-          <div class="card-footer">
-            <span class="card-cta card-arrow" style="color:var(--green)">Ver receita →</span>
-          </div>
-        </div>
-
-        <!-- SHOT -->
-        <div class="recipe-card card-shot" onclick="location.href='shot.html'">
-          <div class="card-ico">⚗️</div>
-          <div class="card-name">Shot Gelificado</div>
-          <div class="card-badge">Rápido · 40ml</div>
-          <div class="card-desc">Dose concentrada em formato shot. Ideal para academia e uso pré-treino.</div>
-          <div class="card-kcal">Extra queimado por dose:<strong id="c-shot">+— kcal</strong></div>
-          <div class="card-footer">
-            <span class="card-cta card-arrow" style="color:var(--purple)">Ver receita →</span>
-          </div>
-        </div>
-
-        <!-- SONO -->
-        <div class="recipe-card card-sono" onclick="location.href='sono.html'">
-          <div class="card-ico">🌙</div>
-          <div class="card-name">Bala do Sono</div>
-          <div class="card-badge">Sono profundo</div>
-          <div class="card-desc">Recuperação noturna com melatonina, magnésio, L-teanina e 5-HTP. Sem termogênicos.</div>
-          <div class="card-kcal" style="color:var(--pink-l)">Melhora recuperação e hormônios</div>
-          <div class="card-footer">
-            <span class="card-cta card-arrow" style="color:var(--pink)">Ver receita →</span>
-          </div>
-        </div>
-
+    <!-- CAROUSEL -->
+    <div class="car-sec">
+      <div class="car-title">🍽️ Escolha sua receita</div>
+      <div class="car-sub">Toque para ver a receita completa e seu cálculo personalizado</div>
+      <div class="car-track" id="carTrack">
+        <a class="rcard rc-barra" href="barras.html">
+          <span class="rc-ico">🍫</span>
+          <div class="rc-name">Barra Termogênica</div>
+          <div class="rc-badge">3 versões · V1 ao V3</div>
+          <div class="rc-desc">Da base até a Ultimate com 20+ ativos. Escolha seu nível.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-barra">— kcal</strong></div>
+          <div class="rc-cta">Ver versões →</div>
+          <div class="rcard-deco">🍫</div>
+        </a>
+        <a class="rcard rc-goma" href="goma.html">
+          <span class="rc-ico">🍋</span>
+          <div class="rc-name">Goma de Limão</div>
+          <div class="rc-badge">~4h de efeito</div>
+          <div class="rc-desc">Mastigável e discreta. Capsaicina + EGCG + gengibre.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-goma">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">🌿</div>
+        </a>
+        <a class="rcard rc-shot" href="shot.html">
+          <span class="rc-ico">⚗️</span>
+          <div class="rc-name">Shot Gelificado</div>
+          <div class="rc-badge">Rápido · 40ml</div>
+          <div class="rc-desc">Dose concentrada. Ideal para pré-treino.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-shot">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">⚗️</div>
+        </a>
+        <a class="rcard rc-sono" href="sono.html">
+          <span class="rc-ico">🌙</span>
+          <div class="rc-name">Bala do Sono</div>
+          <div class="rc-badge">Sono profundo 💤</div>
+          <div class="rc-desc">Melatonina, magnésio, L-teanina e 5-HTP. Recuperação noturna.</div>
+          <div class="rc-kcal" style="color:var(--bl2);font-weight:700">Melhora sono e recuperação</div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">🌙</div>
+        </a>
+      </div>
+      <div class="car-dots" id="carDots">
+        <button class="cdot active" onclick="scrollCard(0)"></button>
+        <button class="cdot" onclick="scrollCard(1)"></button>
+        <button class="cdot" onclick="scrollCard(2)"></button>
+        <button class="cdot" onclick="scrollCard(3)"></button>
       </div>
     </div>
-    <div class="carousel-dots" id="carDots"></div>
   </div>
 </div>
 
 <div id="toast"></div>
-
 <script src="shared.js"></script>
 <script>
 let SEX = 'M';
-const CARD_W = 254; // card width + gap
 
-function setSex(s){
+function setSex(s) {
   SEX = s;
-  document.getElementById('btnM').classList.toggle('active', s==='M');
-  document.getElementById('btnF').classList.toggle('active', s==='F');
+  document.getElementById('btnM').classList.toggle('active', s === 'M');
+  document.getElementById('btnF').classList.toggle('active', s === 'F');
 }
 
-function calcular(){
-  const idade = parseFloat(document.getElementById('idade').value)||0;
-  const peso  = parseFloat(document.getElementById('peso').value)||0;
-  const alt   = parseFloat(document.getElementById('altura').value)||0;
-  const fat   = parseFloat(document.getElementById('atividade').value)||1.375;
-  if(!idade||!peso||!alt||idade<10||peso<20||alt<80){ toast('Preencha todos os campos corretamente!'); return; }
-
-  const tmb  = SEX==='M' ? (10*peso)+(6.25*alt)-(5*idade)+5 : (10*peso)+(6.25*alt)-(5*idade)-161;
-  const tdee = tmb*fat;
-  const altM = alt/100;
-  const imc  = peso/(altM*altM);
-  let gc = SEX==='M' ? (1.20*imc)+(0.23*idade)-16.2 : (1.20*imc)+(0.23*idade)-5.4;
+function calcular() {
+  const p = parseFloat(document.getElementById('peso').value) || 0;
+  const h = parseFloat(document.getElementById('altura').value) || 0;
+  const i = parseFloat(document.getElementById('idade').value) || 0;
+  const a = parseFloat(document.getElementById('atividade').value) || 1.375;
+  if (!p || !h || !i || p < 20 || h < 80 || i < 10) { toast('⚠️ Preencha todos os campos!'); return; }
+  let tmb = SEX === 'M' ? (10*p + 6.25*h - 5*i + 5) : (10*p + 6.25*h - 5*i - 161);
+  const tdee = tmb * a;
+  const imc = p / ((h/100) ** 2);
+  let gc = SEX === 'M' ? (1.2*imc + 0.23*i - 16.2) : (1.2*imc + 0.23*i - 5.4);
   gc = Math.max(gc, 5);
+  saveProfile(tmb, tdee, SEX);
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('r-tmb',    Math.round(tmb) + ' kcal/dia');
+  s('r-tdee',   Math.round(tdee) + ' kcal/dia');
+  s('r-fat',    'TMB × ' + a);
+  s('r-imc',    imc.toFixed(1) + ' kg/m²');
+  s('r-imccat', imcCat(imc));
+  s('r-gc',     '~' + Math.round(gc) + '%');
 
-  THERMO.set(tmb, tdee, SEX, '');
-
-  document.getElementById('r-tmb').textContent   = Math.round(tmb)+' kcal/dia';
-  document.getElementById('r-tdee').textContent  = Math.round(tdee)+' kcal/dia';
-  document.getElementById('r-fat').textContent   = 'TMB × '+fat;
-  document.getElementById('r-imc').textContent   = imc.toFixed(1)+' kg/m²';
-  document.getElementById('r-imccat').textContent= imcCat(imc);
-  document.getElementById('r-gc').textContent    = '~'+Math.round(gc)+'%';
-
-  buildBars(tmb, tdee);
-  updateCards();
-
+  // Esconde form, mostra resultados, vai para o topo
   document.getElementById('form-sec').style.display = 'none';
-  document.getElementById('res-sec').style.display  = 'block';
-  window.scrollTo(0,0);
+  const resSec = document.getElementById('res-sec');
+  resSec.style.display = 'block';
+  resSec.style.animation = 'fadeUp .4s ease both';
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  // Constrói gráficos APÓS o res-sec estar visível no DOM
+  setTimeout(() => {
+    buildBars(tmb, tdee);
+    refreshKcal();
+  }, 30);
+
+  toast('✅ Perfil calculado!');
 }
 
-function buildBars(tmb, tdee){
-  const h = tmb/24, base = Math.round(tdee/24*4);
-  const bE = Math.round(h*0.08*5), gE = Math.round(h*0.06*4), sE = Math.round(h*0.05*3);
+function buildBars(tmb, tdee) {
+  const E = getExtras();
+  const v3 = E.barra;
   const bars = [
-    {l:'Sem termogênico', v:base,      c:'rgba(255,255,255,.12)'},
-    {l:'Barra V3',        v:base+bE,   c:'rgba(232,160,32,.75)'},
-    {l:'Goma limão',      v:base+gE,   c:'rgba(14,168,117,.75)'},
-    {l:'Shot neutro',     v:base+sE,   c:'rgba(124,58,237,.75)'},
+    {l:'🍫 Barra V3', v:v3,                     c:'rgba(245,166,35,.85)'},
+    {l:'🍋 Goma limão', v:E.goma,                c:'rgba(17,194,122,.85)'},
+    {l:'⚗️ Shot neutro', v:E.shot,               c:'rgba(139,92,246,.85)'},
+    {l:'Sem termogênico', v:Math.round(tdee/6),  c:'rgba(255,255,255,.12)'},
   ];
-  const mx = Math.max(...bars.map(b=>b.v));
+  const max = Math.max(...bars.map(b => b.v));
   const bc = document.getElementById('barchart');
   bc.innerHTML = '';
-  bars.forEach(b=>{
-    const pct = Math.round((b.v/mx)*100);
-    const row = document.createElement('div'); row.className='bc-row';
-    row.innerHTML=`<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>${b.v} kcal</span></div></div>`;
+  bars.forEach(b => {
+    const pct = Math.round((b.v / max) * 100);
+    const row = document.createElement('div');
+    row.className = 'bc-row';
+    row.innerHTML = `<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>+${b.v} kcal</span></div></div>`;
     bc.appendChild(row);
-    setTimeout(()=>{ row.querySelector('.bc-f').style.width=pct+'%'; }, 120);
+    // Anima após render, igual ao original
+    setTimeout(() => { row.querySelector('.bc-f').style.width = pct + '%'; }, 120);
   });
 }
 
-function updateCards(){
+function refreshKcal() {
   const E = getExtras();
-  document.getElementById('c-barra').textContent = '+'+E.barra+' kcal';
-  document.getElementById('c-goma').textContent  = '+'+E.goma+' kcal';
-  document.getElementById('c-shot').textContent  = '+'+E.shot+' kcal';
+  const v3 = E.barra;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('c-barra', '+' + v3 + ' kcal');
+  set('c-goma',  '+' + E.goma + ' kcal');
+  set('c-shot',  '+' + E.shot + ' kcal');
+  buildSimTables();
 }
 
-function resetCalc(){
-  document.getElementById('form-sec').style.display = 'block';
+function buildSimTables() {
+  const E = getExtras();
+  const v1 = Math.round(E.barra*.70), v2 = Math.round(E.barra*.86), v3 = E.barra;
+  const rows = [
+    {nome:'🍫 Barra V1', kc:v1, cor:'sim-td-amber'},
+    {nome:'🍫 Barra V2', kc:v2, cor:'sim-td-amber'},
+    {nome:'🍫 Barra V3', kc:v3, cor:'sim-td-amber'},
+    {nome:'🍋 Goma',     kc:E.goma, cor:'sim-td-green'},
+    {nome:'⚗️ Shot',    kc:E.shot, cor:'sim-td-purple'},
+  ];
+  const fmtKg = k => (k/7700).toFixed(2) + 'kg';
+  const tS = document.getElementById('tbl-semana');
+  tS.innerHTML = `<tr><th>Receita</th><th>1x/dia·7d</th><th>2x/dia·7d</th><th>3x/dia·7d</th><th>Gordura est.</th></tr>`;
+  rows.forEach(r => {
+    tS.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*7} kcal</td><td class="${r.cor}">+${r.kc*2*7} kcal</td><td class="${r.cor}">+${r.kc*3*7} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*7)}</td></tr>`;
+  });
+  const tM = document.getElementById('tbl-mes');
+  tM.innerHTML = `<tr><th>Receita</th><th>1x/dia·30d</th><th>2x/dia·30d</th><th>3x/dia·30d</th><th>Gordura est.</th></tr>`;
+  rows.forEach(r => {
+    tM.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*30} kcal</td><td class="${r.cor}">+${r.kc*2*30} kcal</td><td class="${r.cor}">+${r.kc*3*30} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*30)}</td></tr>`;
+  });
+}
+
+function showSim(tab, btn) {
+  document.getElementById('sim-semana').style.display = tab === 'semana' ? '' : 'none';
+  document.getElementById('sim-mes').style.display    = tab === 'mes' ? '' : 'none';
+  document.querySelectorAll('.sim-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function resetCalc() {
+  localStorage.removeItem('thermo_tmb');
+  localStorage.removeItem('thermo_tdee');
+  localStorage.removeItem('thermo_sex');
+  document.getElementById('form-sec').style.display = '';
   document.getElementById('res-sec').style.display  = 'none';
-  window.scrollTo(0,0);
 }
 
-/* ── CAROUSEL ── */
-const track = document.getElementById('carTrack');
-const dotsEl = document.getElementById('carDots');
-const cards  = track.querySelectorAll('.recipe-card');
-let current  = 0;
-
-cards.forEach((_,i)=>{
-  const d = document.createElement('div');
-  d.className = 'dot' + (i===0?' active':'');
-  d.onclick = ()=>goTo(i);
-  dotsEl.appendChild(d);
-});
-
-function goTo(i){
-  current = i;
-  const offset = i * CARD_W;
-  track.style.transform = `translateX(-${offset}px)`;
-  dotsEl.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+function scrollCard(i) {
+  const t = document.getElementById('carTrack');
+  t.scrollTo({left: i * 246, behavior: 'smooth'});
+  document.querySelectorAll('.cdot').forEach((d,j) => d.classList.toggle('active', i===j));
 }
 
-// touch/drag carousel
-let startX=0, isDragging=false;
-track.addEventListener('touchstart', e=>{ startX=e.touches[0].clientX; isDragging=true; }, {passive:true});
-track.addEventListener('touchend', e=>{
-  if(!isDragging) return;
-  const dx = e.changedTouches[0].clientX - startX;
-  if(dx < -40 && current < cards.length-1) goTo(current+1);
-  if(dx > 40  && current > 0)              goTo(current-1);
-  isDragging=false;
-});
-
-// On load, show existing calc if already done
-if(localStorage.getItem('thermo_tmb')){
-  buildBars(THERMO.tmb, THERMO.tdee);
-  updateCards();
-  const tmb=THERMO.tmb, tdee=THERMO.tdee;
-  const altM=1; // placeholder — just show cached results
-  document.getElementById('r-tmb').textContent   = Math.round(tmb)+' kcal/dia';
-  document.getElementById('r-tdee').textContent  = Math.round(tdee)+' kcal/dia';
-  document.getElementById('r-fat').textContent   = 'Fator de atividade';
-  document.getElementById('r-imc').textContent   = '—';
-  document.getElementById('r-imccat').textContent= 'Recalcule para IMC';
-  document.getElementById('r-gc').textContent    = '—';
-  document.getElementById('form-sec').style.display='none';
-  document.getElementById('res-sec').style.display='block';
+// init
+buildDeco(document.getElementById('decoLayer'));
+if (localStorage.getItem('thermo_tmb')) {
+  document.getElementById('r-tmb').textContent    = Math.round(getTMB())  + ' kcal/dia';
+  document.getElementById('r-tdee').textContent   = Math.round(getTDEE()) + ' kcal/dia';
+  document.getElementById('r-fat').textContent    = 'perfil salvo';
+  document.getElementById('r-imc').textContent    = '—';
+  document.getElementById('r-imccat').textContent = 'Recalcule para atualizar';
+  document.getElementById('r-gc').textContent     = '—';
+  document.getElementById('form-sec').style.display = 'none';
+  document.getElementById('res-sec').style.display  = 'block';
+  setTimeout(() => { buildBars(getTMB(), getTDEE()); refreshKcal(); }, 30);
 }
 </script>
 </body>
