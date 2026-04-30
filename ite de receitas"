@@ -1,0 +1,24 @@
+ SiteBuilder.html => V1/SiteBuilder.html                                       |   0
+ barra-v1.html => V1/barra-v1.html                                             |   0
+ barra-v2.html => V1/barra-v2.html                                             |   0
+ V1/barras.html                                                                | 396 [32m+++++++++++++++++++++++++++++++++++++[m
+ calculo_termogenico_interativo.html => V1/calculo_termogenico_interativo.html |   0
+ calculo_termogenico_v2.html => V1/calculo_termogenico_v2.html                 |   0
+ index (1).html => V1/index (1).html                                           |   0
+ V1/index.html                                                                 | 560 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ V1/shared.css                                                                 | 234 [32m++++++++++++++++++++++[m
+ V1/shared.js                                                                  | 168 [32m++++++++++++++++[m
+ termogenico_app.html => V1/termogenico_app.html                               |   0
+ barras.html                                                                   | 538 [32m+++++++++++++++++[m[31m---------------------------------[m
+ goma.html                                                                     | 117 [32m+++++++++++[m
+ index.html                                                                    | 710 [32m++++++++++++++++++++[m[31m----------------------------------------------[m
+ shared.css                                                                    | 489 [32m+++++++++++++++++++++++[m[31m----------------------[m
+ shared.js                                                                     | 320 [32m+++++++++++++++[m[31m---------------[m
+ shot.html                                                                     | 124 [32m++++++++++++[m
+ sono.html                                                                     | 118 [32m+++++++++++[m
+ v1.html                                                                       | 110 [32m+++++++++++[m
+ v2.html                                                                       | 118 [32m+++++++++++[m
+ termogenico_app_final.html => v2/termogenico_app_final.html                   |   0
+ v3.html                                                                       | 127 [32m++++++++++++[m
+ receitas_doug_final.html => v3/receitas_doug_final.html                       |   0
+ 23 files changed, 2879 insertions(+), 1250 deletions(-)
