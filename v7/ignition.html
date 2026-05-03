@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Shot Ignition 🥃🔥 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Raleway:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --amber2:#ff8c00; --gold:#ffd700; --ember:#ff4500; --copper:#b87333;
+  --ibg:#0e0600; --ibg2:#1a0c00;
+  --ifd:'Cinzel',serif; --ifb:'Raleway',sans-serif;
+}
+body{background:var(--ibg)!important;font-family:var(--ifb)!important;overflow-x:hidden;}
+
+/* BG */
+.ign-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.ign-bg::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 55% at 50% -5%,rgba(255,140,0,.18) 0%,transparent 55%),
+             radial-gradient(ellipse 50% 40% at 90% 80%,rgba(255,69,0,.14) 0%,transparent 50%),
+             radial-gradient(ellipse 40% 30% at 5% 90%,rgba(184,115,51,.1) 0%,transparent 50%);}
+/* ember particles */
+.ember-layer{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.ember{position:absolute;font-size:var(--sz);opacity:var(--op);
+  animation:emberdrift var(--dur) ease-in-out infinite;animation-delay:var(--dl);}
+@keyframes emberdrift{
+  0%,100%{transform:translateY(0) rotate(var(--r0)) scale(1)}
+  30%{transform:translateY(-20px) rotate(var(--r1)) scale(1.07)}
+  70%{transform:translateY(9px) rotate(var(--r2)) scale(.95)}}
+/* golden edge */
+.gold-edge{position:fixed;top:0;left:0;right:0;height:3px;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--ember),var(--gold),var(--amber2),var(--ember),transparent);
+  animation:goldpulse 4s ease-in-out infinite;}
+@keyframes goldpulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* glass reflection effect */
+.glass-sheen{position:fixed;top:0;right:0;width:50%;height:100%;pointer-events:none;z-index:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(255,215,0,.015) 80%,transparent 100%);}
+
+/* TOPNAV */
+.topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;
+  padding:11px 18px;background:rgba(14,6,0,.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,140,0,.2);}
+.topnav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--amber2),var(--gold),transparent);}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border:1.5px solid rgba(255,140,0,.35);border-radius:20px;background:rgba(255,140,0,.07);
+  color:var(--amber2);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;}
+.back-btn:hover{background:rgba(255,140,0,.16);box-shadow:0 0 14px rgba(255,140,0,.2);}
+.topnav-title{font-family:var(--ifd);font-size:13px;color:var(--gold);letter-spacing:.12em;flex:1;
+  text-shadow:0 0 12px rgba(255,215,0,.4);}
+
+/* MARQUEE */
+.ign-strip{overflow:hidden;border-top:1px solid rgba(255,140,0,.1);
+  border-bottom:1px solid rgba(255,140,0,.1);background:rgba(255,140,0,.025);padding:7px 0;z-index:1;position:relative;}
+.is{display:flex;gap:20px;animation:marquee 14s linear infinite;white-space:nowrap;}
+.is span{font-size:11px;font-weight:700;font-family:var(--ifd);letter-spacing:.1em;text-transform:uppercase;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* HERO */
+.ign-hero{position:relative;padding:24px 18px 16px;text-align:center;overflow:hidden;z-index:1;}
+.hero-glow{position:absolute;inset:0;
+  background:radial-gradient(ellipse 65% 70% at 50% 40%,rgba(255,140,0,.08) 0%,transparent 70%);}
+.shot-glass{font-size:90px;display:block;margin-bottom:6px;
+  animation:glassswirl 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 28px rgba(255,140,0,.7)) drop-shadow(0 0 60px rgba(255,69,0,.3));}
+@keyframes glassswirl{
+  0%,100%{transform:rotate(-3deg) scale(1);filter:drop-shadow(0 0 28px rgba(255,140,0,.7))}
+  25%{transform:rotate(4deg) scale(1.04)}
+  50%{transform:rotate(-2deg) scale(1.07);filter:drop-shadow(0 0 50px rgba(255,215,0,.9)) drop-shadow(0 0 90px rgba(255,69,0,.4))}
+  75%{transform:rotate(3deg) scale(1.03)}}
+.ign-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 16px;border-radius:99px;
+  background:linear-gradient(135deg,rgba(255,140,0,.12),rgba(255,215,0,.08));
+  border:1.5px solid rgba(255,140,0,.4);color:var(--gold);
+  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:12px;font-family:var(--ifd);}
+.ign-h1{font-family:var(--ifd);font-size:34px;color:#fff;line-height:1.05;margin-bottom:8px;letter-spacing:.08em;}
+.ign-h1 .ia{color:var(--amber2);text-shadow:0 0 20px var(--amber2);}
+.ign-h1 .ig{color:var(--gold);text-shadow:0 0 20px var(--gold);}
+.ign-p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;font-weight:600;max-width:310px;margin:0 auto;}
+
+/* WARNING ADULT BANNER */
+.adult-banner{margin:12px 18px;border-radius:14px;padding:11px 14px;
+  border:1.5px solid rgba(255,69,0,.3);background:rgba(255,69,0,.06);
+  display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
+.ab-ico{font-size:20px;flex-shrink:0;}
+.ab-txt{font-size:11px;color:rgba(255,180,100,.7);font-weight:600;line-height:1.5;}
+
+/* INGREDIENTS FEATURE ROW */
+.feat-row{display:flex;gap:8px;padding:0 18px;margin-bottom:12px;position:relative;z-index:1;}
+.feat-box{flex:1;border-radius:14px;padding:12px 8px;text-align:center;border:1.5px solid;transition:all .22s;}
+.feat-box:hover{transform:translateY(-2px);}
+.feat-ico{font-size:26px;display:block;margin-bottom:5px;}
+.feat-name{font-size:11px;font-weight:700;display:block;font-family:var(--ifd);letter-spacing:.04em;}
+.feat-qty{font-size:12px;font-weight:700;display:block;margin-top:3px;font-family:var(--ifd);}
+.feat-desc{font-size:9px;color:rgba(255,255,255,.4);display:block;margin-top:2px;font-weight:600;}
+
+/* KCAL BANNER */
+.kcal-banner{margin:0 18px;border-radius:20px;padding:14px;
+  border:2px solid rgba(255,140,0,.28);
+  background:linear-gradient(135deg,rgba(255,140,0,.08),rgba(255,69,0,.04));
+  position:relative;overflow:hidden;z-index:1;}
+.kcal-banner::before{content:'🥃';position:absolute;right:14px;bottom:6px;font-size:50px;opacity:.07;}
+.kb-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;
+  color:var(--gold);font-family:var(--ifd);text-shadow:0 0 8px rgba(255,215,0,.4);}
+.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.kb-box{background:rgba(0,0,0,.4);border-radius:12px;padding:9px 10px;border:1px solid rgba(255,140,0,.14);}
+.kb-val{font-size:15px;font-weight:700;line-height:1.1;font-family:var(--ifd);color:var(--amber2);word-break:break-word;}
+.kb-lbl{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px;font-weight:600;line-height:1.3;}
+
+/* TURBO MIX */
+.turbo-box{margin:14px 18px 0;border-radius:18px;padding:14px;
+  border:2px solid rgba(255,140,0,.18);background:rgba(255,140,0,.04);
+  position:relative;overflow:hidden;z-index:1;}
+.turbo-title{font-family:var(--ifd);font-size:11px;color:var(--gold);letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:10px;text-shadow:0 0 8px rgba(255,215,0,.3);}
+.turbo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.tpill{padding:6px 10px;border-radius:10px;background:rgba(255,140,0,.06);
+  border:1px solid rgba(255,140,0,.14);font-size:11px;font-weight:700;}
+.tpill .tn{color:rgba(255,255,255,.8);display:block;}
+.tpill .td{color:rgba(255,140,0,.55);font-size:10px;font-weight:600;display:block;margin-top:1px;}
+.tpill .tq{color:var(--amber2);font-size:11px;font-weight:700;float:right;font-family:var(--ifd);}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:1.5px solid rgba(255,140,0,.12);margin-top:14px;position:relative;z-index:1;}
+.tab{flex:1;padding:12px 4px;border:none;background:transparent;font-family:var(--ifb);
+  font-size:12px;font-weight:700;color:rgba(255,255,255,.28);cursor:pointer;
+  border-bottom:2.5px solid transparent;transition:all .2s;margin-bottom:-1.5px;
+  letter-spacing:.05em;text-transform:uppercase;}
+.panel{display:none;padding-bottom:8px;position:relative;z-index:1;}
+.panel.on{display:block;}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,140,0,.5);padding:16px 18px 8px;display:flex;align-items:center;gap:7px;}
+.slabel::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,140,0,.35),rgba(255,215,0,.15),transparent);}
+
+/* INGREDIENTS */
+.ing-list{display:flex;flex-direction:column;gap:5px;padding:0 18px;}
+.ing-row{display:flex;justify-content:space-between;align-items:center;
+  padding:9px 13px;background:rgba(255,140,0,.03);border:1px solid rgba(255,140,0,.1);
+  border-radius:12px;transition:all .2s;}
+.ing-row:hover{background:rgba(255,140,0,.08);border-color:rgba(255,140,0,.28);transform:translateX(3px);}
+.ing-row.divider{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.06);justify-content:center;}
+.ing-row.divider .ing-name{color:var(--gold);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--ifd);}
+.ing-left{display:flex;flex-direction:column;gap:2px;}
+.ing-name{font-size:13px;color:#fff;font-weight:700;}
+.ing-act{font-size:11px;color:rgba(255,140,0,.5);}
+.ing-qty{font-size:13px;font-weight:700;white-space:nowrap;margin-left:10px;
+  font-family:var(--ifd);color:var(--amber2);}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:12px;padding:0 18px;}
+.step{display:flex;gap:13px;align-items:flex-start;}
+.snum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;
+  background:rgba(255,140,0,.12);border:2px solid rgba(255,140,0,.45);color:var(--amber2);
+  font-family:var(--ifd);box-shadow:0 0 10px rgba(255,140,0,.12);}
+.stxt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;font-weight:600;}
+.stxt strong{color:var(--amber2);font-weight:700;}
+.warn-box{padding:12px 16px;border-left:3px solid;border-radius:0 12px 12px 0;
+  font-size:12px;line-height:1.65;color:rgba(255,255,255,.5);font-weight:600;}
+.warn-box strong{display:block;margin-bottom:3px;font-weight:700;}
+
+/* STOR */
+.stor-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 18px;}
+.sbox{border-radius:16px;padding:14px 8px;text-align:center;border:1.5px solid rgba(255,140,0,.2);
+  background:rgba(255,140,0,.04);transition:all .22s;}
+.sbox:hover{transform:translateY(-3px);border-color:rgba(255,140,0,.45);}
+.sbox-ico{font-size:22px;margin-bottom:7px;display:block;}
+.sbox-val{font-size:15px;font-weight:700;font-family:var(--ifd);color:var(--amber2);}
+.sbox-lbl{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+
+/* SCI */
+.sci-card{background:rgba(255,140,0,.03);border:1px solid rgba(255,140,0,.14);border-radius:14px;
+  padding:13px 14px;margin:0 18px 8px;transition:all .22s;}
+.sci-card:hover{border-color:rgba(255,140,0,.3);transform:translateX(4px);}
+.sci-name{font-size:12px;font-weight:700;margin-bottom:5px;font-family:var(--ifd);
+  color:var(--gold);letter-spacing:.04em;}
+.sci-txt{font-size:12px;color:rgba(255,255,255,.42);line-height:1.6;font-weight:600;}
+
+/* BTNS */
+.action-row{display:flex;gap:10px;padding:0 18px 16px;flex-wrap:wrap;margin-top:8px;position:relative;z-index:1;}
+.btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:14px 12px;border-radius:16px;border:2px solid;font-size:13px;font-weight:700;
+  font-family:var(--ifb);cursor:pointer;transition:all .2s;text-decoration:none;}
+.btn:active{transform:scale(.97);}
+.btn-ignition{background:rgba(255,140,0,.1);border-color:var(--amber2);color:var(--amber2);font-family:var(--ifd);letter-spacing:.06em;}
+.btn-ignition:hover{background:rgba(255,140,0,.2);box-shadow:0 0 22px rgba(255,140,0,.3);}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.4);}
+.btn-ghost:hover{background:rgba(255,255,255,.07);color:#fff;}
+.btn-print-only{display:flex;align-items:center;justify-content:center;gap:6px;
+  width:calc(100% - 36px);margin:0 18px 20px;padding:11px 12px;border-radius:14px;
+  border:1.5px dashed rgba(255,140,0,.22);background:transparent;color:rgba(255,140,0,.45);
+  font-size:12px;font-family:var(--ifb);font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-print-only:hover{border-color:rgba(255,140,0,.5);color:var(--amber2);background:rgba(255,140,0,.05);}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1a0c00;border:2px solid var(--amber2);color:var(--amber2);padding:12px 22px;
+  border-radius:16px;font-size:13px;font-weight:700;z-index:9999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;pointer-events:none;font-family:var(--ifd);box-shadow:0 0 20px rgba(255,140,0,.3);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="ign-bg"></div>
+<div class="gold-edge"></div>
+<div class="glass-sheen"></div>
+<div class="ember-layer" id="emberLayer"></div>
+
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="topnav">
+    <a class="back-btn" href="index.html">← Início</a>
+    <span class="topnav-title">🥃 SHOT IGNITION</span>
+  </nav>
+
+  <div class="ign-strip">
+    <div class="is">
+      <span style="color:var(--gold)">🥃 VASODILATAÇÃO</span>
+      <span style="color:var(--amber2)">🔥 ABSORÇÃO TURBO</span>
+      <span style="color:var(--copper)">🍫 CHOCO MENTA PICANTE</span>
+      <span style="color:var(--gold)">🌶️ LICOR DE PIMENTA</span>
+      <span style="color:var(--amber2)">🧪 MIX TURBO</span>
+      <span style="color:var(--copper)">🥃 COM ÁLCOOL</span>
+      <span style="color:var(--gold)">✨ IGNITION</span>
+      <span style="color:var(--amber2)">💊 10 ATIVOS</span>
+      <span style="color:var(--gold)">🥃 VASODILATAÇÃO</span>
+      <span style="color:var(--amber2)">🔥 ABSORÇÃO TURBO</span>
+      <span style="color:var(--copper)">🍫 CHOCO MENTA PICANTE</span>
+      <span style="color:var(--gold)">🌶️ LICOR DE PIMENTA</span>
+      <span style="color:var(--amber2)">🧪 MIX TURBO</span>
+      <span style="color:var(--copper)">🥃 COM ÁLCOOL</span>
+      <span style="color:var(--gold)">✨ IGNITION</span>
+      <span style="color:var(--amber2)">💊 10 ATIVOS</span>
+    </div>
+  </div>
+
+  <div class="ign-hero">
+    <div class="hero-glow"></div>
+    <span class="shot-glass">🥃</span>
+    <div class="ign-tag">🥃🔥 Com Álcool · Vasodilatação · Mix Turbo</div>
+    <div class="ign-h1"><span class="ia">IGNITION</span> <span class="ig">SHOT</span></div>
+    <p class="ign-p">O álcool potencializa vasodilatação e absorção dos ativos amargos. O mentol do Halls + cacau criam sabor de chocolate com menta picante 🍫🌶️</p>
+  </div>
+
+  <!-- ADULT WARNING -->
+  <div class="adult-banner">
+    <div class="ab-ico">🔞</div>
+    <div class="ab-txt">Bebida alcoólica para adultos responsáveis. Não combine com exercício de alta intensidade. Não dirija após o consumo. Moderação é a chave.</div>
+  </div>
+
+  <!-- KEY INGREDIENTS FEATURE -->
+  <div class="feat-row">
+    <div class="feat-box" style="border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.05)">
+      <span class="feat-ico">🥃</span>
+      <span class="feat-name" style="color:var(--amber2)">Vodka</span>
+      <span class="feat-qty" style="color:var(--gold)">20ml</span>
+      <span class="feat-desc">Vasodilatação</span>
+    </div>
+    <div class="feat-box" style="border-color:rgba(255,69,0,.3);background:rgba(255,69,0,.05)">
+      <span class="feat-ico">🌶️</span>
+      <span class="feat-name" style="color:#ff6030">Licor Pimenta</span>
+      <span class="feat-qty" style="color:var(--gold)">20ml</span>
+      <span class="feat-desc">Potencializa caps.</span>
+    </div>
+    <div class="feat-box" style="border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.04)">
+      <span class="feat-ico">🟤</span>
+      <span class="feat-name" style="color:var(--gold)">Halls Preta</span>
+      <span class="feat-qty" style="color:var(--gold)">1 bala</span>
+      <span class="feat-desc">Anestesia amargor</span>
+    </div>
+    <div class="feat-box" style="border-color:rgba(184,115,51,.3);background:rgba(184,115,51,.05)">
+      <span class="feat-ico">🍫</span>
+      <span class="feat-name" style="color:var(--copper)">Cacau 100%</span>
+      <span class="feat-qty" style="color:var(--gold)">1,5g</span>
+      <span class="feat-desc">Choco+menta</span>
+    </div>
+  </div>
+
+  <!-- KCAL BANNER -->
+  <div class="kcal-banner" style="margin-bottom:0">
+    <div class="kb-title">⚡ Gasto calórico extra estimado</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="ign-kd">—</div><div class="kb-lbl">Por shot</div></div>
+      <div class="kb-box"><div class="kb-val" style="color:var(--gold)">~3h</div><div class="kb-lbl">Duração</div></div>
+      <div class="kb-box"><div class="kb-val" id="ign-k1d">—</div><div class="kb-lbl">1 shot/dia · mês</div></div>
+      <div class="kb-box"><div class="kb-val" id="ign-k2d">—</div><div class="kb-lbl">2 shots/dia · mês</div></div>
+    </div>
+  </div>
+
+  <!-- TURBO MIX -->
+  <div class="turbo-box">
+    <div class="turbo-title">🧪 Mix de Ativos Turbo — mesmos 10 ativos do Cryo</div>
+    <div class="turbo-grid">
+      <div class="tpill"><span class="tn">Berberina HCL</span><span class="td">Queima · insulina</span><span class="tq">50mg</span></div>
+      <div class="tpill"><span class="tn">Forskolina</span><span class="td">AMPc · queima</span><span class="tq">20mg</span></div>
+      <div class="tpill"><span class="tn">L-Carnitina</span><span class="td">Transporte gordura</span><span class="tq">1.000mg</span></div>
+      <div class="tpill"><span class="tn">L-Tirosina</span><span class="td">Energia · foco</span><span class="tq">300mg</span></div>
+      <div class="tpill"><span class="tn">Taurina</span><span class="td">Metabolismo lipídico</span><span class="tq">500mg</span></div>
+      <div class="tpill"><span class="tn">Gengibre</span><span class="td">Termogênese</span><span class="tq">600mg</span></div>
+      <div class="tpill"><span class="tn">Pimenta caiena</span><span class="td">Capsaicina TRPV1</span><span class="tq">150mg</span></div>
+      <div class="tpill"><span class="tn">Piperina</span><span class="td">+20% absorção</span><span class="tq">50mg</span></div>
+      <div class="tpill"><span class="tn">Cromo picolinato</span><span class="td">Glicose</span><span class="tq">250µg</span></div>
+      <div class="tpill"><span class="tn">L-Glutamina</span><span class="td">Intestino</span><span class="tq">500mg</span></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--amber2);color:var(--amber2)" onclick="showTab(this,'ign-ing','ign')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'ign-prep','ign')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'ign-sci','ign')">Ciência</button>
+  </div>
+
+  <div class="panel on" id="ign-ing">
+    <div class="slabel">Por shot</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🥃 Vodka</span><span class="ing-act">Vasodilatação · absorção acelerada dos ativos</span></div><span class="ing-qty">20ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🌶️ Licor de Pimenta (ou cachaça)</span><span class="ing-act">Potencializa capsaicina · sabor</span></div><span class="ing-qty">20ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🟤 Halls Preta (triturada em pó)</span><span class="ing-act">Mentol · anestesia amargor da Berberina/Forskolina</span></div><span class="ing-qty">1 bala</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🍫 Cacau 100%</span><span class="ing-act">Mascara álcool · chocolate com menta picante</span></div><span class="ing-qty">1,5g</span></div>
+      <div class="ing-row divider"><span class="ing-name">— Mix Turbo (pós secos) —</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Berberina HCL</span><span class="ing-act">Queima & sensibilidade insulínica</span></div><span class="ing-qty">50mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Forskolina</span><span class="ing-act">Ativação AMPc · queima celular</span></div><span class="ing-qty">20mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Picolinato de cromo</span><span class="ing-act">Controle glicêmico</span></div><span class="ing-qty">250µg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Carnitina</span><span class="ing-act">Transporte gordura → mitocôndria</span></div><span class="ing-qty">1.000mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Tirosina</span><span class="ing-act">Energia & foco mental</span></div><span class="ing-qty">300mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Taurina</span><span class="ing-act">Metabolismo lipídico</span></div><span class="ing-qty">500mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🔥 Gengibre</span><span class="ing-act">Termogênese +3%</span></div><span class="ing-qty">600mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">🌶️ Pimenta caiena</span><span class="ing-act">Capsaicina · TRPV1</span></div><span class="ing-qty">150mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Piperina</span><span class="ing-act">+20% biodisponibilidade</span></div><span class="ing-qty">50mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Glutamina</span><span class="ing-act">Proteção intestinal</span></div><span class="ing-qty">500mg</span></div>
+    </div>
+    <div class="slabel" style="margin-top:8px">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🥃</div><div class="sbox-val">Imediato</div><div class="sbox-lbl">Consumir já</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val">Pós seco</div><div class="sbox-lbl">30d fresco</div></div>
+      <div class="sbox"><div class="sbox-ico">🔥</div><div class="sbox-val">~3h</div><div class="sbox-lbl">Duração</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="ign-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="stxt"><strong>Copo de shot no freezer</strong> por pelo menos 30 min antes. O frio é parte do ritual! 🧊</div></div>
+      <div class="step"><div class="snum">2</div><div class="stxt"><strong>Em um copo:</strong> misture a vodka e o licor de pimenta.</div></div>
+      <div class="step"><div class="snum">3</div><div class="stxt"><strong>Triture 1 Halls Preta</strong> até virar pó finíssimo. Misture diretamente ao álcool e mexa até dissolver completamente.</div></div>
+      <div class="step"><div class="snum">4</div><div class="stxt"><strong>Incorpore</strong> o Mix de Ativos Turbo + cacau em pó. Mexa bem até homogenizar.</div></div>
+      <div class="step"><div class="snum">5</div><div class="stxt"><strong>Sirva</strong> no copo de shot gelado. O aroma de chocolate com menta picante vai surpreender! 🍫🌶️</div></div>
+    </div>
+    <div class="slabel">Como usar</div>
+    <div class="warn-box" style="border-color:var(--amber2);background:rgba(255,140,0,.06);margin:0 18px 8px;color:rgba(255,255,255,.6)"><strong style="color:var(--amber2)">🥃 Dose</strong>1 shot · consumir com moderação · não usar pré-treino intenso · adultos responsáveis</div>
+    <div class="warn-box" style="border-color:rgba(255,69,0,.4);background:rgba(255,69,0,.05);margin:0 18px 8px;color:rgba(255,180,100,.7)"><strong style="color:#ff6030">🔞 Aviso</strong>Bebida alcoólica. Não dirigir. Não combinar com outros depressores do SNC. Contra-indicado para grávidas, menores de idade e pessoas com doenças hepáticas.</div>
+    <div class="warn-box" style="border-color:rgba(184,115,51,.4);background:rgba(184,115,51,.05);margin:0 18px 14px;color:rgba(255,200,150,.6)"><strong style="color:var(--copper)">⚠️ Halls no álcool</strong>O álcool dissolve o mentol mais eficientemente que a água, criando maior concentração de mentol livre que atua nos receptores TRPM8.</div>
+  </div>
+
+  <div class="panel" id="ign-sci">
+    <div class="slabel">Ciência do Ignition</div>
+    <div class="sci-card"><div class="sci-name">🥃 Álcool · vasodilatador</div><div class="sci-txt">O etanol causa vasodilatação periférica, aumentando o fluxo sanguíneo e acelerando a distribuição dos ativos lipossolúveis como berberina e forskolina para os tecidos-alvo.</div></div>
+    <div class="sci-card"><div class="sci-name">🟤 Halls · bloqueador de amargor</div><div class="sci-txt">O mentol "anestesia" levemente as papilas gustativas que detectam o amargor intenso da berberina e forskolina. Mecanismo similar ao resfriamento de alimentos amargos.</div></div>
+    <div class="sci-card"><div class="sci-name">🍫 Cacau + Mentol = Choco-Menta Picante</div><div class="sci-txt">A teobromina e flavonóides do cacau se combinam com o mentol do Halls e a capsaicina para criar um perfil de sabor de "chocolate com menta e pimenta". Faz o shot funcional se tornar um drink de performance.</div></div>
+    <div class="sci-card"><div class="sci-name">🧪 Berberina + Forskolina</div><div class="sci-txt">Berberina ativa AMPK (via metabólica do exercício). Forskolina eleva AMPc, estimulando lipase hormônio-sensível e queima de triglicerídeos. Absorção lipídica potencializada pelo etanol.</div></div>
+    <div class="sci-card"><div class="sci-name">⚡ Sinergia vs Shot Cryo</div><div class="sci-txt">O Ignition tem estimativa ~12% maior de gasto calórico que o Cryo-Fire pela vasodilatação adicional do álcool. Porém, o Cryo é mais indicado pré-treino. Cada um tem seu momento.</div></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-ignition" onclick="imprimirReceita('ignition')">🖨️ Imprimir + Kcal</button>
+    <a class="btn btn-ghost" href="index.html">← Início</a>
+  </div>
+  <button class="btn-print-only" onclick="imprimirSoReceita('ignition')">📄 Imprimir só a receita</button>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId, prefix) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='rgba(255,255,255,.28)'; });
+  btn.style.borderBottomColor = 'var(--amber2)'; btn.style.color = 'var(--amber2)';
+}
+function refreshKcal() {
+  const V = getVersionKcal();
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('ign-kd',  '−' + V.ignition + ' kcal');
+  s('ign-k1d', '−' + V.ignition * 30 + ' kcal');
+  s('ign-k2d', '−' + V.ignition * 2 * 30 + ' kcal');
+}
+function buildEmbers(layer) {
+  const emojis=['🔥','✨','🥃','🌶️','💫','🌟','⭐','🔥','🥃','✨'];
+  for(let i=0;i<16;i++){
+    const e=document.createElement('div');
+    e.className='ember';
+    e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    const r0=Math.random()*20-10;
+    e.style.cssText=`left:${Math.random()*94}%;top:${Math.random()*94}%;--sz:${13+Math.random()*20}px;--op:${0.05+Math.random()*0.08};--dur:${3+Math.random()*5}s;--dl:${Math.random()*4}s;--r0:${r0}deg;--r1:${r0+9}deg;--r2:${r0-9}deg;`;
+    layer.appendChild(e);
+  }
+}
+buildEmbers(document.getElementById('emberLayer'));
+refreshKcal();
+</script>
+</body>
+</html>

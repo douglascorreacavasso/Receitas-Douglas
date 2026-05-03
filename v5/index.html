@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Receitas do Doug 🔥</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="deco-layer" id="decoLayer"></div>
+
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <div class="hero-calc fade-up">
+    <div class="site-logo">🔥 Receitas do Doug</div>
+    <div class="site-tagline">Queime mais · Coma melhor · Durma bem</div>
+    <div class="hero-badge"><span class="pulse-dot"></span>Calculadora personalizada</div>
+    <div class="hero-h1">Descubra quanto você<br>vai <span class="c1">queimar</span> a mais! 🚀</div>
+    <div class="hero-p">Informe seu perfil e veja o gasto calórico extra de cada receita</div>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-sec">
+    <div class="form-card">
+      <div class="field">
+        <label>Sexo biológico</label>
+        <div class="sex-row">
+          <button class="sex-btn active" id="btnM" onclick="setSex('M')">♂ Masculino</button>
+          <button class="sex-btn" id="btnF" onclick="setSex('F')">♀ Feminino</button>
+        </div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Peso (kg)</label><input type="number" id="peso" placeholder="ex: 80" min="30" max="300"></div>
+        <div class="field"><label>Altura (cm)</label><input type="number" id="altura" placeholder="ex: 175" min="100" max="250"></div>
+      </div>
+      <div class="f2">
+        <div class="field"><label>Idade</label><input type="number" id="idade" placeholder="ex: 30" min="10" max="100"></div>
+        <div class="field"><label>Atividade</label>
+          <select id="atividade">
+            <option value="1.2">Sedentário</option>
+            <option value="1.375" selected>Leve (1–3x/sem)</option>
+            <option value="1.55">Moderado (3–5x/sem)</option>
+            <option value="1.725">Intenso (6–7x/sem)</option>
+            <option value="1.9">Muito intenso</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcular()">Calcular meu gasto calórico</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="res-sec" style="display:none">
+    <div class="metrics-grid fade-up">
+      <div class="mc mc-green"><div class="mc-label">Metabolismo basal (TMB)</div><div class="mc-val" id="r-tmb">—</div><div class="mc-sub">Mifflin-St Jeor</div></div>
+      <div class="mc mc-blue"><div class="mc-label">Gasto total/dia</div><div class="mc-val" id="r-tdee">—</div><div class="mc-sub" id="r-fat">—</div></div>
+      <div class="mc mc-amber"><div class="mc-label">IMC</div><div class="mc-val" id="r-imc">—</div><div class="mc-sub" id="r-imccat">—</div></div>
+      <div class="mc mc-purple"><div class="mc-label">Gordura est.</div><div class="mc-val" id="r-gc">—</div><div class="mc-sub">Por IMC</div></div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-lbl">⚡ Gasto por 4h de janela termogênica</div>
+      <div id="barchart"></div>
+    </div>
+
+    <div class="sim-section">
+      <div class="sim-title">📊 Simulação de consumo</div>
+      <div class="sim-sub">Veja quanto você queimaria com 1, 2 ou 3 doses por dia</div>
+      <div class="sim-tabs">
+        <button class="sim-tab on" onclick="showSim('semana',this)">📅 Por semana</button>
+        <button class="sim-tab" onclick="showSim('mes',this)">🗓️ Por mês</button>
+      </div>
+      <div id="sim-semana"><table class="sim-table" id="tbl-semana"></table></div>
+      <div id="sim-mes" style="display:none"><table class="sim-table" id="tbl-mes"></table></div>
+    </div>
+
+    <button class="recalc-btn" onclick="resetCalc()">↺ Recalcular com outros dados</button>
+
+    <!-- CAROUSEL -->
+    <div class="car-sec">
+      <div class="car-title">🍽️ Escolha sua receita</div>
+      <div class="car-sub">Toque para ver a receita completa e seu cálculo personalizado</div>
+      <div class="car-track" id="carTrack">
+        <a class="rcard rc-barra" href="barras.html">
+          <span class="rc-ico">🍫</span>
+          <div class="rc-name">Barra Termogênica</div>
+          <div class="rc-badge">3 versões · V1 ao V3</div>
+          <div class="rc-desc">Da base até a Ultimate com 20+ ativos. Escolha seu nível.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-barra">— kcal</strong></div>
+          <div class="rc-cta">Ver versões →</div>
+          <div class="rcard-deco">🍫</div>
+        </a>
+        <a class="rcard rc-goma" href="goma.html">
+          <span class="rc-ico">🍋</span>
+          <div class="rc-name">Goma de Limão</div>
+          <div class="rc-badge">~4h de efeito</div>
+          <div class="rc-desc">Mastigável e discreta. Capsaicina + EGCG + gengibre.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-goma">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">🌿</div>
+        </a>
+        <a class="rcard rc-shot" href="shot.html">
+          <span class="rc-ico">⚗️</span>
+          <div class="rc-name">Shot Gelificado</div>
+          <div class="rc-badge">Rápido · 40ml</div>
+          <div class="rc-desc">Dose concentrada. Ideal para pré-treino.</div>
+          <div class="rc-kcal">Extra queimado:<strong id="c-shot">— kcal</strong></div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">⚗️</div>
+        </a>
+        <a class="rcard rc-sono" href="sono.html">
+          <span class="rc-ico">🌙</span>
+          <div class="rc-name">Bala do Sono</div>
+          <div class="rc-badge">Sono profundo 💤</div>
+          <div class="rc-desc">Melatonina, magnésio, L-teanina e 5-HTP. Recuperação noturna.</div>
+          <div class="rc-kcal" style="color:var(--bl2);font-weight:700">Melhora sono e recuperação</div>
+          <div class="rc-cta">Ver receita →</div>
+          <div class="rcard-deco">🌙</div>
+        </a>
+      </div>
+      <div class="car-dots" id="carDots">
+        <button class="cdot active" onclick="scrollCard(0)"></button>
+        <button class="cdot" onclick="scrollCard(1)"></button>
+        <button class="cdot" onclick="scrollCard(2)"></button>
+        <button class="cdot" onclick="scrollCard(3)"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+let SEX = 'M';
+
+function setSex(s) {
+  SEX = s;
+  document.getElementById('btnM').classList.toggle('active', s === 'M');
+  document.getElementById('btnF').classList.toggle('active', s === 'F');
+}
+
+function calcular() {
+  const p = parseFloat(document.getElementById('peso').value) || 0;
+  const h = parseFloat(document.getElementById('altura').value) || 0;
+  const i = parseFloat(document.getElementById('idade').value) || 0;
+  const a = parseFloat(document.getElementById('atividade').value) || 1.375;
+  if (!p || !h || !i || p < 20 || h < 80 || i < 10) { toast('⚠️ Preencha todos os campos!'); return; }
+  let tmb = SEX === 'M' ? (10*p + 6.25*h - 5*i + 5) : (10*p + 6.25*h - 5*i - 161);
+  const tdee = tmb * a;
+  const imc = p / ((h/100) ** 2);
+  let gc = SEX === 'M' ? (1.2*imc + 0.23*i - 16.2) : (1.2*imc + 0.23*i - 5.4);
+  gc = Math.max(gc, 5);
+  saveProfile(tmb, tdee, SEX);
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('r-tmb',    Math.round(tmb) + ' kcal/dia');
+  s('r-tdee',   Math.round(tdee) + ' kcal/dia');
+  s('r-fat',    'TMB × ' + a);
+  s('r-imc',    imc.toFixed(1) + ' kg/m²');
+  s('r-imccat', imcCat(imc));
+  s('r-gc',     '~' + Math.round(gc) + '%');
+
+  // Esconde form, mostra resultados, vai para o topo
+  document.getElementById('form-sec').style.display = 'none';
+  const resSec = document.getElementById('res-sec');
+  resSec.style.display = 'block';
+  resSec.style.animation = 'fadeUp .4s ease both';
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  // Constrói gráficos APÓS o res-sec estar visível no DOM
+  setTimeout(() => {
+    buildBars(tmb, tdee);
+    refreshKcal();
+  }, 30);
+
+  toast('✅ Perfil calculado!');
+}
+
+function buildBars(tmb, tdee) {
+  const E = getExtras();
+  const v3 = E.barra;
+  const bars = [
+    {l:'🍫 Barra V3', v:v3,                     c:'rgba(245,166,35,.85)'},
+    {l:'🍋 Goma limão', v:E.goma,                c:'rgba(17,194,122,.85)'},
+    {l:'⚗️ Shot neutro', v:E.shot,               c:'rgba(139,92,246,.85)'},
+    {l:'Sem termogênico', v:Math.round(tdee/6),  c:'rgba(255,255,255,.12)'},
+  ];
+  const max = Math.max(...bars.map(b => b.v));
+  const bc = document.getElementById('barchart');
+  bc.innerHTML = '';
+  bars.forEach(b => {
+    const pct = Math.round((b.v / max) * 100);
+    const row = document.createElement('div');
+    row.className = 'bc-row';
+    row.innerHTML = `<div class="bc-l">${b.l}</div><div class="bc-bg"><div class="bc-f" style="width:0;background:${b.c}"><span>+${b.v} kcal</span></div></div>`;
+    bc.appendChild(row);
+    // Anima após render, igual ao original
+    setTimeout(() => { row.querySelector('.bc-f').style.width = pct + '%'; }, 120);
+  });
+}
+
+function refreshKcal() {
+  const E = getExtras();
+  const v3 = E.barra;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('c-barra', '+' + v3 + ' kcal');
+  set('c-goma',  '+' + E.goma + ' kcal');
+  set('c-shot',  '+' + E.shot + ' kcal');
+  buildSimTables();
+}
+
+function buildSimTables() {
+  const E = getExtras();
+  const v1 = Math.round(E.barra*.70), v2 = Math.round(E.barra*.86), v3 = E.barra;
+  const rows = [
+    {nome:'🍫 Barra V1', kc:v1, cor:'sim-td-amber'},
+    {nome:'🍫 Barra V2', kc:v2, cor:'sim-td-amber'},
+    {nome:'🍫 Barra V3', kc:v3, cor:'sim-td-amber'},
+    {nome:'🍋 Goma',     kc:E.goma, cor:'sim-td-green'},
+    {nome:'⚗️ Shot',    kc:E.shot, cor:'sim-td-purple'},
+  ];
+  const fmtKg = k => (k/7700).toFixed(2) + 'kg';
+  const tS = document.getElementById('tbl-semana');
+  tS.innerHTML = `<tr><th>Receita</th><th>1x/dia·7d</th><th>2x/dia·7d</th><th>3x/dia·7d</th><th>Gordura est.</th></tr>`;
+  rows.forEach(r => {
+    tS.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*7} kcal</td><td class="${r.cor}">+${r.kc*2*7} kcal</td><td class="${r.cor}">+${r.kc*3*7} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*7)}</td></tr>`;
+  });
+  const tM = document.getElementById('tbl-mes');
+  tM.innerHTML = `<tr><th>Receita</th><th>1x/dia·30d</th><th>2x/dia·30d</th><th>3x/dia·30d</th><th>Gordura est.</th></tr>`;
+  rows.forEach(r => {
+    tM.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">+${r.kc*30} kcal</td><td class="${r.cor}">+${r.kc*2*30} kcal</td><td class="${r.cor}">+${r.kc*3*30} kcal</td><td class="sim-td-pink">${fmtKg(r.kc*3*30)}</td></tr>`;
+  });
+}
+
+function showSim(tab, btn) {
+  document.getElementById('sim-semana').style.display = tab === 'semana' ? '' : 'none';
+  document.getElementById('sim-mes').style.display    = tab === 'mes' ? '' : 'none';
+  document.querySelectorAll('.sim-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function resetCalc() {
+  localStorage.removeItem('thermo_tmb');
+  localStorage.removeItem('thermo_tdee');
+  localStorage.removeItem('thermo_sex');
+  document.getElementById('form-sec').style.display = '';
+  document.getElementById('res-sec').style.display  = 'none';
+}
+
+function scrollCard(i) {
+  const t = document.getElementById('carTrack');
+  t.scrollTo({left: i * 246, behavior: 'smooth'});
+  document.querySelectorAll('.cdot').forEach((d,j) => d.classList.toggle('active', i===j));
+}
+
+// init
+buildDeco(document.getElementById('decoLayer'));
+if (localStorage.getItem('thermo_tmb')) {
+  document.getElementById('r-tmb').textContent    = Math.round(getTMB())  + ' kcal/dia';
+  document.getElementById('r-tdee').textContent   = Math.round(getTDEE()) + ' kcal/dia';
+  document.getElementById('r-fat').textContent    = 'perfil salvo';
+  document.getElementById('r-imc').textContent    = '—';
+  document.getElementById('r-imccat').textContent = 'Recalcule para atualizar';
+  document.getElementById('r-gc').textContent     = '—';
+  document.getElementById('form-sec').style.display = 'none';
+  document.getElementById('res-sec').style.display  = 'block';
+  setTimeout(() => { buildBars(getTMB(), getTDEE()); refreshKcal(); }, 30);
+}
+</script>
+</body>
+</html>

@@ -5,29 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Receitas do Doug 🔥</title>
 <link rel="stylesheet" href="shared.css">
-<style>
-.rc-picapau{background:linear-gradient(145deg,#1f0e02,#3a1d08);border-color:rgba(200,122,42,.5)!important}
-.rc-picapau .rc-name{color:#f0b56e!important}
-.rc-picapau .rc-badge{background:rgba(200,122,42,.15)!important;color:#f0b56e!important;border-color:rgba(200,122,42,.35)!important}
-.rc-picapau .rc-cta{color:#f0b56e!important}
-.evo-section{padding:0 18px 22px}
-.evo-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:18px;padding:16px;position:relative;overflow:hidden}
-.evo-card::before{content:'📉';position:absolute;right:14px;top:10px;font-size:30px;opacity:.12}
-.evo-title{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
-.evo-sub{font-size:11px;color:var(--muted2);margin-bottom:12px;font-weight:600}
-.evo-pills{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.evo-pill{padding:5px 11px;border-radius:99px;font-size:11px;font-weight:700;border:1.5px solid var(--border);background:rgba(255,255,255,.02);color:var(--muted2);cursor:pointer;font-family:var(--fb);transition:all .2s}
-.evo-pill.on{background:rgba(245,166,35,.15);border-color:var(--amber);color:var(--al)}
-.evo-svg{width:100%;height:auto;display:block;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid var(--border)}
-.evo-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.evo-stat{background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:10px;padding:9px 8px;text-align:center}
-.evo-stat-v{font-size:15px;font-weight:700;color:var(--al);font-family:var(--fd);line-height:1.1}
-.evo-stat-l{font-size:10px;color:var(--muted2);margin-top:3px;font-weight:600}
-.print-all-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 36px);margin:0 18px 18px;padding:14px;background:linear-gradient(135deg,#f5a623,#e07b10);border:none;border-radius:16px;color:#fff;font-size:14px;font-weight:700;font-family:var(--fd);cursor:pointer;letter-spacing:.02em;transition:opacity .2s,transform .15s}
-.print-all-btn:hover{opacity:.92}
-.print-all-btn:active{transform:scale(.98)}
-@media(max-width:380px){.evo-stat-v{font-size:13px}.evo-stat-l{font-size:9px}}
-</style>
 </head>
 <body>
 <div class="deco-layer" id="decoLayer"></div>
@@ -99,30 +76,6 @@
 
     <button class="recalc-btn" onclick="resetCalc()">↺ Recalcular com outros dados</button>
 
-    <!-- EVOLUÇÃO DE GORDURA -->
-    <div class="evo-section">
-      <div class="evo-card">
-        <div class="evo-title">📉 Evolução estimada de gordura</div>
-        <div class="evo-sub">Projeção considerando consumo regular de uma receita termogênica</div>
-        <div class="evo-pills" id="evoPills">
-          <button class="evo-pill" data-evo="v3">🍫 Barra V3</button>
-          <button class="evo-pill on" data-evo="cryo">🧊 Cryo-Fire</button>
-          <button class="evo-pill" data-evo="ignition">🥃 Ignition</button>
-          <button class="evo-pill" data-evo="goma">🍋 Goma</button>
-          <button class="evo-pill" data-evo="shot">⚗️ Shot</button>
-        </div>
-        <svg class="evo-svg" id="evoSvg" viewBox="0 0 360 180" preserveAspectRatio="none"></svg>
-        <div class="evo-stats">
-          <div class="evo-stat"><div class="evo-stat-v" id="evo7d">—</div><div class="evo-stat-l">7 dias</div></div>
-          <div class="evo-stat"><div class="evo-stat-v" id="evo30d">—</div><div class="evo-stat-l">30 dias</div></div>
-          <div class="evo-stat"><div class="evo-stat-v" id="evo90d">—</div><div class="evo-stat-l">90 dias</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- IMPRIMIR TODAS -->
-    <button class="print-all-btn" onclick="imprimirTodasReceitas(true)">🖨️ Imprimir caderno completo · todas as receitas</button>
-
     <!-- CAROUSEL -->
     <div class="car-sec">
       <div class="car-title">🍽️ Escolha sua receita</div>
@@ -160,7 +113,7 @@
           <div class="rc-name">Bala do Sono</div>
           <div class="rc-badge">Sono profundo 💤</div>
           <div class="rc-desc">Melatonina, magnésio, L-teanina e 5-HTP. Recuperação noturna.</div>
-          <div class="rc-kcal">Adiciona à dieta:<strong id="c-sono" style="color:var(--bl2)">+— kcal</strong></div>
+          <div class="rc-kcal" style="color:var(--bl2);font-weight:700">Melhora sono e recuperação</div>
           <div class="rc-cta">Ver receita →</div>
           <div class="rcard-deco">🌙</div>
         </a>
@@ -182,15 +135,6 @@
           <div class="rc-cta">Ver receita →</div>
           <div class="rcard-deco">🥃</div>
         </a>
-        <a class="rcard rc-picapau" href="picapau.html">
-          <span class="rc-ico">🥧</span>
-          <div class="rc-name">Torta Pica-Pau</div>
-          <div class="rc-badge">2 versões · Sobremesa 🍯</div>
-          <div class="rc-desc">Inspirada na torta escocesa amanteigada do desenho. Crepe ou tortinha clássica.</div>
-          <div class="rc-kcal">Adiciona à dieta:<strong id="c-picapau" style="color:#f0b56e">+— kcal</strong></div>
-          <div class="rc-cta">Ver versões →</div>
-          <div class="rcard-deco">🥧</div>
-        </a>
       </div>
       <div class="car-dots" id="carDots">
         <button class="cdot active" onclick="scrollCard(0)"></button>
@@ -199,7 +143,6 @@
         <button class="cdot" onclick="scrollCard(3)"></button>
         <button class="cdot" onclick="scrollCard(4)"></button>
         <button class="cdot" onclick="scrollCard(5)"></button>
-        <button class="cdot" onclick="scrollCard(6)"></button>
       </div>
     </div>
   </div>
@@ -286,111 +229,31 @@ function refreshKcal() {
   set('c-shot',  '−' + E.shot + ' kcal');
   set('c-cryo',     '−' + E.cryo + ' kcal');
   set('c-ignition', '−' + E.ignition + ' kcal');
-  set('c-sono',     '+' + E.sono + ' kcal');
-  // Pica-Pau mostra média das 2 versões
-  const ppMedia = Math.round((E.picapau_crepe + E.picapau_torta) / 2);
-  set('c-picapau',  '+' + ppMedia + ' kcal (médio)');
   buildSimTables();
-  drawEvolution();
 }
-
-/* GRÁFICO DE EVOLUÇÃO DE GORDURA */
-let evoTipo = 'cryo';
-function drawEvolution() {
-  const E = getExtras();
-  const map = { v3: E.barra, cryo: E.cryo, ignition: E.ignition, goma: E.goma, shot: E.shot };
-  const kcalDose = map[evoTipo] || E.cryo;
-  const dias = 90;
-  // assume 1 dose/dia média (conservador)
-  const points = [];
-  let acum = 0;
-  for (let i = 0; i <= dias; i++) {
-    acum += kcalDose;
-    points.push({ d: i, g: acum / 7.7 }); // gramas de gordura
-  }
-  const maxG = points[points.length - 1].g;
-  const W = 360, H = 180, padL = 32, padR = 8, padT = 14, padB = 22;
-  const xScale = d => padL + (d / dias) * (W - padL - padR);
-  const yScale = g => H - padB - (g / maxG) * (H - padT - padB);
-
-  const path = points.map((p,i) => (i===0?'M':'L') + xScale(p.d).toFixed(1) + ',' + yScale(p.g).toFixed(1)).join(' ');
-  const area = path + ` L${xScale(dias)},${H-padB} L${padL},${H-padB} Z`;
-  
-  // grid
-  const gridLines = [0.25, 0.5, 0.75, 1].map(f => {
-    const y = padT + (1-f) * (H - padT - padB);
-    const valor = (maxG * f).toFixed(0);
-    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-            <text x="${padL-4}" y="${y+3}" text-anchor="end" fill="rgba(112,144,184,0.7)" font-size="9" font-family="Nunito,sans-serif">${valor}g</text>`;
-  }).join('');
-  
-  // marcadores 7/30/90 dias
-  const marks = [7, 30, 90].map(d => {
-    const x = xScale(d);
-    return `<line x1="${x}" y1="${padT}" x2="${x}" y2="${H-padB}" stroke="rgba(245,166,35,0.15)" stroke-width="1" stroke-dasharray="2,3"/>
-            <text x="${x}" y="${H-padB+13}" text-anchor="middle" fill="rgba(112,144,184,0.8)" font-size="9" font-family="Nunito,sans-serif">${d}d</text>`;
-  }).join('');
-
-  const svg = document.getElementById('evoSvg');
-  svg.innerHTML = `
-    <defs>
-      <linearGradient id="evoGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#f5a623" stop-opacity="0.4"/>
-        <stop offset="100%" stop-color="#f5a623" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    ${gridLines}
-    ${marks}
-    <path d="${area}" fill="url(#evoGrad)"/>
-    <path d="${path}" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${xScale(dias)}" cy="${yScale(points[dias].g)}" r="4" fill="#ffd280" stroke="#f5a623" stroke-width="2"/>
-  `;
-
-  const fmt = g => g >= 1000 ? (g/1000).toFixed(2) + 'kg' : Math.round(g) + 'g';
-  document.getElementById('evo7d').textContent  = fmt(points[7].g);
-  document.getElementById('evo30d').textContent = fmt(points[30].g);
-  document.getElementById('evo90d').textContent = fmt(points[90].g);
-}
-
-document.addEventListener('click', e => {
-  const pill = e.target.closest('.evo-pill');
-  if (!pill) return;
-  document.querySelectorAll('.evo-pill').forEach(p => p.classList.remove('on'));
-  pill.classList.add('on');
-  evoTipo = pill.dataset.evo;
-  drawEvolution();
-});
 
 function buildSimTables() {
   const E = getExtras();
   const v1 = Math.round(E.barra*.70), v2 = Math.round(E.barra*.86), v3 = E.barra;
   const rows = [
-    {nome:'🍫 Barra V1', kc:v1,    cor:'sim-td-amber',  termo:true},
-    {nome:'🍫 Barra V2', kc:v2,    cor:'sim-td-amber',  termo:true},
-    {nome:'🍫 Barra V3', kc:v3,    cor:'sim-td-amber',  termo:true},
-    {nome:'🍋 Goma',     kc:E.goma, cor:'sim-td-green', termo:true},
-    {nome:'⚗️ Shot',    kc:E.shot, cor:'sim-td-purple', termo:true},
-    {nome:'🧊 Cryo-Fire (s/ álcool)', kc:E.cryo,     cor:'sim-td-purple', termo:true},
-    {nome:'🥃 Ignition (c/ álcool)',  kc:E.ignition, cor:'sim-td-amber',  termo:true},
-    {nome:'🌙 Bala do Sono',          kc:E.sono,     cor:'',              termo:false},
-    {nome:'🥞 Pica-Pau Crepe',        kc:E.picapau_crepe, cor:'',         termo:false},
-    {nome:'🥧 Pica-Pau Tortinha',     kc:E.picapau_torta, cor:'',         termo:false},
+    {nome:'🍫 Barra V1', kc:v1,    cor:'sim-td-amber'},
+    {nome:'🍫 Barra V2', kc:v2,    cor:'sim-td-amber'},
+    {nome:'🍫 Barra V3', kc:v3,    cor:'sim-td-amber'},
+    {nome:'🍋 Goma',     kc:E.goma, cor:'sim-td-green'},
+    {nome:'⚗️ Shot',    kc:E.shot, cor:'sim-td-purple'},
+    {nome:'🧊 Cryo-Fire (s/ álcool)', kc:E.cryo,     cor:'sim-td-purple'},
+    {nome:'🥃 Ignition (c/ álcool)',  kc:E.ignition, cor:'sim-td-amber'},
   ];
   const fmtKg = k => (k/7700).toFixed(2) + 'kg';
-  const sinal = r => r.termo ? '−' : '+';
-  const corCel = r => r.termo ? r.cor : 'style="color:var(--bl2)"';
-  const corCelClass = r => r.termo ? 'class="'+r.cor+'"' : 'style="color:var(--bl2)"';
   const tS = document.getElementById('tbl-semana');
-  tS.innerHTML = `<tr><th>Receita</th><th>1x/dia·7d</th><th>2x/dia·7d</th><th>3x/dia·7d</th><th>${'Gordura est.'}</th></tr>`;
+  tS.innerHTML = `<tr><th>Receita</th><th>1x/dia·7d</th><th>2x/dia·7d</th><th>3x/dia·7d</th><th>Gordura est.</th></tr>`;
   rows.forEach(r => {
-    const gord = r.termo ? `<td class="sim-td-pink">~${fmtKg(r.kc*3*7)}</td>` : `<td style="color:var(--muted)">—</td>`;
-    tS.innerHTML += `<tr><td>${r.nome}</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*7} kcal</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*2*7} kcal</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*3*7} kcal</td>${gord}</tr>`;
+    tS.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">−${r.kc*7} kcal</td><td class="${r.cor}">−${r.kc*2*7} kcal</td><td class="${r.cor}">−${r.kc*3*7} kcal</td><td class="sim-td-pink">~${fmtKg(r.kc*3*7)}</td></tr>`;
   });
   const tM = document.getElementById('tbl-mes');
   tM.innerHTML = `<tr><th>Receita</th><th>1x/dia·30d</th><th>2x/dia·30d</th><th>3x/dia·30d</th><th>Gordura est.</th></tr>`;
   rows.forEach(r => {
-    const gord = r.termo ? `<td class="sim-td-pink">~${fmtKg(r.kc*3*30)}</td>` : `<td style="color:var(--muted)">—</td>`;
-    tM.innerHTML += `<tr><td>${r.nome}</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*30} kcal</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*2*30} kcal</td><td ${corCelClass(r)}>${sinal(r)}${r.kc*3*30} kcal</td>${gord}</tr>`;
+    tM.innerHTML += `<tr><td>${r.nome}</td><td class="${r.cor}">−${r.kc*30} kcal</td><td class="${r.cor}">−${r.kc*2*30} kcal</td><td class="${r.cor}">−${r.kc*3*30} kcal</td><td class="sim-td-pink">~${fmtKg(r.kc*3*30)}</td></tr>`;
   });
 }
 

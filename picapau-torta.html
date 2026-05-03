@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Pica-Pau Torta Clássica 🥧 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+:root{
+  --pp2:#a05a1c;  --pp2l:#d99a5a;
+  --ppdark:#1a0e05; --ppgold:#ffc870; --ppchoc:#3d1f0a;
+}
+body{background:var(--ppdark)!important}
+.pp-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.pp-bg::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 55% at 50% 0%, rgba(160,90,28,.2) 0%, transparent 60%),
+             radial-gradient(ellipse 50% 40% at 90% 90%, rgba(255,200,112,.08) 0%, transparent 55%)}
+.pp-topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;
+  padding:11px 18px;background:rgba(26,14,5,.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(160,90,28,.3)}
+.pp-back{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border:1.5px solid rgba(160,90,28,.4);border-radius:20px;background:rgba(160,90,28,.08);
+  color:var(--pp2l);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.pp-back:hover{background:rgba(160,90,28,.18)}
+.pp-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--pp2l);flex:1}
+
+.pp-hero{padding:24px 18px 14px;position:relative;z-index:1}
+.pp-emoji{position:absolute;right:14px;top:14px;font-size:64px;opacity:.18;pointer-events:none;
+  animation:wob 4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg) translateY(-6px)}}
+.pp-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:99px;
+  background:rgba(160,90,28,.15);border:1.5px solid rgba(160,90,28,.4);
+  color:var(--pp2l);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.pp-h1{font-family:var(--fd);font-size:28px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:6px}
+.pp-h1 .gold{color:var(--ppgold)}
+.pp-h1 .copper{color:var(--pp2l)}
+.pp-p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:600}
+
+.kcal-banner{margin:0 18px;border-radius:18px;padding:14px;
+  background:linear-gradient(135deg,rgba(160,90,28,.12),rgba(255,200,112,.05));
+  border:2px solid rgba(160,90,28,.35);position:relative;z-index:1}
+.kb-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;color:var(--pp2l);font-family:var(--fd)}
+.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.kb-box{background:rgba(0,0,0,.35);border-radius:12px;padding:9px 10px;border:1px solid rgba(160,90,28,.18)}
+.kb-val{font-size:15px;font-weight:700;line-height:1.1;font-family:var(--fd);color:var(--pp2l);word-break:break-word}
+.kb-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:3px;font-weight:600;line-height:1.3}
+
+.tab-bar{display:flex;border-bottom:1.5px solid rgba(160,90,28,.25);margin-top:14px;position:relative;z-index:1}
+.tab{flex:1;padding:12px 4px;border:none;background:transparent;font-family:var(--fb);font-size:12px;font-weight:700;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;margin-bottom:-1.5px}
+.panel{display:none;padding-bottom:8px;position:relative;z-index:1}
+.panel.on{display:block}
+
+.slabel{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:16px 18px 8px;display:flex;align-items:center;gap:7px}
+.slabel::after{content:'';flex:1;height:1px;background:rgba(160,90,28,.18)}
+.ing-row{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px}
+.ing-row.sec-h{background:linear-gradient(135deg,rgba(160,90,28,.14),rgba(255,200,112,.04));border-color:rgba(160,90,28,.35)}
+.ing-row.sec-h .ing-name{color:var(--ppgold);font-weight:800;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--fd)}
+.ing-row.sec-h .ing-act{color:rgba(255,255,255,.5)}
+
+.steps{padding:0 18px}
+.step{display:flex;gap:13px;align-items:flex-start;margin-bottom:12px}
+.snum{width:29px;height:29px;border-radius:50%;background:rgba(160,90,28,.22);border:2px solid rgba(160,90,28,.45);color:var(--pp2l);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--fd)}
+.stxt{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;font-weight:600}
+.stxt strong{color:var(--pp2l);font-weight:700}
+
+.warn-box{padding:12px 14px;border-left:3px solid var(--pp2);border-radius:0 12px 12px 0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.65);font-weight:600;margin:0 18px 10px;background:rgba(160,90,28,.06)}
+.warn-box strong{display:block;margin-bottom:3px;color:var(--pp2l)}
+
+.action-row{display:flex;gap:10px;padding:8px 18px 16px;flex-wrap:wrap}
+.btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 12px;border-radius:14px;border:2px solid;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-pp{background:linear-gradient(135deg,rgba(160,90,28,.2),rgba(255,200,112,.08));border-color:rgba(160,90,28,.55);color:var(--pp2l)}
+.btn-pp:hover{background:rgba(160,90,28,.3)}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.6);text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn-print-only{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 36px);margin:0 18px 12px;padding:11px 12px;border-radius:14px;border:1.5px dashed rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer}
+.btn-print-only:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.8)}
+
+.tip-card{background:linear-gradient(135deg,rgba(255,200,112,.06),rgba(160,90,28,.04));border:1px solid rgba(255,200,112,.18);border-radius:12px;padding:11px 13px;margin:0 18px 9px}
+.tip-name{font-size:12px;font-weight:700;color:var(--ppgold);margin-bottom:4px;font-family:var(--fd)}
+.tip-txt{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;font-weight:600}
+
+.special-banner{margin:0 18px 14px;padding:14px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(255,200,112,.1),rgba(160,90,28,.08));
+  border:1.5px dashed rgba(255,200,112,.4);position:relative;z-index:1}
+.special-h{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--ppgold);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.special-p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pp-bg"></div>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="pp-topnav">
+    <a class="pp-back" href="picapau.html">← Versões</a>
+    <span class="pp-title">🥧 Pica-Pau Clássica</span>
+  </nav>
+
+  <div class="pp-hero">
+    <span class="pp-emoji">🥧</span>
+    <div class="pp-tag">🥧 Versão 2 · Massa podre</div>
+    <div class="pp-h1">Pica-Pau <span class="copper">Clássica</span> <span class="gold">100% fiel</span></div>
+    <div class="pp-p">Tortinha individual, sem tampa, com recheio marrom-acaramelado brilhante (chocolate + caramelo misturados). Cristais de açúcar mascavo triturado misturados na massa para crocância e doçura extra.</div>
+  </div>
+
+  <div class="special-banner">
+    <div class="special-h">✨ Toque especial: cristais de mascavo</div>
+    <div class="special-p">Diferente de todas as outras receitas: você cristaliza açúcar mascavo até endurecer, tritura em pedaços e mistura na massa podre. Resultado: pequenos pontos crocantes e doces espalhados que estouram na boca quando morde. Esse é o "diferencial gourmet" desta versão.</div>
+  </div>
+
+  <div class="kcal-banner">
+    <div class="kb-title">⚡ Calorias por porção</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="to-kd">+— kcal</div><div class="kb-lbl">Por tortinha</div></div>
+      <div class="kb-box"><div class="kb-val">~1h30</div><div class="kb-lbl">Tempo total</div></div>
+      <div class="kb-box"><div class="kb-val">6–8</div><div class="kb-lbl">Porções</div></div>
+      <div class="kb-box"><div class="kb-val">Avançado</div><div class="kb-lbl">Dificuldade</div></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--pp2);color:var(--pp2l)" onclick="showTab(this,'to-ing')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'to-prep')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'to-tips')">Dicas</button>
+  </div>
+
+  <div class="panel on" id="to-ing">
+    <div class="slabel">Massa podre + cristais (6–8 tortinhas)</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:6px">
+      <div class="ing-row sec-h"><div class="ing-left"><span class="ing-name">— PÂTE SABLÉE —</span><span class="ing-act" style="font-size:11px">Crocante, doce, amanteigada</span></div></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Farinha de trigo</span><span class="ing-act">Estrutura</span></div><span class="ing-qty" style="color:var(--pp2l)">200g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga gelada em cubos</span><span class="ing-act">Cria a "podridão" da massa</span></div><span class="ing-qty" style="color:var(--pp2l)">100g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Açúcar de confeiteiro</span><span class="ing-act">Adoça sem grumos</span></div><span class="ing-qty" style="color:var(--pp2l)">60g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gema de ovo</span><span class="ing-act">Liga · cor dourada</span></div><span class="ing-qty" style="color:var(--pp2l)">1 un</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Sal</span><span class="ing-act">Equilibra</span></div><span class="ing-qty" style="color:var(--pp2l)">1 pitada</span></div>
+      <div class="ing-row" style="border-color:rgba(255,200,112,.4);background:rgba(255,200,112,.06)"><div class="ing-left"><span class="ing-name" style="color:var(--ppgold)">Cristais de mascavo triturado ✨</span><span class="ing-act">TOQUE ESPECIAL · doçura + crocância</span></div><span class="ing-qty" style="color:var(--ppgold)">30g</span></div>
+    </div>
+
+    <div class="slabel">Recheio (chocolate + caramelo misturados)</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:6px">
+      <div class="ing-row sec-h"><div class="ing-left"><span class="ing-name">— COR MARROM-DOURADA —</span><span class="ing-act" style="font-size:11px">Misturados = aspecto fiel ao desenho</span></div></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Açúcar mascavo escuro</span><span class="ing-act">Base do caramelo</span></div><span class="ing-qty" style="color:var(--pp2l)">120g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga sem sal</span><span class="ing-act">Amanteado</span></div><span class="ing-qty" style="color:var(--pp2l)">50g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Creme de leite fresco</span><span class="ing-act">Cremosidade</span></div><span class="ing-qty" style="color:var(--pp2l)">120ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Chocolate amargo 70%</span><span class="ing-act">Cor escura · equilibra doce</span></div><span class="ing-qty" style="color:var(--pp2l)">120g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel ✨</span><span class="ing-act">Brilho + textura pegajosa</span></div><span class="ing-qty" style="color:var(--pp2l)">20ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Sal + baunilha</span><span class="ing-act">Realça · aroma</span></div><span class="ing-qty" style="color:var(--pp2l)">a gosto</span></div>
+    </div>
+  </div>
+
+  <div class="panel" id="to-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="stxt"><strong>CRISTAIS DE MASCAVO ✨:</strong> leve 50g de mascavo + 1 colher de água ao fogo médio. Mexa até ferver e formar uma calda. Despeje sobre papel manteiga em camada fina. Espere endurecer (15 min).</div></div>
+      <div class="step"><div class="snum">2</div><div class="stxt"><strong>Triture</strong> os cristais grosseiramente no processador. Reserve 30g para a massa e o resto para decorar.</div></div>
+      <div class="step"><div class="snum">3</div><div class="stxt"><strong>MASSA PODRE:</strong> misture farinha + açúcar de confeiteiro + sal + cristais (30g). Adicione manteiga gelada em cubos. Esfarele com a ponta dos dedos até virar farofa.</div></div>
+      <div class="step"><div class="snum">4</div><div class="stxt"><strong>Junte a gema.</strong> Misture rapidamente até formar massa homogênea. NÃO sove. Embrulhe em filme. Geladeira por 30 min.</div></div>
+      <div class="step"><div class="snum">5</div><div class="stxt"><strong>Abra a massa</strong> entre 2 papéis manteiga (~3mm). Forre forminhas individuais (~8cm) ou forma média de fundo removível. Fure o fundo com garfo.</div></div>
+      <div class="step"><div class="snum">6</div><div class="stxt"><strong>Asse em branco</strong> a 180°C por 15 min com peso (feijão sobre papel manteiga). Retire o peso e asse mais 5 min até dourar. Esfrie completamente.</div></div>
+      <div class="step"><div class="snum">7</div><div class="stxt"><strong>CARAMELO:</strong> derreta a manteiga, adicione o açúcar mascavo. Mexa em fogo médio até borbulhar (~3 min). Adicione creme de leite. Mexa por 1 min.</div></div>
+      <div class="step"><div class="snum">8</div><div class="stxt"><strong>RECHEIO MARROM:</strong> tire do fogo. Adicione chocolate amargo picado e mel. Mexa até derreter completamente — vira uma calda marrom-escura, brilhante e viscosa (a cor do desenho).</div></div>
+      <div class="step"><div class="snum">9</div><div class="stxt"><strong>Sal + baunilha.</strong> Despeje o recheio nas tortinhas frias até a borda. <strong>NÃO cubra</strong> com massa por cima — recheio fica aparente, brilhante.</div></div>
+      <div class="step"><div class="snum">10</div><div class="stxt"><strong>Geladeira por 2h.</strong> O recheio fica viscoso e pegajoso. Polvilhe os cristais de mascavo restantes por cima antes de servir 🥧</div></div>
+    </div>
+    <div class="slabel">Como servir</div>
+    <div class="warn-box"><strong>📋 Dose recomendada</strong>1 tortinha por porção · sobremesa ocasional · ~445 kcal/un</div>
+    <div class="warn-box" style="border-color:#3b9eff;background:rgba(59,158,255,.05);color:#93c5fd"><strong style="color:#93c5fd">⚠️ Calorias</strong>Esta receita ADICIONA calorias. Combine com um termogênico (Cryo, V3, Ignition) no mesmo dia para equilibrar.</div>
+  </div>
+
+  <div class="panel" id="to-tips">
+    <div class="slabel">Dicas de chef</div>
+    <div class="tip-card"><div class="tip-name">✨ Cristais de mascavo · o segredo</div><div class="tip-txt">Não pule esta etapa! São eles que diferenciam essa torta de qualquer outra. Quando você morde, eles "estouram" doce na boca. Use mascavo escuro (mais melaço = mais sabor).</div></div>
+    <div class="tip-card"><div class="tip-name">🧈 Por que "massa podre"?</div><div class="tip-txt">Pâte sablée tem mais manteiga e menos água que massa comum. Por isso fica crocante, esfarela quando morde e absorve menos umidade do recheio (mantém crocante por mais tempo).</div></div>
+    <div class="tip-card"><div class="tip-name">🥚 Assar em branco</div><div class="tip-txt">Forre a massa com papel manteiga + feijão (ou arroz). Isso impede que ela infle e mantém o formato. Sem isso, sua tortinha vira biscoito disforme.</div></div>
+    <div class="tip-card"><div class="tip-name">🎨 A cor exata do desenho</div><div class="tip-txt">A magia é misturar caramelo de mascavo (amarelo) + chocolate amargo (escuro) ainda quentes. Resultado: marrom-acaramelado brilhante, idêntico ao recheio do Pica-Pau.</div></div>
+    <div class="tip-card"><div class="tip-name">📦 Como guardar</div><div class="tip-txt">Geladeira em recipiente fechado por até 5 dias. Não congele — descongela com textura granulada. Cristais de mascavo (sobra): pote hermético seco, 30 dias.</div></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-pp" onclick="imprimirReceita('picapau_torta')">🖨️ Imprimir + Kcal</button>
+    <a class="btn btn-ghost" href="picapau-crepe.html">← Versão 1 (Crepe)</a>
+  </div>
+  <button class="btn-print-only" onclick="imprimirSoReceita('picapau_torta')">📄 Imprimir só a receita</button>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='rgba(255,255,255,.4)'; });
+  btn.style.borderBottomColor = 'var(--pp2)'; btn.style.color = 'var(--pp2l)';
+}
+function refreshKcal() {
+  const E = getExtras();
+  const el = document.getElementById('to-kd');
+  if (el) el.textContent = '+' + E.picapau_torta + ' kcal';
+}
+buildDeco(document.getElementById('decoLayer'));
+refreshKcal();
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bala do Sono 🌙 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(59,158,255,.08) 0%,transparent 55%);z-index:0"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="topnav">
+    <a class="back-btn" href="index.html">← Início</a>
+    <span class="topnav-title">🌙 Bala do Sono V2</span>
+  </nav>
+
+  <div class="pg-hero fade-up" style="position:relative">
+    <div class="deco-hero">🌙</div>
+    <div class="ver-tag vt-b">🌙 Sono profundo · 7–8h</div>
+    <div class="rec-h1">Bala do <span class="cb">Sono</span> V2</div>
+    <div class="rec-p">Melatonina, magnésio, L-teanina, 5-HTP e mais. Sono profundo para otimizar GH, leptina e recuperação.</div>
+  </div>
+
+  <div class="sono-stars">⭐⭐⭐⭐⭐</div>
+
+  <div style="padding:0 18px;margin-bottom:16px">
+    <div class="sono-benefit"><div class="sono-ico">💤</div><div class="sono-txt"><strong>Sono profundo</strong><span>Aumenta fases N3 e REM em 20–30%</span></div></div>
+    <div class="sono-benefit"><div class="sono-ico">🏋️</div><div class="sono-txt"><strong>Recuperação muscular</strong><span>GH liberado principalmente durante sono profundo</span></div></div>
+    <div class="sono-benefit"><div class="sono-ico">⚖️</div><div class="sono-txt"><strong>Controle hormonal</strong><span>Otimiza leptina (saciedade) e grelina (fome)</span></div></div>
+    <div class="sono-benefit"><div class="sono-ico">🧠</div><div class="sono-txt"><strong>Clareza mental</strong><span>Consolidação de memória e redução de cortisol noturno</span></div></div>
+  </div>
+
+  <div class="sono-timing">
+    <div class="stbox"><div class="stbox-val">3–4</div><div class="stbox-lbl">balas/dose</div></div>
+    <div class="stbox"><div class="stbox-val">45–60min</div><div class="stbox-lbl">antes de dormir</div></div>
+    <div class="stbox"><div class="stbox-val">7–8h</div><div class="stbox-lbl">sono esperado</div></div>
+    <div class="stbox"><div class="stbox-val">0 álcool</div><div class="stbox-lbl">não combinar</div></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--blue);color:var(--bl2)" onclick="showTab(this,'sono-ing','sono')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'sono-prep','sono')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'sono-sci','sono')">Ciência</button>
+  </div>
+
+  <div class="panel on" id="sono-ing">
+    <div class="slabel">Por bala unitária</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Valeriana em pó</span><span class="ing-act">↑ GABA · sedação natural</span></div><span class="ing-qty" style="color:var(--bl2)">100mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Camomila em pó</span><span class="ing-act">Apigenina · ansiolítico leve</span></div><span class="ing-qty" style="color:var(--bl2)">25mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Magnésio glicinato</span><span class="ing-act">Cofator GABA · relaxa músculos</span></div><span class="ing-qty" style="color:var(--bl2)">200mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">L-Teanina</span><span class="ing-act">Ondas alfa · calma sem sedação</span></div><span class="ing-qty" style="color:var(--bl2)">150mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Glicina em pó</span><span class="ing-act">↓ temperatura corporal central</span></div><span class="ing-qty" style="color:var(--bl2)">1.000mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">5-HTP</span><span class="ing-act">Precursor serotonina e melatonina</span></div><span class="ing-qty" style="color:var(--bl2)">50mg</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name" style="color:#f09595">⚠️ Melatonina (gotas)</span><span class="ing-act">ABAIXO DE 38°C — ajustar por lote</span></div><span class="ing-qty" style="color:#f09595">—</span></div>
+    </div>
+    <div class="slabel">Base estrutural (lote 25)</div>
+    <div class="ing-list">
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Gelatina sem sabor</span></div><span class="ing-qty" style="color:var(--bl2)">14g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Agar-agar</span></div><span class="ing-qty" style="color:var(--bl2)">3g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Suco de limão</span></div><span class="ing-qty" style="color:var(--bl2)">60ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel ou stevia</span><span class="ing-act">A gosto</span></div><span class="ing-qty" style="color:var(--bl2)">—</span></div>
+    </div>
+    <div class="slabel">Armazenamento</div>
+    <div class="stor-row">
+      <div class="sbox"><div class="sbox-ico">🌙</div><div class="sbox-val" style="color:var(--bl2)">~25</div><div class="sbox-lbl">balas/lote</div></div>
+      <div class="sbox"><div class="sbox-ico">❄️</div><div class="sbox-val" style="color:var(--bl2)">15 dias</div><div class="sbox-lbl">Geladeira</div></div>
+      <div class="sbox"><div class="sbox-ico">🧊</div><div class="sbox-val" style="color:var(--bl2)">60 dias</div><div class="sbox-lbl">Freezer</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="sono-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">1</div><div class="stxt"><strong style="color:var(--bl2)">Ferva 80ml água.</strong> Adicione 3g agar-agar, mexa por 2 min. Esfriar até ~50°C.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">2</div><div class="stxt"><strong style="color:var(--bl2)">Bowl separado:</strong> gelatina + suco de limão. Aguardar 5 min para hidratar.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">3</div><div class="stxt"><strong style="color:var(--bl2)">Infusão:</strong> valeriana + camomila em 70ml água quente. Tampar e aguardar 10 min. Coar bem.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">4</div><div class="stxt"><strong style="color:var(--bl2)">Misture:</strong> agar + gelatina + chá morno. Adicione mel ou stevia a gosto.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">5</div><div class="stxt"><strong style="color:var(--bl2)">ABAIXO DE 45°C:</strong> adicione magnésio + L-teanina + glicina + 5-HTP. Mexa bem.</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">6</div><div class="stxt">🌡️ <strong style="color:#f09595">CRÍTICO — ABAIXO DE 38°C:</strong> adicione a melatonina em gotas! A melatonina se destrói acima de 40°C!</div></div>
+      <div class="step"><div class="snum" style="background:rgba(59,158,255,.2);border:2px solid rgba(59,158,255,.5);color:var(--bl2)">7</div><div class="stxt"><strong style="color:var(--bl2)">Forminhas silicone.</strong> Geladeira 2h. Rende ~25 balas.</div></div>
+    </div>
+    <div class="slabel">Dose recomendada</div>
+    <div class="warn-box" style="border-color:var(--blue);background:rgba(59,158,255,.06);margin:0 18px 8px"><strong style="color:var(--bl2)">📋 Como usar</strong>3–4 balas · 45–60 min antes de dormir · não usar com álcool</div>
+    <div class="warn-box" style="border-color:#f09595;background:rgba(244,63,142,.05);margin:0 18px 14px;color:#f09595"><strong>⚠️ Esta receita é para sono</strong>Não tem efeito termogênico. Objetivo: melhorar qualidade do sono para otimizar hormônios (GH, leptina, grelina) e recuperação muscular.</div>
+  </div>
+
+  <div class="panel" id="sono-sci">
+    <div class="slabel">Ciência de cada ativo</div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">😴 Melatonina</div><div class="sci-txt">Hormônio que regula o ciclo circadiano. A produção endógena diminui com luz artificial. Dose eficaz: 0,5–3mg, 30–60 min antes de dormir.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">🧘 L-Teanina (150mg)</div><div class="sci-txt">Aminoácido do chá verde. Aumenta ondas alfa cerebrais — calma sem sedação. Sinérgica com melatonina para qualidade de sono.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">💎 Glicina (1.000mg)</div><div class="sci-txt">Reduz temperatura corporal central facilitando sono profundo. Melhora qualidade do sono em 30 min após ingestão segundo estudos.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">🔩 Magnésio glicinato</div><div class="sci-txt">Cofator para síntese de GABA (neurotransmissor inibitório). Relaxa músculos e nervos. Forma glicinato tem melhor absorção intestinal.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">🌿 Valeriana</div><div class="sci-txt">Aumenta GABA no cérebro de forma similar a ansiolíticos leves. Efeito acumulativo: melhora com uso regular de 2–4 semanas.</div></div>
+    <div class="sci-card"><div class="sci-name" style="color:var(--bl2)">🔄 5-HTP</div><div class="sci-txt">Precursor direto de serotonina e melatonina. Aumenta síntese endógena de melatonina, potencializando o efeito da dose exógena.</div></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-blue" onclick="imprimirReceita('sono')">🖨️ Imprimir + Info</button>
+    <a class="btn btn-ghost" href="index.html">← Início</a>
+  </div>
+  <button class="btn-print-only" onclick="imprimirSoReceita('sono')">📄 Imprimir só a receita</button>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId, prefix) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='var(--muted)'; });
+  btn.style.borderBottomColor = 'var(--blue)'; btn.style.color = 'var(--bl2)';
+}
+buildDeco(document.getElementById('decoLayer'));
+</script>
+</body>
+</html>

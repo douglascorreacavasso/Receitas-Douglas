@@ -16,31 +16,15 @@ function saveProfile(tmb, tdee, sex) {
   localStorage.setItem(SK, sex);
 }
 
-/* ═══════════════════════════════════════
-   CALORIAS POR RECEITA
-   - Receitas termogênicas: kcal QUEIMADAS (negativas para o usuário)
-   - Receitas sem termogênese (sono): kcal GANHAS (positivas)
-   - Boost de +18% nas receitas com Berberina+Forskolina (V3, Cryo, Ignition)
-═══════════════════════════════════════ */
 function getExtras() {
   const h = getTMB() / 24;
-  const TURBO = 1.18; // Berberina ativa AMPK + Forskolina eleva AMPc → +18% lipólise
   return {
-    barra:    Math.round(h * 0.45 * TURBO), // V3 já tem Berberina + Forskolina
+    barra:    Math.round(h * 0.45),
     goma:     Math.round(h * 0.35),
     shot:     Math.round(h * 0.30),
-    cryo:     Math.round(h * 0.52 * TURBO),
-    ignition: Math.round(h * 0.58 * TURBO),
-    // Receitas que ADICIONAM calorias
-    sono:           65,  // 3-4 balas - gelatina + mel/stevia
-    picapau_crepe:  385, // crepe amanteigado + caramelo mascavo + chocolate amargo c/ mel
-    picapau_torta:  445  // massa podre + recheio chocolate amargo+caramelo + cristais mascavo
+    cryo:     Math.round(h * 0.52), // Turbo mix + mentol térmico + glucomanana
+    ignition: Math.round(h * 0.58)  // Turbo mix + álcool vasodilatador + absorção acelerada
   };
-}
-
-// Identifica se a receita queima (-) ou ganha (+) calorias
-function isTermogenica(tipo) {
-  return ['v1','v2','v3','barra','goma','shot','cryo','ignition'].includes(tipo);
 }
 
 function getVersionKcal() {
@@ -158,8 +142,8 @@ const RECEITAS = {
     nome: 'Barra Termogênica V3 Ultimate',
     emoji: '🚀',
     cor: '#f5a623',
-    subtitulo: 'Avançado · 22+ ativos · Berberina + Forskolina · ~5h+',
-    descricao: 'A versão mais completa. Berberina, Forskolina, carnitina, CLA, café verde, 3 pimentas e muito mais.',
+    subtitulo: 'Avançado · 20+ ativos · Combo 3 pimentas · ~5h+',
+    descricao: 'A versão mais completa. Carnitina, CLA, café verde, 3 pimentas e muito mais.',
     ingredientes: [
       { nome: 'Cacau 100%',               acao: 'Base',                             qtd: '15g' },
       { nome: 'Canela de Ceilão',         acao: 'Sensibilidade insulínica',          qtd: '2g' },
@@ -173,8 +157,6 @@ const RECEITAS = {
       { nome: 'L-Carnitina tartarato',    acao: 'Transporte gordura → mitocôndria', qtd: '1.000mg' },
       { nome: 'CLA em pó',               acao: 'Oxidação de gordura',               qtd: '1g' },
       { nome: 'Extrato café verde',       acao: 'Ácido clorogênico',                 qtd: '500mg' },
-      { nome: 'Berberina HCL',            acao: 'AMPK · controle glicêmico',         qtd: '500mg' },
-      { nome: 'Forskolina',               acao: '↑ AMPc · lipólise',                 qtd: '250mg' },
       { nome: 'Laranja amarga',           acao: 'Sinefrina · queima',                qtd: '100mg' },
       { nome: 'Picolinato de cromo',      acao: 'Controle glicêmico',                qtd: '250µg' },
       { nome: 'Taurina',                  acao: 'Metabolismo lipídico',              qtd: '500mg' },
@@ -186,10 +168,10 @@ const RECEITAS = {
       { nome: 'Cacau 70% (cobertura)',    acao: 'Coating · sabor',                   qtd: '15g' },
     ],
     preparo: [
-      'Misture TODOS os pós secos — todos da V2 + carnitina, CLA, café verde, berberina, forskolina, laranja amarga, cromo, taurina, piperina e as 3 pimentas.',
+      'Misture TODOS os pós secos — todos da V2 + carnitina, CLA, café verde, laranja amarga, cromo, taurina, piperina e as 3 pimentas.',
       'Mel + ashwagandha + 150ml água morna. Mexa RÁPIDO — a glucomanana gelifica rapidamente!',
       'Forma. Camada 1,5cm. Geladeira 2h. Cortar em barras.',
-      'Coating: cacau 70% + manteiga de cacau. Mergulhar barras. Freezer 10 min. Polvilhar cacau em pó + toque de Halls preto triturado para efeito térmico final.',
+      'Coating: cacau 70% + manteiga de cacau. Mergulhar barras. Freezer 10 min. Polvilhar cacau em pó.',
     ],
     dose: '1 barra · 30–45 min antes das refeições · máx 3/dia · ⚠️ comece na dose mínima de pimenta',
     armazenamento: 'Geladeira: 10 dias · Freezer: 60 dias · Rende: ~10 barras',
@@ -337,83 +319,6 @@ const RECEITAS = {
     dose: '1 shot · consumir com moderação · não usar pré-treino com exercício intenso · adultos responsáveis',
     armazenamento: 'Consumir imediatamente · Mix de pós seco: 30 dias em local fresco e seco',
   },
-  picapau_crepe: {
-    nome: 'Torta Pica-Pau · Versão Crepe',
-    emoji: '🥞',
-    cor: '#c87a2a',
-    subtitulo: 'Sobremesa · Crepe largo amanteigado · Caramelo mascavo + chocolate amargo',
-    descricao: 'Inspirada na torta escocesa amanteigada do Pica-Pau. Massa de crepe extra-larga (estilo máquina profissional), recheada com caramelo de açúcar mascavo dourado e cobertura de chocolate amargo com mel — pegajoso e brilhante.',
-    ingredientes: [
-      { nome: '— MASSA DO CREPE —',           acao: 'Suave, amanteigada, fina',                  qtd: '' },
-      { nome: 'Farinha de trigo',              acao: 'Estrutura',                                  qtd: '120g' },
-      { nome: 'Ovos inteiros',                 acao: 'Liga + maciez',                              qtd: '2 un' },
-      { nome: 'Leite integral',                acao: 'Hidratação',                                 qtd: '250ml' },
-      { nome: 'Manteiga noisette',             acao: 'Manteiga dourada · sabor amendoado',         qtd: '30g' },
-      { nome: 'Açúcar refinado',               acao: 'Caramelização leve da massa',                qtd: '15g' },
-      { nome: 'Sal',                           acao: 'Realça sabor',                               qtd: '1 pitada' },
-      { nome: 'Essência de baunilha',          acao: 'Aroma',                                      qtd: '5ml' },
-      { nome: '— CARAMELO MASCAVO (amarelo) —', acao: 'O recheio dourado pegajoso',               qtd: '' },
-      { nome: 'Açúcar mascavo escuro',         acao: 'Base do butterscotch · cor + melaço',        qtd: '150g' },
-      { nome: 'Manteiga sem sal',              acao: 'Cremosidade · "amanteado"',                  qtd: '60g' },
-      { nome: 'Creme de leite fresco',         acao: 'Suaviza · ponto fluido',                     qtd: '100ml' },
-      { nome: 'Glicose de milho (Karo)',       acao: 'Impede cristalização · brilho',              qtd: '15ml' },
-      { nome: 'Sal',                           acao: 'Salted butterscotch · equilibra o doce',     qtd: '1 pitada' },
-      { nome: '— CHOCOLATE AMARGO (cobertura) —', acao: 'A camada escura líquida',                qtd: '' },
-      { nome: 'Chocolate amargo 70%',          acao: 'Equilibra o doce do mascavo',                qtd: '100g' },
-      { nome: 'Creme de leite',                acao: 'Ganache fluida',                             qtd: '100ml' },
-      { nome: 'Mel',                           acao: 'Pegajoso + brilho espelhado',                qtd: '15ml' },
-    ],
-    preparo: [
-      'MASSA: bata todos os ingredientes da massa no liquidificador até homogeneizar. Deixe descansar 30 min na geladeira (relaxa o glúten = crepe macio).',
-      'CARAMELO: em panela média, derreta a manteiga e adicione o açúcar mascavo. Mexa em fogo médio até borbulhar e formar um xarope grosso (~3 min).',
-      'Adicione o creme de leite e a glicose. Mexa por 1 min até virar um caramelo amarelo-dourado, brilhante e viscoso. Tire do fogo e reserve morno.',
-      'CHOCOLATE: derreta o chocolate amargo com o creme de leite (banho-maria ou micro 30s + 30s). Misture o mel. A ganache deve ficar lisa e brilhante.',
-      'CREPE: aqueça uma chapa larga (ou frigideira grande de 28cm+) com um fio de manteiga. Despeje uma concha de massa e espalhe fino. Cozinhe 1 min de cada lado.',
-      'MONTAGEM (crepe ainda na chapa): espalhe uma camada generosa de caramelo mascavo sobre a metade do crepe. Por cima do caramelo, regue com a ganache de chocolate.',
-      'Dobre o crepe em meia-lua (ou trouxinha). Pressione levemente. Sirva imediatamente — o recheio deve estar ainda fluido por dentro.',
-      'OPCIONAL: pincele um pouco da ganache por cima do crepe dobrado e tosteie com maçarico para crosta escura.',
-    ],
-    dose: '1 crepe · sobremesa ocasional (não diária) · ~385 kcal/porção',
-    armazenamento: 'Massa de crepe (cru): geladeira 24h · Caramelo: 7 dias · Ganache: 5 dias · Crepe pronto: consumir na hora',
-  },
-  picapau_torta: {
-    nome: 'Torta Pica-Pau · Versão Clássica',
-    emoji: '🥧',
-    cor: '#a05a1c',
-    subtitulo: 'Sobremesa · Massa podre · Recheio chocolate+caramelo · Cristais de mascavo',
-    descricao: 'A versão fiel ao desenho: tortinha individual de massa podre amanteigada, sem tampa, recheada com chocolate amargo derretido misturado ao caramelo de açúcar mascavo. Toque especial: cristais de açúcar mascavo cristalizado triturado misturados na massa para crocância e doçura extra.',
-    ingredientes: [
-      { nome: '— MASSA PODRE (pâte sablée) —', acao: 'Crocante, doce, amanteigada',              qtd: '' },
-      { nome: 'Farinha de trigo',              acao: 'Estrutura',                                  qtd: '200g' },
-      { nome: 'Manteiga gelada em cubos',      acao: 'Cria a "podridão" da massa',                qtd: '100g' },
-      { nome: 'Açúcar de confeiteiro',         acao: 'Adoça sem deixar grumos',                    qtd: '60g' },
-      { nome: 'Gema de ovo',                   acao: 'Liga · cor dourada',                         qtd: '1 un' },
-      { nome: 'Sal',                           acao: 'Equilibra',                                  qtd: '1 pitada' },
-      { nome: 'Cristais de mascavo triturado ✨', acao: 'TOQUE ESPECIAL · doçura + crocância',  qtd: '30g' },
-      { nome: '— RECHEIO (chocolate + caramelo) —', acao: 'Misturados = cor marrom-acaramelada brilhante', qtd: '' },
-      { nome: 'Açúcar mascavo escuro',         acao: 'Base do caramelo',                           qtd: '120g' },
-      { nome: 'Manteiga sem sal',              acao: 'Amanteado',                                  qtd: '50g' },
-      { nome: 'Creme de leite fresco',         acao: 'Cremosidade',                                qtd: '120ml' },
-      { nome: 'Chocolate amargo 70%',          acao: 'Misturado ao caramelo · cor escura',         qtd: '120g' },
-      { nome: 'Mel',                           acao: 'Brilho + textura pegajosa',                  qtd: '20ml' },
-      { nome: 'Sal',                           acao: 'Realça',                                     qtd: '1 pitada' },
-      { nome: 'Essência de baunilha',          acao: 'Aroma profundo',                             qtd: '5ml' },
-    ],
-    preparo: [
-      'CRISTAIS DE MASCAVO: leve 50g de açúcar mascavo + 1 colher de água ao fogo médio. Mexa até ferver e formar uma calda. Despeje sobre papel manteiga em camada fina. Espere endurecer (15 min). Triture grosseiramente no processador. Reserve 30g para a massa e o resto para decorar.',
-      'MASSA PODRE: numa tigela, misture farinha + açúcar de confeiteiro + sal + cristais de mascavo triturados (30g). Adicione manteiga gelada em cubos. Esfarele com a ponta dos dedos até virar farofa.',
-      'Junte a gema. Misture rapidamente até formar uma massa homogênea. NÃO sove. Embrulhe em filme e geladeira por 30 min.',
-      'Abra a massa entre 2 papéis manteiga (~3mm). Forre forminhas individuais (~8cm) ou uma forma média de fundo removível. Fure o fundo com garfo.',
-      'Asse em branco a 180°C por 15 min com peso (feijão sobre papel manteiga). Retire o peso e asse mais 5 min até dourar. Esfrie completamente.',
-      'CARAMELO: derreta a manteiga, adicione o açúcar mascavo. Mexa em fogo médio até borbulhar (~3 min). Adicione o creme de leite e mexa por 1 min.',
-      'CHOCOLATE+CARAMELO: tire o caramelo do fogo. Adicione o chocolate amargo picado e o mel. Mexa até derreter completamente — vai virar uma calda marrom-escura, brilhante e viscosa (a cor exata da torta do Pica-Pau).',
-      'Adicione o sal e a baunilha. Despeje o recheio nas tortinhas já frias, preenchendo até a borda. NÃO cobrir com massa por cima — o recheio deve ficar aparente, brilhante.',
-      'Geladeira por 2h para firmar. O recheio fica viscoso e "pegajoso" — exatamente como no desenho.',
-      'FINALIZAÇÃO: polvilhe os cristais de mascavo restantes por cima antes de servir, para crocância e o brilho dourado.',
-    ],
-    dose: '1 tortinha individual · sobremesa ocasional · ~445 kcal/porção',
-    armazenamento: 'Geladeira: 5 dias (em recipiente fechado) · Cristais de mascavo: 30 dias em pote hermético seco · Não recomendado congelar',
-  },
 };
 
 /* ═══════════════════════════
@@ -423,42 +328,37 @@ function _gerarPDF(tipo, incluirKcal) {
   const r = RECEITAS[tipo];
   if (!r) return;
   const v    = getVersionKcal();
-  const E    = getExtras();
   const tmb  = getTMB();
-  const kcalMap = { v1: v.v1, v2: v.v2, v3: v.v3, goma: v.goma, shot: v.shot, cryo: v.cryo, ignition: v.ignition, sono: E.sono, picapau_crepe: E.picapau_crepe, picapau_torta: E.picapau_torta };
+  const kcalMap = { v1: v.v1, v2: v.v2, v3: v.v3, goma: v.goma, shot: v.shot, sono: 0 };
   const kcal = kcalMap[tipo] || 0;
-  const termo = isTermogenica(tipo);
-  const sinal = termo ? '−' : '+';
-  const corKcal = termo ? '#b84d00' : '#3b9eff';
-  const labelKcal = termo ? 'Calorias EXTRAS queimadas' : 'Calorias adicionadas pela receita';
 
   let secKcal = '';
   if (incluirKcal && kcal > 0) {
     secKcal = `
       <div class="section">
-        <h2>${termo ? '⚡ Gasto calórico extra estimado' : '🍽️ Calorias adicionadas'}</h2>
+        <h2>⚡ Gasto calórico extra estimado</h2>
         <p style="font-size:12px;color:#555;margin-bottom:10px">
-          ${termo
-            ? `Baseado no seu metabolismo basal de <strong>${Math.round(tmb)} kcal/dia</strong>. Valores representam calorias <em>extras queimadas</em> pela ação termogênica dos ativos.`
-            : `Esta receita <strong>adiciona</strong> calorias à sua dieta — mas seu objetivo aqui não é queima, e sim melhorar sono/recuperação para otimizar GH, leptina, grelina e a queima do dia seguinte.`
-          }
+          Baseado no seu metabolismo basal de <strong>${Math.round(tmb)} kcal/dia</strong>.
+          Valores representam calorias <em>extras queimadas</em> pela ação termogênica dos ativos.
         </p>
         <table>
-          <tr><th>Doses/dia</th><th>${labelKcal}/dose</th><th>Por semana</th><th>Por mês</th>${termo ? '<th>Gordura est./mês</th>' : ''}</tr>
+          <tr><th>Doses/dia</th><th>Por dose</th><th>Por semana</th><th>Por mês</th><th>Gordura est./mês</th></tr>
           ${[1,2,3].map(d => {
             const sem = kcal * d * 7;
             const mes = kcal * d * 30;
-            const gordura = termo ? `<td style="color:${corKcal}">~${(mes/7700).toFixed(2)} kg</td>` : '';
             return `<tr>
               <td>${d}×/dia</td>
-              <td style="color:${corKcal};font-weight:700">${sinal}${kcal} kcal</td>
-              <td>${sinal}${sem} kcal</td>
-              <td>${sinal}${mes} kcal</td>
-              ${gordura}
+              <td style="color:#b84d00;font-weight:700">−${kcal} kcal</td>
+              <td>−${sem} kcal</td>
+              <td>−${mes} kcal</td>
+              <td style="color:#b84d00">~${(mes/7700).toFixed(2)} kg</td>
             </tr>`;
           }).join('')}
         </table>
       </div>`;
+  } else if (incluirKcal && kcal === 0) {
+    secKcal = `<div class="section" style="background:#f0f7ff;border-left:4px solid #3b9eff;padding:12px 14px;border-radius:8px">
+      <p>🌙 Esta receita não tem efeito termogênico. Objetivo: melhorar sono para otimizar GH, leptina, grelina e recuperação muscular.</p></div>`;
   }
 
   const html = `<!DOCTYPE html>
@@ -485,7 +385,6 @@ li{font-size:13px;line-height:1.65;color:#333}
 .dose-box{background:#fff8ec;border-left:4px solid ${r.cor};color:#5a3200}
 .arm-box{background:#f0f0f0;border-left:4px solid #aaa;color:#444;margin-top:7px}
 .footer{margin-top:22px;padding-top:10px;border-top:1px solid #eee;font-size:11px;color:#aaa;display:flex;justify-content:space-between}
-@media print{.section{page-break-inside:avoid}}
 </style></head><body>
 <div class="header">
   <div class="emoji-big">${r.emoji}</div>
@@ -512,118 +411,6 @@ ${secKcal}
   <span>🔥 Receitas do Doug</span>
   <span>${incluirKcal && tmb ? 'TMB: '+Math.round(tmb)+' kcal/dia · ' : ''}${new Date().toLocaleDateString('pt-BR')}</span>
 </div>
-<script>window.onload=()=>window.print()<\/script>
-</body></html>`;
-
-  const win = window.open('', '_blank');
-  win.document.write(html);
-  win.document.close();
-}
-
-/* ═══════════════════════════
-   PDF com TODAS as receitas
-═══════════════════════════ */
-function imprimirTodasReceitas(incluirKcal = true) {
-  const tmb = getTMB();
-  const v   = getVersionKcal();
-  const E   = getExtras();
-  const kcalMap = { v1: v.v1, v2: v.v2, v3: v.v3, goma: v.goma, shot: v.shot, cryo: v.cryo, ignition: v.ignition, sono: E.sono, picapau_crepe: E.picapau_crepe, picapau_torta: E.picapau_torta };
-  const ordem = ['v1','v2','v3','goma','shot','cryo','ignition','sono','picapau_crepe','picapau_torta'];
-
-  const tabResumo = `
-    <div class="section">
-      <h2 style="color:#f5a623;border-color:#f5a623">📊 Resumo geral · gasto calórico por receita</h2>
-      <table>
-        <tr><th style="background:#f5a623">Receita</th><th style="background:#f5a623">Tipo</th><th style="background:#f5a623">Por dose</th><th style="background:#f5a623">3×/dia · 30d</th><th style="background:#f5a623">~Gordura/mês</th></tr>
-        ${ordem.map(t => {
-          const r = RECEITAS[t]; if (!r) return '';
-          const k = kcalMap[t] || 0;
-          const termo = isTermogenica(t);
-          const sinal = termo ? '−' : '+';
-          const cor = termo ? '#b84d00' : '#3b9eff';
-          const mes = k * 3 * 30;
-          const gordura = termo ? `~${(mes/7700).toFixed(2)} kg` : '<span style="color:#999">—</span>';
-          return `<tr>
-            <td><strong>${r.emoji} ${r.nome}</strong></td>
-            <td style="color:${cor};font-weight:700">${termo ? 'Queima' : 'Adiciona'}</td>
-            <td style="color:${cor};font-weight:700">${sinal}${k} kcal</td>
-            <td>${sinal}${mes} kcal</td>
-            <td style="color:${cor}">${gordura}</td>
-          </tr>`;
-        }).join('')}
-      </table>
-      <p style="font-size:11px;color:#888;margin-top:8px">Baseado em TMB de <strong>${Math.round(tmb)} kcal/dia</strong>.</p>
-    </div>`;
-
-  const blocosReceitas = ordem.map(t => {
-    const r = RECEITAS[t]; if (!r) return '';
-    return `
-      <div class="recipe-block">
-        <div class="header" style="border-color:${r.cor}">
-          <div class="emoji-big">${r.emoji}</div>
-          <div><h1 style="color:${r.cor}">${r.nome}</h1><div class="subtitle">${r.subtitulo}</div></div>
-        </div>
-        <div class="section">
-          <h2 style="color:${r.cor};border-color:${r.cor}33">🧪 Ingredientes</h2>
-          <table>
-            <tr><th style="background:${r.cor}">Ingrediente</th><th style="background:${r.cor}">Ação</th><th style="background:${r.cor}">Qtd</th></tr>
-            ${r.ingredientes.map(i=>`<tr><td><strong>${i.nome}</strong></td><td class="act">${i.acao}</td><td class="qty" style="color:${r.cor}">${i.qtd}</td></tr>`).join('')}
-          </table>
-        </div>
-        <div class="section">
-          <h2 style="color:${r.cor};border-color:${r.cor}33">👨‍🍳 Modo de preparo</h2>
-          <ol>${r.preparo.map(p=>`<li>${p}</li>`).join('')}</ol>
-        </div>
-        <div class="section">
-          <div class="info-box dose-box" style="border-color:${r.cor}"><strong>📋 Como usar:</strong> ${r.dose}</div>
-          <div class="info-box arm-box"><strong>📦 Armazenamento:</strong> ${r.armazenamento}</div>
-        </div>
-      </div>`;
-  }).join('');
-
-  const html = `<!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8">
-<title>Caderno Completo · Receitas do Doug</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;color:#1a1a1a;background:#fff;padding:28px;max-width:820px;margin:0 auto;font-size:13px}
-.cover{text-align:center;padding:60px 20px 40px;border-bottom:3px solid #f5a623;margin-bottom:30px;page-break-after:always}
-.cover h1{font-size:36px;color:#f5a623;margin-bottom:8px}
-.cover p{font-size:14px;color:#666}
-.cover .date{margin-top:18px;font-size:12px;color:#999}
-.recipe-block{page-break-before:always;padding-top:20px}
-.recipe-block:first-of-type{page-break-before:auto}
-.header{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid}
-.emoji-big{font-size:40px;line-height:1}
-h1{font-size:22px;margin-bottom:3px}
-.subtitle{font-size:12px;color:#666;font-weight:600}
-.section{margin-bottom:18px}
-h2{font-size:13px;font-weight:700;margin-bottom:9px;padding-bottom:4px;border-bottom:1px solid;text-transform:uppercase;letter-spacing:.05em}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{color:#fff;padding:7px 9px;text-align:left;font-size:11px}
-td{padding:7px 9px;border-bottom:1px solid #eee;vertical-align:top}
-tr:nth-child(even) td{background:#fafafa}
-.act{font-size:11px;color:#888}
-.qty{font-weight:700;white-space:nowrap}
-ol{padding-left:18px;display:flex;flex-direction:column;gap:6px}
-li{font-size:12px;line-height:1.6;color:#333}
-.info-box{padding:9px 12px;border-radius:7px;font-size:12px;line-height:1.5;margin-top:6px}
-.dose-box{background:#fff8ec;border-left:4px solid;color:#5a3200}
-.arm-box{background:#f0f0f0;border-left:4px solid #aaa;color:#444}
-.footer{margin-top:30px;padding-top:10px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center}
-@media print{.section,.recipe-block{page-break-inside:avoid}}
-</style></head><body>
-
-<div class="cover">
-  <h1>🔥 Receitas do Doug</h1>
-  <p>Caderno completo · ${ordem.length} receitas termogênicas e funcionais</p>
-  <p class="date">Gerado em ${new Date().toLocaleDateString('pt-BR')} ${incluirKcal && tmb ? '· TMB: '+Math.round(tmb)+' kcal/dia' : ''}</p>
-</div>
-
-${incluirKcal ? tabResumo : ''}
-${blocosReceitas}
-
-<div class="footer">🔥 Receitas do Doug · Queime mais · Coma melhor · Durma bem</div>
 <script>window.onload=()=>window.print()<\/script>
 </body></html>`;
 

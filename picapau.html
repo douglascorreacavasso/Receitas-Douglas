@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Torta do Pica-Pau 🥧 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+:root{
+  --pp1:#c87a2a;  --pp1l:#f0b56e;
+  --pp2:#a05a1c;  --pp2l:#d99a5a;
+  --ppdark:#1a0e05; --ppdark2:#2a1a0c;
+  --ppgold:#ffc870;
+}
+body{background:var(--ppdark)!important}
+.pp-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.pp-bg::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,122,42,.18) 0%, transparent 60%),
+             radial-gradient(ellipse 50% 45% at 90% 90%, rgba(160,90,28,.14) 0%, transparent 55%),
+             radial-gradient(ellipse 40% 35% at 5% 75%, rgba(255,200,112,.08) 0%, transparent 50%)}
+.pp-topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;
+  padding:11px 18px;background:rgba(26,14,5,.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(200,122,42,.25)}
+.pp-topnav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--pp1),var(--ppgold),var(--pp1),transparent)}
+.pp-back{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border:1.5px solid rgba(200,122,42,.35);border-radius:20px;background:rgba(200,122,42,.08);
+  color:var(--pp1l);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.pp-back:hover{background:rgba(200,122,42,.18);box-shadow:0 0 14px rgba(200,122,42,.25)}
+.pp-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--pp1l);letter-spacing:.04em;flex:1}
+
+/* HERO */
+.pp-hero{position:relative;padding:26px 18px 18px;text-align:center;z-index:1}
+.pp-emoji{font-size:64px;display:block;margin-bottom:6px;
+  filter:drop-shadow(0 0 20px rgba(200,122,42,.55));
+  animation:pp-wob 3s ease-in-out infinite}
+@keyframes pp-wob{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.06)}}
+.pp-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:99px;
+  background:rgba(200,122,42,.14);border:1.5px solid rgba(200,122,42,.35);
+  color:var(--pp1l);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;font-family:var(--fd)}
+.pp-h1{font-family:var(--fd);font-size:30px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:6px}
+.pp-h1 .gold{color:var(--ppgold);text-shadow:0 0 16px rgba(255,200,112,.5)}
+.pp-h1 .copper{color:var(--pp1l);text-shadow:0 0 16px rgba(200,122,42,.5)}
+.pp-p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:600;max-width:320px;margin:0 auto}
+
+/* VERSIONS GRID */
+.pp-vers{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px;margin-bottom:20px;position:relative;z-index:1}
+@media(max-width:480px){.pp-vers{grid-template-columns:1fr}}
+.pp-card{position:relative;border-radius:22px;padding:20px 16px 18px;border:2px solid;cursor:pointer;
+  text-decoration:none;display:block;transition:transform .2s,filter .2s;overflow:hidden}
+.pp-card:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.1)}
+.pp-card-deco{position:absolute;font-size:90px;right:-18px;bottom:-22px;opacity:.1;line-height:1;pointer-events:none}
+.pp-c1{background:linear-gradient(155deg,#1f0e02,#3a1d08);border-color:rgba(200,122,42,.5)}
+.pp-c1:hover{box-shadow:0 0 22px rgba(200,122,42,.25)}
+.pp-c2{background:linear-gradient(155deg,#1a0a02,#2e1407);border-color:rgba(160,90,28,.55)}
+.pp-c2:hover{box-shadow:0 0 22px rgba(160,90,28,.3)}
+.pp-c-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.pp-c1 .pp-c-lbl{color:var(--pp1l)}
+.pp-c2 .pp-c-lbl{color:var(--pp2l)}
+.pp-c-ico{font-size:38px;margin-bottom:8px;display:block;animation:pp-wob 3.5s ease-in-out infinite}
+.pp-c-name{font-family:var(--fd);font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.2}
+.pp-c-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.55;font-weight:600;margin-bottom:12px}
+.pp-c-kcal{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;margin-bottom:4px}
+.pp-c-kcal strong{display:block;font-size:22px;font-family:var(--fd);line-height:1.05;margin-top:2px}
+.pp-c1 .pp-c-kcal strong{color:var(--ppgold)}
+.pp-c2 .pp-c-kcal strong{color:var(--pp2l)}
+.pp-c-cta{font-size:12px;font-weight:700;margin-top:10px;display:block}
+.pp-c1 .pp-c-cta{color:var(--pp1l)}
+.pp-c2 .pp-c-cta{color:var(--pp2l)}
+.pp-c-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.pp-pill{font-size:10px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-weight:700}
+
+/* INSPIRATION CARD */
+.pp-insp{margin:0 18px 22px;padding:14px 16px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(200,122,42,.08),rgba(255,200,112,.04));
+  border:1.5px dashed rgba(200,122,42,.3);position:relative;z-index:1}
+.pp-insp-h{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--pp1l);margin-bottom:6px}
+.pp-insp-p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:600}
+
+/* COMPARE TABLE */
+.pp-cmp{margin:0 18px 22px;border-radius:16px;border:1.5px solid rgba(200,122,42,.2);overflow:hidden;background:rgba(0,0,0,.25);position:relative;z-index:1}
+.pp-cmp-h{padding:11px 14px;background:rgba(200,122,42,.12);font-family:var(--fd);font-size:12px;font-weight:700;color:var(--pp1l);letter-spacing:.08em;text-transform:uppercase}
+.pp-cmp-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.pp-cmp-tbl th{padding:9px 10px;background:rgba(200,122,42,.08);color:var(--pp1l);font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;text-align:left;border-bottom:1px solid rgba(200,122,42,.2)}
+.pp-cmp-tbl td{padding:9px 10px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.04);font-weight:600}
+.pp-cmp-tbl tr:last-child td{border-bottom:none}
+.pp-cmp-tbl td:first-child{color:rgba(255,255,255,.45);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+
+/* WARN */
+.pp-warn{margin:0 18px 22px;padding:12px 14px;border-left:3px solid var(--pp1);
+  background:rgba(200,122,42,.06);border-radius:0 12px 12px 0;font-size:12px;line-height:1.6;
+  color:rgba(255,255,255,.65);font-weight:600;position:relative;z-index:1}
+.pp-warn strong{display:block;color:var(--pp1l);margin-bottom:3px}
+</style>
+</head>
+<body>
+<div class="pp-bg"></div>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="pp-topnav">
+    <a class="pp-back" href="index.html">← Voltar</a>
+    <span class="pp-title">🥧 Torta do Pica-Pau</span>
+  </nav>
+
+  <div class="pp-hero">
+    <span class="pp-emoji">🥧</span>
+    <div class="pp-tag">🍯 Torta escocesa amanteigada</div>
+    <div class="pp-h1">Torta do <span class="copper">Pica-Pau</span><br>na vida <span class="gold">real</span></div>
+    <div class="pp-p">Inspirada na lendária "torta escocesa amanteigada" do desenho. Duas versões fiéis ao visual e ao sabor.</div>
+  </div>
+
+  <div class="pp-insp">
+    <div class="pp-insp-h">💡 A inspiração</div>
+    <div class="pp-insp-p">No desenho, a torta tem aspecto arredondado, recheio brilhante marrom-dourado e parece chocolate derretido pegajoso. O nome original em inglês é <em>Butterscotch Tart</em> — um doce escocês real feito de açúcar mascavo com manteiga. Aqui você tem 2 versões: uma estilo crepe (mais leve) e uma clássica (massa podre).</div>
+  </div>
+
+  <div class="pp-vers">
+    <a class="pp-card pp-c1" href="picapau-crepe.html">
+      <div class="pp-c-lbl">Versão 1</div>
+      <span class="pp-c-ico">🥞</span>
+      <div class="pp-c-name">Crepe Largo</div>
+      <div class="pp-c-pills">
+        <span class="pp-pill">🥞 Crepe</span>
+        <span class="pp-pill">⏱ 45 min</span>
+        <span class="pp-pill">⭐ Médio</span>
+      </div>
+      <div class="pp-c-desc">Massa de crepe extra-larga (estilo máquina), recheada com caramelo de mascavo + chocolate amargo com mel. Mais leve, dobrada como meia-lua.</div>
+      <div class="pp-c-kcal">Calorias por porção:<strong id="ppc-crepe">+— kcal</strong></div>
+      <div class="pp-c-cta">Ver receita →</div>
+      <div class="pp-card-deco">🥞</div>
+    </a>
+
+    <a class="pp-card pp-c2" href="picapau-torta.html">
+      <div class="pp-c-lbl">Versão 2</div>
+      <span class="pp-c-ico">🥧</span>
+      <div class="pp-c-name">Clássica · Massa Podre</div>
+      <div class="pp-c-pills">
+        <span class="pp-pill">🥧 Tortinha</span>
+        <span class="pp-pill">⏱ 1h30</span>
+        <span class="pp-pill">⭐ Avançado</span>
+      </div>
+      <div class="pp-c-desc">Tortinha individual, sem tampa. Recheio marrom-acaramelado (chocolate + caramelo misturados). Cristais de mascavo triturado na massa.</div>
+      <div class="pp-c-kcal">Calorias por porção:<strong id="ppc-torta">+— kcal</strong></div>
+      <div class="pp-c-cta">Ver receita →</div>
+      <div class="pp-card-deco">🥧</div>
+    </a>
+  </div>
+
+  <div class="pp-cmp">
+    <div class="pp-cmp-h">📊 Qual versão escolher?</div>
+    <table class="pp-cmp-tbl">
+      <tr><th></th><th>🥞 Crepe</th><th>🥧 Clássica</th></tr>
+      <tr><td>Tempo</td><td>~45 min</td><td>~1h30</td></tr>
+      <tr><td>Dificuldade</td><td>Médio</td><td>Avançado</td></tr>
+      <tr><td>Massa</td><td>Crepe macio</td><td>Podre crocante</td></tr>
+      <tr><td>Recheio</td><td>Camadas separadas</td><td>Misturado (cor única)</td></tr>
+      <tr><td>Visual desenho</td><td>Meia-lua dobrada</td><td>Tortinha redonda 100% fiel</td></tr>
+      <tr><td>Porções</td><td>4–6 crepes</td><td>6–8 tortinhas</td></tr>
+    </table>
+  </div>
+
+  <div class="pp-warn">
+    <strong>⚠️ Sobre o gasto calórico</strong>
+    Diferente das receitas termogênicas (barras, shots, gomas), estas são <strong>sobremesas</strong> — elas <strong>adicionam calorias</strong> à sua dieta. Use com moderação, idealmente combinadas com receitas termogênicas no mesmo dia para equilibrar o balanço calórico.
+  </div>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function refreshKcal() {
+  const E = getExtras();
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  s('ppc-crepe', '+' + E.picapau_crepe + ' kcal');
+  s('ppc-torta', '+' + E.picapau_torta + ' kcal');
+}
+buildDeco(document.getElementById('decoLayer'));
+refreshKcal();
+</script>
+</body>
+</html>

@@ -108,8 +108,6 @@ select option{background:#0d1a2e}
 .rc-goma{background:linear-gradient(145deg,#001a10,#003020);border-color:rgba(17,194,122,.5)}.rc-goma .rc-name{color:var(--gl)}.rc-goma .rc-badge{background:rgba(17,194,122,.15);color:var(--gl);border-color:rgba(17,194,122,.35)}.rc-goma .rc-cta{color:var(--gl)}
 .rc-shot{background:linear-gradient(145deg,#100030,#1e0050);border-color:rgba(139,92,246,.5)}.rc-shot .rc-name{color:var(--pl)}.rc-shot .rc-badge{background:rgba(139,92,246,.15);color:var(--pl);border-color:rgba(139,92,246,.35)}.rc-shot .rc-cta{color:var(--pl)}
 .rc-sono{background:linear-gradient(145deg,#0a0820,#140d38);border-color:rgba(59,158,255,.45)}.rc-sono .rc-name{color:#c0d8ff}.rc-sono .rc-badge{background:rgba(59,158,255,.15);color:#c0d8ff;border-color:rgba(59,158,255,.3)}.rc-sono .rc-cta{color:#c0d8ff}
-.rc-cryo{background:linear-gradient(145deg,#001a22,#002d3a);border-color:rgba(0,245,255,.45)}.rc-cryo .rc-name{color:#00f5ff}.rc-cryo .rc-badge{background:rgba(0,245,255,.12);color:#00f5ff;border-color:rgba(0,245,255,.3)}.rc-cryo .rc-cta{color:#00f5ff}.rc-cryo .rc-kcal strong{color:#00f5ff}
-.rc-ignition{background:linear-gradient(145deg,#1a0800,#2e1000);border-color:rgba(255,107,0,.45)}.rc-ignition .rc-name{color:#ff8c38}.rc-ignition .rc-badge{background:rgba(255,107,0,.12);color:#ff8c38;border-color:rgba(255,107,0,.3)}.rc-ignition .rc-cta{color:#ff8c38}.rc-ignition .rc-kcal strong{color:#ff8c38}
 .rc-ico{font-size:34px;margin-bottom:10px;display:block;animation:wobble 3s ease-in-out infinite}
 @keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 .rc-name{font-family:var(--fd);font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.2}
@@ -136,12 +134,12 @@ select option{background:#0d1a2e}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-10px) rotate(8deg)}}
 
 /* KCAL BANNER */
-.kcal-banner{margin:0 18px 0;border-radius:18px;padding:14px;border:2px solid}
-.kb-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-family:var(--fd)}
-.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.kb-box{background:rgba(0,0,0,.25);border-radius:12px;padding:9px 10px;border:.5px solid rgba(255,255,255,.07)}
-.kb-val{font-size:16px;font-weight:700;line-height:1.1;font-family:var(--fd);word-break:break-word}
-.kb-lbl{font-size:10px;color:var(--muted2);margin-top:3px;font-weight:600;line-height:1.3}
+.kcal-banner{margin:0 18px 0;border-radius:18px;padding:15px;border:2px solid}
+.kb-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-family:var(--fd)}
+.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kb-box{background:rgba(0,0,0,.25);border-radius:12px;padding:10px 12px;border:.5px solid rgba(255,255,255,.07)}
+.kb-val{font-size:19px;font-weight:700;line-height:1.1;font-family:var(--fd)}
+.kb-lbl{font-size:11px;color:var(--muted2);margin-top:3px;font-weight:600}
 
 /* WARN */
 .warn-box{padding:12px 16px;border-left:3px solid;border-radius:0 12px 12px 0;font-size:12px;line-height:1.65;color:var(--muted2);font-weight:600}
@@ -255,23 +253,3 @@ select option{background:#0d1a2e}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeUp .45s ease both}
-
-/* BOTÃO IMPRIMIR SÓ RECEITA */
-.btn-print-only{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 36px);margin:0 18px 8px;padding:11px 12px;border-radius:14px;border:1.5px dashed var(--border);background:transparent;color:var(--muted2);font-size:12px;font-family:var(--fb);font-weight:600;cursor:pointer;transition:all .2s}
-.btn-print-only:hover{background:rgba(255,255,255,.05);color:var(--text);border-color:var(--muted)}
-
-/* RESPONSIVE MOBILE */
-@media(max-width:380px){
-  .kb-val{font-size:14px}
-  .kb-lbl{font-size:9px}
-  .kb-grid{gap:5px}
-  .kb-box{padding:8px 8px}
-  .metrics-grid{gap:8px}
-  .mc-val{font-size:17px}
-  .bc-l{min-width:90px;font-size:10px}
-  .bc-f span{font-size:10px}
-  .cbox-kcal{font-size:15px}
-  .sim-table th,.sim-table td{padding:7px 6px;font-size:11px}
-  .stbox-val{font-size:13px}
-  .stbox-lbl{font-size:9px}
-}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Pica-Pau Crepe 🥞 — Receitas do Doug</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+:root{
+  --pp1:#c87a2a;  --pp1l:#f0b56e;
+  --ppdark:#1a0e05; --ppgold:#ffc870; --ppchoc:#3d1f0a;
+}
+body{background:var(--ppdark)!important}
+.pp-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.pp-bg::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 55% at 50% 0%, rgba(200,122,42,.18) 0%, transparent 60%),
+             radial-gradient(ellipse 50% 40% at 90% 90%, rgba(255,200,112,.1) 0%, transparent 55%)}
+.pp-topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;
+  padding:11px 18px;background:rgba(26,14,5,.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(200,122,42,.25)}
+.pp-back{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border:1.5px solid rgba(200,122,42,.35);border-radius:20px;background:rgba(200,122,42,.08);
+  color:var(--pp1l);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.pp-back:hover{background:rgba(200,122,42,.18)}
+.pp-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--pp1l);flex:1}
+
+.pp-hero{padding:24px 18px 14px;position:relative;z-index:1}
+.pp-emoji{position:absolute;right:14px;top:14px;font-size:64px;opacity:.18;pointer-events:none;
+  animation:wob 4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg) translateY(-6px)}}
+.pp-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:99px;
+  background:rgba(200,122,42,.14);border:1.5px solid rgba(200,122,42,.35);
+  color:var(--pp1l);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.pp-h1{font-family:var(--fd);font-size:28px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:6px}
+.pp-h1 .gold{color:var(--ppgold)}
+.pp-p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:600}
+
+.kcal-banner{margin:0 18px;border-radius:18px;padding:14px;
+  background:linear-gradient(135deg,rgba(200,122,42,.1),rgba(255,200,112,.05));
+  border:2px solid rgba(200,122,42,.3);position:relative;z-index:1}
+.kb-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;color:var(--pp1l);font-family:var(--fd)}
+.kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.kb-box{background:rgba(0,0,0,.35);border-radius:12px;padding:9px 10px;border:1px solid rgba(200,122,42,.15)}
+.kb-val{font-size:15px;font-weight:700;line-height:1.1;font-family:var(--fd);color:var(--ppgold);word-break:break-word}
+.kb-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:3px;font-weight:600;line-height:1.3}
+
+.tab-bar{display:flex;border-bottom:1.5px solid rgba(200,122,42,.2);margin-top:14px;position:relative;z-index:1}
+.tab{flex:1;padding:12px 4px;border:none;background:transparent;font-family:var(--fb);font-size:12px;font-weight:700;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;margin-bottom:-1.5px}
+.panel{display:none;padding-bottom:8px;position:relative;z-index:1}
+.panel.on{display:block}
+
+.slabel{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:16px 18px 8px;display:flex;align-items:center;gap:7px}
+.slabel::after{content:'';flex:1;height:1px;background:rgba(200,122,42,.15)}
+.ing-row{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px}
+.ing-row.sec-h{background:linear-gradient(135deg,rgba(200,122,42,.12),rgba(255,200,112,.04));border-color:rgba(200,122,42,.3)}
+.ing-row.sec-h .ing-name{color:var(--ppgold);font-weight:800;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--fd)}
+.ing-row.sec-h .ing-act{color:rgba(255,255,255,.5)}
+
+.steps{padding:0 18px}
+.step{display:flex;gap:13px;align-items:flex-start;margin-bottom:12px}
+.snum{width:29px;height:29px;border-radius:50%;background:rgba(200,122,42,.2);border:2px solid rgba(200,122,42,.4);color:var(--pp1l);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--fd)}
+.stxt{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;font-weight:600}
+.stxt strong{color:var(--pp1l);font-weight:700}
+
+.warn-box{padding:12px 14px;border-left:3px solid var(--pp1);border-radius:0 12px 12px 0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.65);font-weight:600;margin:0 18px 10px;background:rgba(200,122,42,.06)}
+.warn-box strong{display:block;margin-bottom:3px;color:var(--pp1l)}
+
+.action-row{display:flex;gap:10px;padding:8px 18px 16px;flex-wrap:wrap}
+.btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 12px;border-radius:14px;border:2px solid;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-pp{background:linear-gradient(135deg,rgba(200,122,42,.18),rgba(255,200,112,.08));border-color:rgba(200,122,42,.5);color:var(--pp1l)}
+.btn-pp:hover{background:rgba(200,122,42,.25)}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.6);text-decoration:none}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn-print-only{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 36px);margin:0 18px 12px;padding:11px 12px;border-radius:14px;border:1.5px dashed rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer}
+.btn-print-only:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.8)}
+
+.tip-card{background:linear-gradient(135deg,rgba(255,200,112,.06),rgba(200,122,42,.03));border:1px solid rgba(255,200,112,.18);border-radius:12px;padding:11px 13px;margin:0 18px 9px}
+.tip-name{font-size:12px;font-weight:700;color:var(--ppgold);margin-bottom:4px;font-family:var(--fd)}
+.tip-txt{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pp-bg"></div>
+<div class="deco-layer" id="decoLayer"></div>
+<div style="min-height:100vh;position:relative;z-index:1;padding-bottom:40px">
+
+  <nav class="pp-topnav">
+    <a class="pp-back" href="picapau.html">← Versões</a>
+    <span class="pp-title">🥞 Pica-Pau Crepe</span>
+  </nav>
+
+  <div class="pp-hero">
+    <span class="pp-emoji">🥞</span>
+    <div class="pp-tag">🥞 Versão 1 · Crepe largo</div>
+    <div class="pp-h1">Pica-Pau <span class="gold">Crepe</span></div>
+    <div class="pp-p">Crepe extra-largo amanteigado, recheado com caramelo de açúcar mascavo dourado e ganache de chocolate amargo com mel — o efeito "puxa-puxa" pegajoso do desenho.</div>
+  </div>
+
+  <div class="kcal-banner">
+    <div class="kb-title">⚡ Calorias por porção</div>
+    <div class="kb-grid">
+      <div class="kb-box"><div class="kb-val" id="cr-kd">+— kcal</div><div class="kb-lbl">Por crepe</div></div>
+      <div class="kb-box"><div class="kb-val">~45 min</div><div class="kb-lbl">Tempo total</div></div>
+      <div class="kb-box"><div class="kb-val" id="cr-rend">4–6</div><div class="kb-lbl">Porções</div></div>
+      <div class="kb-box"><div class="kb-val">Médio</div><div class="kb-lbl">Dificuldade</div></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab" style="border-bottom-color:var(--pp1);color:var(--pp1l)" onclick="showTab(this,'cr-ing')">Ingredientes</button>
+    <button class="tab" onclick="showTab(this,'cr-prep')">Preparo</button>
+    <button class="tab" onclick="showTab(this,'cr-tips')">Dicas</button>
+  </div>
+
+  <div class="panel on" id="cr-ing">
+    <div class="slabel">Massa do crepe (4–6 unidades)</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:6px">
+      <div class="ing-row sec-h"><div class="ing-left"><span class="ing-name">— MASSA SUAVE —</span><span class="ing-act" style="font-size:11px">Bate no liquidificador, descansa 30 min</span></div></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Farinha de trigo</span><span class="ing-act">Estrutura</span></div><span class="ing-qty" style="color:var(--pp1l)">120g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Ovos inteiros</span><span class="ing-act">Liga + maciez</span></div><span class="ing-qty" style="color:var(--pp1l)">2 un</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Leite integral</span><span class="ing-act">Hidratação</span></div><span class="ing-qty" style="color:var(--pp1l)">250ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga noisette ✨</span><span class="ing-act">Manteiga dourada · sabor amendoado</span></div><span class="ing-qty" style="color:var(--pp1l)">30g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Açúcar refinado</span><span class="ing-act">Caramelização leve</span></div><span class="ing-qty" style="color:var(--pp1l)">15g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Sal + baunilha</span><span class="ing-act">Realça sabor</span></div><span class="ing-qty" style="color:var(--pp1l)">a gosto</span></div>
+    </div>
+
+    <div class="slabel">Caramelo de mascavo (recheio amarelo)</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:6px">
+      <div class="ing-row sec-h"><div class="ing-left"><span class="ing-name">— BUTTERSCOTCH DOURADO —</span><span class="ing-act" style="font-size:11px">Manteiga + mascavo + creme · 5 min</span></div></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Açúcar mascavo escuro</span><span class="ing-act">Base · cor + melaço</span></div><span class="ing-qty" style="color:var(--pp1l)">150g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Manteiga sem sal</span><span class="ing-act">Cremosidade · "amanteado"</span></div><span class="ing-qty" style="color:var(--pp1l)">60g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Creme de leite fresco</span><span class="ing-act">Suaviza · ponto fluido</span></div><span class="ing-qty" style="color:var(--pp1l)">100ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Glicose de milho ✨</span><span class="ing-act">Brilho · evita cristalizar</span></div><span class="ing-qty" style="color:var(--pp1l)">15ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Sal</span><span class="ing-act">Salted butterscotch</span></div><span class="ing-qty" style="color:var(--pp1l)">1 pitada</span></div>
+    </div>
+
+    <div class="slabel">Ganache de chocolate (cobertura escura)</div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:6px">
+      <div class="ing-row sec-h"><div class="ing-left"><span class="ing-name">— PEGAJOSO + BRILHANTE —</span><span class="ing-act" style="font-size:11px">Chocolate + creme + mel · 2 min</span></div></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Chocolate amargo 70%</span><span class="ing-act">Equilibra o doce do mascavo</span></div><span class="ing-qty" style="color:var(--pp1l)">100g</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Creme de leite</span><span class="ing-act">Ganache fluida</span></div><span class="ing-qty" style="color:var(--pp1l)">100ml</span></div>
+      <div class="ing-row"><div class="ing-left"><span class="ing-name">Mel ✨</span><span class="ing-act">Pegajoso + brilho espelhado</span></div><span class="ing-qty" style="color:var(--pp1l)">15ml</span></div>
+    </div>
+  </div>
+
+  <div class="panel" id="cr-prep">
+    <div class="slabel">Modo de preparo</div>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="stxt"><strong>MASSA:</strong> bata farinha, ovos, leite, manteiga noisette, açúcar, sal e baunilha no liquidificador. Descanse 30 min na geladeira (relaxa o glúten = crepe macio).</div></div>
+      <div class="step"><div class="snum">2</div><div class="stxt"><strong>CARAMELO:</strong> em panela, derreta a manteiga e adicione o açúcar mascavo. Mexa em fogo médio até borbulhar e formar um xarope grosso (~3 min).</div></div>
+      <div class="step"><div class="snum">3</div><div class="stxt"><strong>Adicione</strong> o creme de leite e a glicose. Mexa por 1 min até virar um caramelo amarelo-dourado, brilhante e viscoso. Tire do fogo. Reserve morno.</div></div>
+      <div class="step"><div class="snum">4</div><div class="stxt"><strong>CHOCOLATE:</strong> derreta o chocolate amargo com o creme de leite (banho-maria ou micro 30s+30s). Misture o mel. A ganache deve ficar lisa e brilhante.</div></div>
+      <div class="step"><div class="snum">5</div><div class="stxt"><strong>CREPE:</strong> aqueça uma chapa larga ou frigideira de 28cm+ com manteiga. Despeje uma concha de massa, espalhe fino, cozinhe 1 min de cada lado.</div></div>
+      <div class="step"><div class="snum">6</div><div class="stxt"><strong>MONTAGEM:</strong> com o crepe ainda na chapa, espalhe uma camada generosa de caramelo sobre uma metade. Por cima, regue com a ganache de chocolate.</div></div>
+      <div class="step"><div class="snum">7</div><div class="stxt"><strong>Dobre</strong> em meia-lua (ou trouxinha). Pressione levemente. Sirva imediatamente — o recheio deve estar fluido.</div></div>
+      <div class="step"><div class="snum">8</div><div class="stxt"><strong>OPCIONAL:</strong> pincele ganache por cima do crepe dobrado e tosteie com maçarico — crosta escura igual no desenho 🔥</div></div>
+    </div>
+    <div class="slabel">Como servir</div>
+    <div class="warn-box"><strong>📋 Dose recomendada</strong>1 crepe por porção · sobremesa ocasional · não diária · ~385 kcal/un</div>
+    <div class="warn-box" style="border-color:#3b9eff;background:rgba(59,158,255,.05);color:#93c5fd"><strong style="color:#93c5fd">⚠️ Calorias</strong>Esta receita ADICIONA calorias. Combine com um termogênico no mesmo dia para equilibrar.</div>
+  </div>
+
+  <div class="panel" id="cr-tips">
+    <div class="slabel">Dicas de chef</div>
+    <div class="tip-card"><div class="tip-name">🧈 Manteiga noisette</div><div class="tip-txt">Aqueça manteiga em fogo baixo até borbulhar e ficar dourada (sem queimar). O sabor amendoado eleva o crepe a outro nível.</div></div>
+    <div class="tip-card"><div class="tip-name">🍯 Por que glicose de milho?</div><div class="tip-txt">Impede que o açúcar mascavo cristalize quando esfriar. Resultado: caramelo brilhante e fluido por mais tempo. Pode trocar por mel claro.</div></div>
+    <div class="tip-card"><div class="tip-name">🍫 Por que chocolate 70%?</div><div class="tip-txt">O recheio de mascavo é MUITO doce. Chocolate amargo equilibra. Se usar 50% ou ao leite, fica enjoativo.</div></div>
+    <div class="tip-card"><div class="tip-name">🔥 Maçarico no final</div><div class="tip-txt">Pincelar ganache + maçarico cria a crosta escura do desenho — efeito "Pica-Pau" garantido.</div></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-pp" onclick="imprimirReceita('picapau_crepe')">🖨️ Imprimir + Kcal</button>
+    <a class="btn btn-ghost" href="picapau-torta.html">Ver Versão 2 →</a>
+  </div>
+  <button class="btn-print-only" onclick="imprimirSoReceita('picapau_crepe')">📄 Imprimir só a receita</button>
+
+</div>
+<div id="toast"></div>
+<script src="shared.js"></script>
+<script>
+function showTab(btn, panelId) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById(panelId).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => { t.style.borderBottomColor='transparent'; t.style.color='rgba(255,255,255,.4)'; });
+  btn.style.borderBottomColor = 'var(--pp1)'; btn.style.color = 'var(--pp1l)';
+}
+function refreshKcal() {
+  const E = getExtras();
+  const el = document.getElementById('cr-kd');
+  if (el) el.textContent = '+' + E.picapau_crepe + ' kcal';
+}
+buildDeco(document.getElementById('decoLayer'));
+refreshKcal();
+</script>
+</body>
+</html>
